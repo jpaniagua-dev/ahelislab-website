@@ -1,0 +1,14 @@
+{
+  "name": "ahelislab-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ahelis Lab static agency website with SEO and interactive motion design.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/verify.mjs",
+    "start": "node scripts/dev.mjs"
+  }
+}
