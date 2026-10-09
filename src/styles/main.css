@@ -86,8 +86,9 @@ h1 { font-size: clamp(4rem, 7vw, 6.5rem); line-height: 1.02; letter-spacing: -.0
 .hero-coordinate { margin-left: auto; margin-right: 56px; }
 .cosmos { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 87% 19%, rgb(21 58 104 / 24%), transparent 45%); }
 .stars { position: absolute; inset: -40px; opacity: .34; background-image: radial-gradient(circle at 12% 22%, rgb(255 255 255 / 75%) 0 1px, transparent 1.5px), radial-gradient(circle at 72% 18%, rgb(255 255 255 / 50%) 0 1px, transparent 1.4px), radial-gradient(circle at 45% 72%, rgb(126 200 255 / 65%) 0 1px, transparent 1.5px), radial-gradient(circle at 85% 66%, rgb(255 212 71 / 80%) 0 1px, transparent 1.5px); background-size: 290px 290px, 470px 470px, 430px 430px, 640px 640px; }
-.planet-stage { --px: 0; --py: 0; --spin: 0deg; --ring: rgb(248 246 239 / 20%); --energy: 1; position: fixed; top: 0; left: 0; width: 560px; height: 560px; z-index: 2; pointer-events: none; visibility: hidden; transform: translate(calc(76vw - 280px), calc(48vh - 280px)); transform-origin: center; will-change: transform; }
+.planet-stage { --px: 0; --py: 0; --spin: 0deg; --ring: rgb(248 246 239 / 20%); --energy: 1; position: absolute; top: 0; left: 0; width: 560px; height: 560px; z-index: 2; pointer-events: none; visibility: hidden; transform: translate(calc(76vw - 280px), calc(48vh - 280px)); transform-origin: center; will-change: transform; }
 .is-js .planet-stage { visibility: visible; }
+.is-js .planet-dock { overflow: hidden; }
 .planet-static { --px: 0; --py: 0; --spin: 0deg; --energy: 1; --ring: rgb(248 246 239 / 20%); position: absolute; width: 100%; aspect-ratio: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
 .planet-static .moon, .planet-static .spark { animation: none; }
 .planet-system { width: 100%; height: 100%; position: relative; transform: perspective(900px) rotateX(calc(var(--py) * -7deg)) rotateY(calc(var(--px) * 10deg)) rotateZ(var(--spin)) scale(var(--energy)); transform-style: preserve-3d; }
@@ -98,8 +99,8 @@ h1 { font-size: clamp(4rem, 7vw, 6.5rem); line-height: 1.02; letter-spacing: -.0
 .orbit-two { inset: 2% 19%; transform: rotate(50deg); }
 .orbit-three { inset: 28% -3%; transform: rotate(16deg); border-color: rgb(126 200 255 / 25%); }
 .trajectory { position: absolute; width: 77%; height: 38%; border-top: 1px dashed var(--ring); border-radius: 50%; left: 1%; bottom: 5%; transform: rotate(-10deg); }
-.moon { width: 14px; height: 14px; background: var(--sky); border-radius: 50%; position: absolute; left: 8%; top: 40%; box-shadow: 0 0 20px rgb(126 200 255 / 25%); animation: moon-float 7s ease-in-out infinite; }
-.spark { width: 7px; height: 7px; background: var(--yellow); border-radius: 50%; position: absolute; right: 15%; top: 20%; animation: moon-float 5s ease-in-out infinite reverse; }
+.moon { width: 14px; height: 14px; background: var(--sky); border-radius: 50%; position: absolute; left: 8%; top: 40%; box-shadow: 0 0 20px rgb(126 200 255 / 25%); animation: satellite-orbit 12s linear infinite; }
+.spark { width: 7px; height: 7px; background: var(--yellow); border-radius: 50%; position: absolute; right: 15%; top: 20%; animation: satellite-orbit 17s linear infinite reverse; }
 .planet-stage[data-surface="light"] { --ring: rgb(8 22 43 / 22%); }
 .planet-stage[data-surface="light"] .orbit-three { border-color: rgb(44 92 128 / 30%); }
 .planet-stage[data-surface="light"] .planet-aura { opacity: .5; }
@@ -381,7 +382,7 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .section-lead br { display: none; }
   .section-heading { margin-bottom: 32px; }
   .heading-with-planet { display: block; }
-  .heading-with-planet > .planet-dock { display: none; }
+  .heading-with-planet > .planet-dock { display: block; width: 180px; height: 170px; margin: 12px 0 0 auto; }
   .service-grid { grid-template-columns: 1fr; gap: 16px; }
   .service-card { padding: 26px; min-height: 0; }
   .card-top { margin-bottom: 23px; }
@@ -391,7 +392,7 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .studio { padding-top: 60px; padding-bottom: 45px; }
   .studio-grid { display: flex; flex-direction: column; gap: 28px; }
   .studio-visual { display: block; }
-  .studio-dock { display: none; }
+  .studio-dock { display: block; width: 220px; height: 200px; margin: 20px auto 0; }
   .studio-caption { display: none; }
   .studio-content h2 { margin-top: 0; font-size: 2.8rem; }
   .studio-intro { font-size: 1.25rem; margin-top: 24px; }
@@ -422,7 +423,7 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .faq-item p { padding-left: 0; padding-right: 0; font-size: 1rem; }
   .contact-copy { padding-right: 0; }
   .contact-copy h2 { font-size: 2.8rem; }
-  .contact-dock { display: none; }
+  .contact-dock { display: block; position: relative; top: auto; right: auto; width: 180px; height: 170px; margin: 12px 0 0 auto; }
   .contact-copy > p { font-size: 1rem; }
   .contact-layout { gap: 16px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
@@ -456,4 +457,11 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
   .is-js [data-reveal].reveal-pending { opacity: 1; transform: none; }
   .planet-stage, .planet-system { will-change: auto; }
+}
+
+@keyframes satellite-orbit {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 32px -48px; }
+  50% { translate: 60px 0; }
+  75% { translate: 28px 42px; }
 }

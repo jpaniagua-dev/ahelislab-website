@@ -27,10 +27,8 @@ menuBreakpoint.addEventListener('change', () => closeMenu());
 const stage = document.querySelector('.planet-stage');
 const control = document.querySelector('.motion-control');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const mobile = matchMedia('(max-width: 620px)');
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const mix = (a, b, amount) => a + (b - a) * amount;
-const ease = value => value * value * (3 - 2 * value);
 let savedMotion = null;
 try { savedMotion = localStorage.getItem('ahelis-motion'); } catch { /* Storage is optional. */ }
 let motionEnabled = !reducedMotion.matches && savedMotion !== 'off';
@@ -45,23 +43,23 @@ let smoothPointer = { x: 0, y: 0 };
 let pose = null;
 let pausedDock = null;
 let pulse = 0;
+let previousScroll = scrollY;
+let scrollEnergy = 0;
 const reveals = [...document.querySelectorAll('[data-reveal]')];
 
 function measure() {
   const y = window.scrollY;
   paths = [...document.querySelectorAll('[data-planet-dock]')].filter(dock => dock.offsetWidth && dock.offsetHeight).map(dock => {
     const rect = dock.getBoundingClientRect();
-    const section = dock.closest('section');
-    const sectionRect = section?.getBoundingClientRect();
     return {
       dock,
       x: rect.left + rect.width / 2,
       docY: rect.top + y + rect.height / 2,
-      stop: Math.max(0, (sectionRect?.top || 0) + y - innerHeight * .22),
-      size: Math.min(Number(dock.dataset.size) || 200, innerWidth < 901 ? rect.width * 1.28 : 560),
+      width: rect.width,
+      height: rect.height,
+      size: Math.min(Number(dock.dataset.size) || 200, rect.width - 28, rect.height - 28),
     };
-  }).sort((a, b) => a.stop - b.stop);
-  if (paths[0]) paths[0].stop = 0;
+  });
   sections = [...document.querySelectorAll('section[data-scene]')].map(section => ({ element: section, top: section.getBoundingClientRect().top + y }));
   lightAreas = [...document.querySelectorAll('.light-section')].map(section => {
     const rect = section.getBoundingClientRect();
@@ -70,37 +68,21 @@ function measure() {
   dirty = false;
 }
 
+// Keep every rendered frame inside a reserved visual area. Never fly over copy.
 function targetForScroll() {
   if (!paths.length) return null;
-  const scroll = window.scrollY;
-  if (mobile.matches) {
-    const first = paths[0];
-    const hero = document.querySelector('.hero');
-    const progress = clamp(scroll / Math.max(1, (hero?.offsetHeight || 900) * .7), 0, 1);
-    const amount = ease(progress);
-    return {
-      x: mix(first.x, innerWidth - 34, amount),
-      y: mix(first.docY - scroll, innerHeight - 34, amount),
-      size: mix(Math.min(innerWidth - 36, 360), 65, amount),
-    };
-  }
-  let start = paths[0];
-  let end = start;
-  for (let i = 0; i < paths.length - 1; i++) {
-    if (scroll >= paths[i].stop) { start = paths[i]; end = paths[i + 1]; }
-  }
-  if (scroll >= paths.at(-1).stop) start = end = paths.at(-1);
-  const amount = end.stop === start.stop ? 0 : ease(clamp((scroll - start.stop) / (end.stop - start.stop), 0, 1));
-  const topMargin = 130;
-  const endY = clamp(end.docY - end.stop, topMargin, innerHeight - 130);
-  const startY = clamp(start.docY - start.stop, topMargin, innerHeight - 130);
-  return { x: mix(start.x, end.x, amount), y: mix(startY, endY, amount), size: mix(start.size, end.size, amount) };
+  const visible = paths.filter(path => path.docY + path.height / 2 > scrollY + 90 && path.docY - path.height / 2 < scrollY + innerHeight);
+  const current = visible.reduce((nearest, path) => {
+    const distance = Math.abs(path.docY - scrollY - innerHeight * .55);
+    return !nearest || distance < nearest.distance ? { path, distance } : nearest;
+  }, null)?.path || paths[0];
+  return { dock: current.dock, x: current.width / 2, y: current.height / 2, size: current.size, docY: current.docY };
 }
 
 function updateScene(target) {
   const active = sections.filter(s => s.top <= scrollY + innerHeight * .42).at(-1) || sections[0];
   if (active) stage.dataset.scene = active.element.dataset.scene;
-  const inLight = lightAreas.some(area => scrollY + target.y >= area.top && scrollY + target.y < area.bottom);
+  const inLight = lightAreas.some(area => target.docY >= area.top && target.docY < area.bottom);
   stage.dataset.surface = inLight ? 'light' : 'dark';
   const alpha = document.querySelector('.site-footer')?.getBoundingClientRect().top < innerHeight * .42 ? '.25' : '1';
   stage.style.opacity = alpha;
@@ -114,9 +96,8 @@ function renderPaused() {
   if (dirty) measure();
   const current = paths.find(path => path.dock === pausedDock) || paths[0];
   if (!current || !stage) return;
-  stage.style.position = 'absolute';
-  const size = mobile.matches ? Math.min(innerWidth - 40, 360) : current.size;
-  stage.style.transform = `translate3d(${current.x - 280}px, ${current.docY - 280}px, 0) scale(${size / 560})`;
+  current.dock.append(stage);
+  stage.style.transform = `translate3d(${current.width / 2 - 280}px, ${current.height / 2 - 280}px, 0) scale(${current.size / 560})`;
   stage.style.setProperty('--px', '0');
   stage.style.setProperty('--py', '0');
   stage.style.setProperty('--spin', '0deg');
@@ -134,7 +115,10 @@ function animate(time) {
   if (dirty) measure();
   const target = targetForScroll();
   if (!target) return;
-  if (!pose) pose = { ...target };
+  if (!pose || pose.dock !== target.dock) {
+    target.dock.append(stage);
+    pose = { ...target };
+  }
   const amount = 1 - Math.exp(-elapsed / 150);
   pose.x = mix(pose.x, target.x, amount);
   pose.y = mix(pose.y, target.y, amount);
@@ -142,15 +126,17 @@ function animate(time) {
   smoothPointer.x = mix(smoothPointer.x, pointer.x, amount);
   smoothPointer.y = mix(smoothPointer.y, pointer.y, amount);
   pulse *= Math.exp(-elapsed / 360);
-  const drift = Math.sin(time / 2800) * (mobile.matches ? 2 : 6);
-  const px = smoothPointer.x * (mobile.matches ? 2 : 14);
-  const py = smoothPointer.y * (mobile.matches ? 2 : 10);
-  stage.style.position = 'fixed';
-  stage.style.transform = `translate3d(${pose.x - 280 + px}px, ${pose.y - 280 + py + drift}px, 0) scale(${pose.size / 560})`;
-  stage.style.setProperty('--px', String(smoothPointer.x));
-  stage.style.setProperty('--py', String(smoothPointer.y));
-  stage.style.setProperty('--spin', `${scrollY / 100 + Math.sin(time / 8500) * 4}deg`);
-  stage.style.setProperty('--energy', String(1 + pulse * .05));
+  const drift = Math.sin(time / 1800) * 7;
+  const sway = Math.cos(time / 2400) * 5;
+  const px = smoothPointer.x * 5;
+  const py = smoothPointer.y * 4;
+  scrollEnergy = mix(scrollEnergy, clamp((scrollY - previousScroll) / 25, -1, 1), amount);
+  previousScroll = scrollY;
+  stage.style.transform = `translate3d(${pose.x - 280 + px + sway}px, ${pose.y - 280 + py + drift}px, 0) scale(${pose.size / 560})`;
+  stage.style.setProperty('--px', String(smoothPointer.x + Math.sin(time / 2200) * .35));
+  stage.style.setProperty('--py', String(smoothPointer.y + scrollEnergy * .6));
+  stage.style.setProperty('--spin', `${time / 240 + scrollY / 16}deg`);
+  stage.style.setProperty('--energy', String(1 + pulse * .025));
   if (needsSceneUpdate) updateScene(target);
   requestTick();
 }
@@ -179,7 +165,7 @@ function setMotion(enabled, persist = false) {
     requestTick();
   } else {
     if (!paths.length) measure();
-    pausedDock = mobile.matches ? paths[0]?.dock : paths.filter(p => p.stop <= scrollY).at(-1)?.dock;
+    pausedDock = targetForScroll()?.dock;
     showReveals();
     renderPaused();
   }
@@ -209,6 +195,7 @@ if (stage && document.body.dataset.page !== 'document') {
   document.querySelectorAll('[data-planet-react]').forEach(element => {
     element.addEventListener('pointerenter', () => { if (motionEnabled) pulse = 1; });
     element.addEventListener('focusin', () => { if (motionEnabled) pulse = 1; });
+    element.addEventListener('pointerdown', () => { if (motionEnabled) pulse = 2; }, { passive: true });
     element.addEventListener('click', () => { if (motionEnabled) pulse = 2; });
   });
   // Recalculate the trajectory when fonts or content change the document height.

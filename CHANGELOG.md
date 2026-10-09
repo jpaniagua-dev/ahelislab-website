@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.1.1 — 2026-10-09
+
+- Planète confinée aux espaces visuels réservés : aucune trajectoire devant les textes.
+- Espaces de planète visibles sur mobile dans les sections du parcours.
+- Rotation autonome, satellites en mouvement et réaction au défilement et au toucher.
+- Pause et préférence de réduction des mouvements conservées.
+
 ## 0.1.0 — 2026-10-07
 
 Première intégration de consultation privée, à valider avant le lancement public.
