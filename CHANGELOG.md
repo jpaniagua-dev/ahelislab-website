@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.1.2 — 2026-10-09
+
+- Présence permanente de la planète dans le hero : chaque espace possède son visuel.
+- Un changement de section ne peut plus retirer la planète du hero encore visible.
+- Animation des visuels visibles uniquement ; pause appliquée à tous les emplacements.
+
 ## 0.1.1 — 2026-10-09
 
 - Planète confinée aux espaces visuels réservés : aucune trajectoire devant les textes.

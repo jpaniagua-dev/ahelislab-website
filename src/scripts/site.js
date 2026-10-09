@@ -34,14 +34,11 @@ try { savedMotion = localStorage.getItem('ahelis-motion'); } catch { /* Storage 
 let motionEnabled = !reducedMotion.matches && savedMotion !== 'off';
 let paths = [];
 let sections = [];
-let lightAreas = [];
 let dirty = true;
 let frame = 0;
 let lastTime = 0;
 let pointer = { x: 0, y: 0 };
 let smoothPointer = { x: 0, y: 0 };
-let pose = null;
-let pausedDock = null;
 let pulse = 0;
 let previousScroll = scrollY;
 let scrollEnergy = 0;
@@ -49,10 +46,17 @@ const reveals = [...document.querySelectorAll('[data-reveal]')];
 
 function measure() {
   const y = window.scrollY;
-  paths = [...document.querySelectorAll('[data-planet-dock]')].filter(dock => dock.offsetWidth && dock.offsetHeight).map(dock => {
+  paths = [...document.querySelectorAll('[data-planet-dock]')].filter(dock => dock.offsetWidth && dock.offsetHeight).map((dock, index) => {
+    let visual = dock.querySelector('.planet-stage');
+    if (!visual) {
+      visual = index === 0 ? stage : stage.cloneNode(true);
+      dock.append(visual);
+    }
+    visual.dataset.surface = dock.closest('.light-section') ? 'light' : 'dark';
     const rect = dock.getBoundingClientRect();
     return {
       dock,
+      visual,
       x: rect.left + rect.width / 2,
       docY: rect.top + y + rect.height / 2,
       width: rect.width,
@@ -61,10 +65,6 @@ function measure() {
     };
   });
   sections = [...document.querySelectorAll('section[data-scene]')].map(section => ({ element: section, top: section.getBoundingClientRect().top + y }));
-  lightAreas = [...document.querySelectorAll('.light-section')].map(section => {
-    const rect = section.getBoundingClientRect();
-    return { top: rect.top + y, bottom: rect.bottom + y };
-  });
   dirty = false;
 }
 
@@ -82,10 +82,6 @@ function targetForScroll() {
 function updateScene(target) {
   const active = sections.filter(s => s.top <= scrollY + innerHeight * .42).at(-1) || sections[0];
   if (active) stage.dataset.scene = active.element.dataset.scene;
-  const inLight = lightAreas.some(area => target.docY >= area.top && target.docY < area.bottom);
-  stage.dataset.surface = inLight ? 'light' : 'dark';
-  const alpha = document.querySelector('.site-footer')?.getBoundingClientRect().top < innerHeight * .42 ? '.25' : '1';
-  stage.style.opacity = alpha;
   document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
     if (active?.element.id && link.hash === `#${active.element.id}`) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
@@ -94,15 +90,14 @@ function updateScene(target) {
 
 function renderPaused() {
   if (dirty) measure();
-  const current = paths.find(path => path.dock === pausedDock) || paths[0];
-  if (!current || !stage) return;
-  current.dock.append(stage);
-  stage.style.transform = `translate3d(${current.width / 2 - 280}px, ${current.height / 2 - 280}px, 0) scale(${current.size / 560})`;
-  stage.style.setProperty('--px', '0');
-  stage.style.setProperty('--py', '0');
-  stage.style.setProperty('--spin', '0deg');
-  stage.style.setProperty('--energy', '1');
-  stage.style.opacity = '1';
+  paths.forEach(path => {
+    path.visual.style.transform = `translate3d(${path.width / 2 - 280}px, ${path.height / 2 - 280}px, 0) scale(${path.size / 560})`;
+    path.visual.style.setProperty('--px', '0');
+    path.visual.style.setProperty('--py', '0');
+    path.visual.style.setProperty('--spin', '0deg');
+    path.visual.style.setProperty('--energy', '1');
+    path.visual.style.opacity = '1';
+  });
 }
 
 function animate(time) {
@@ -115,14 +110,7 @@ function animate(time) {
   if (dirty) measure();
   const target = targetForScroll();
   if (!target) return;
-  if (!pose || pose.dock !== target.dock) {
-    target.dock.append(stage);
-    pose = { ...target };
-  }
   const amount = 1 - Math.exp(-elapsed / 150);
-  pose.x = mix(pose.x, target.x, amount);
-  pose.y = mix(pose.y, target.y, amount);
-  pose.size = mix(pose.size, target.size, amount);
   smoothPointer.x = mix(smoothPointer.x, pointer.x, amount);
   smoothPointer.y = mix(smoothPointer.y, pointer.y, amount);
   pulse *= Math.exp(-elapsed / 360);
@@ -132,11 +120,15 @@ function animate(time) {
   const py = smoothPointer.y * 4;
   scrollEnergy = mix(scrollEnergy, clamp((scrollY - previousScroll) / 25, -1, 1), amount);
   previousScroll = scrollY;
-  stage.style.transform = `translate3d(${pose.x - 280 + px + sway}px, ${pose.y - 280 + py + drift}px, 0) scale(${pose.size / 560})`;
-  stage.style.setProperty('--px', String(smoothPointer.x + Math.sin(time / 2200) * .35));
-  stage.style.setProperty('--py', String(smoothPointer.y + scrollEnergy * .6));
-  stage.style.setProperty('--spin', `${time / 240 + scrollY / 16}deg`);
-  stage.style.setProperty('--energy', String(1 + pulse * .025));
+  // Each dock owns its visual: choosing a new scene cannot empty the hero.
+  paths.forEach(path => {
+    if (path.docY + path.height / 2 < scrollY || path.docY - path.height / 2 > scrollY + innerHeight) return;
+    path.visual.style.transform = `translate3d(${path.width / 2 - 280 + px + sway}px, ${path.height / 2 - 280 + py + drift}px, 0) scale(${path.size / 560})`;
+    path.visual.style.setProperty('--px', String(smoothPointer.x + Math.sin(time / 2200) * .35));
+    path.visual.style.setProperty('--py', String(smoothPointer.y + scrollEnergy * .6));
+    path.visual.style.setProperty('--spin', `${time / 240 + scrollY / 16}deg`);
+    path.visual.style.setProperty('--energy', String(1 + pulse * .025));
+  });
   if (needsSceneUpdate) updateScene(target);
   requestTick();
 }
@@ -161,11 +153,9 @@ function setMotion(enabled, persist = false) {
   frame = 0;
   dirty = true;
   if (enabled) {
-    pose = null;
     requestTick();
   } else {
     if (!paths.length) measure();
-    pausedDock = targetForScroll()?.dock;
     showReveals();
     renderPaused();
   }
