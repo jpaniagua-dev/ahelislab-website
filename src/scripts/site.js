@@ -106,6 +106,7 @@ function animate(time) {
   if (time - lastTime < 32) { requestTick(); return; }
   const elapsed = Math.min(time - lastTime || 32, 80);
   lastTime = time;
+  if (scrollY !== previousScroll) dirty = true;
   const needsSceneUpdate = dirty;
   if (dirty) measure();
   const target = targetForScroll();
@@ -166,7 +167,6 @@ if (stage && document.body.dataset.page !== 'document') {
   control.hidden = false;
   setMotion(motionEnabled);
   control.addEventListener('click', () => setMotion(!motionEnabled, true));
-  window.addEventListener('scroll', () => { dirty = true; requestTick(); }, { passive: true });
   window.addEventListener('resize', () => {
     dirty = true;
     if (motionEnabled) requestTick(); else renderPaused();
@@ -232,7 +232,7 @@ if (form && result) {
     const text = `Bonjour Ahelis Lab,\n\nJe souhaite échanger au sujet de : ${project.toLowerCase()}.\n\n${message}\n\n${name}\n${email}`;
     briefText.value = text;
     const compose = document.querySelector('#compose-email');
-    if (compose) compose.href = `mailto:${document.body.dataset.contactEmail}?subject=${encodeURIComponent(`Projet — ${project}`)}&body=${encodeURIComponent(text)}`;
+    if (compose) compose.href = `mailto:${document.body.dataset.contactEmail}?subject=${encodeURIComponent(`Projet : ${project}`)}&body=${encodeURIComponent(text)}`;
     form.hidden = true;
     result.hidden = false;
     result.querySelector('h3').setAttribute('tabindex', '-1');

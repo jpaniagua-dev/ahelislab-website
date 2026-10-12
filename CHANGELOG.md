@@ -1,5 +1,13 @@
 # Historique des versions
 
+## 0.2.0 — 2026-10-12
+
+- Direction visuelle revue avec Taste : typographie Manrope auto-hébergée, hero condensé.
+- Expertises en index ouvert, offres asymétriques et rythme de sections différencié.
+- Illustration originale de marque dans le chapitre du studio.
+- Retrait des numéros et décorations répétitives ; planète conservée dans le hero et le contact.
+- URLs, navigation, formulaire, confidentialité et indexation préservés.
+
 ## 0.1.2 — 2026-10-09
 
 - Présence permanente de la planète dans le hero : chaque espace possède son visuel.

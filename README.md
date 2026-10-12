@@ -6,7 +6,7 @@ Première intégration du site vitrine Ahelis Lab, à partir du prototype retenu
 
 HTML pré-généré, CSS et JavaScript natif. Un petit build Node assemble les composants communs et les contenus. Aucun framework client ni dépendance de production : le navigateur reçoit directement les pages et leurs textes. Les animations enrichissent la présentation sans conditionner l’accès au contenu.
 
-La planète du prototype est conservée comme asset CSS et animée avec `requestAnimationFrame`. Chaque espace réservé possède sa planète, dont le hero en permanence, sans traverser les textes. Il tourne de manière autonome sur ordinateur et mobile et réagit au défilement, au pointeur et aux actions. Pas de WebGL ni de chargement de moteur 3D pour cette première intégration.
+La planète du prototype est conservée comme asset CSS et animée avec `requestAnimationFrame`. Chaque espace réservé possède sa planète, dont le hero en permanence, sans traverser les textes. Chaque planète tourne de manière autonome sur ordinateur et mobile et réagit au défilement, au pointeur et aux actions. Pas de WebGL ni de chargement de moteur 3D pour cette première intégration.
 
 ## Lancer le projet
 
@@ -33,7 +33,7 @@ la vérification des pages et les contrôles de syntaxe à chaque push et pull r
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version de cette première intégration est `0.1.2` ; les évolutions suivent SemVer
+La version de cette première intégration est `0.2.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -108,6 +108,14 @@ Site statique compatible avec un hébergeur de fichiers statiques. `.openai/host
 
 Dépôt public : [jpaniagua-dev/ahelislab-website](https://github.com/jpaniagua-dev/ahelislab-website),
 créé par Julio le 2026-10-08. La branche `main` porte les sources de la première
-intégration `0.1.2`. Le build généré reste hors versionnement.
-La présence du code sur GitHub ne déploie pas le site : la publication de l’aperçu
-Sites et le lancement sur le domaine public restent à effectuer.
+intégration `0.2.0`. Le build généré reste hors versionnement.
+La version de consultation est publiée en privé sur [Sites](https://ahelis-lab.jjpsoft-julio.chatgpt.site).
+Le lancement indexable sur le domaine public reste à préparer.
+
+## Direction visuelle
+
+La révision `0.2.0` conserve la marque et les parcours, avec une composition éditoriale,
+un index d’expertises et des offres asymétriques. Manrope est auto-hébergée sous OFL ;
+sa sélection reste un choix de site, pas une modification définitive de la charte.
+L’illustration de marque est originale et générée, sans représenter de réalisation client.
+Audit, arbitrages et limites de vérification : `DESIGN_REVIEW.md`.

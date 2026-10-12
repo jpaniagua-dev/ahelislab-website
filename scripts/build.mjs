@@ -26,7 +26,7 @@ export async function build() {
   }
   await cp(resolve(projectRoot, 'public'), out, { recursive: true });
   const pages = [
-    { path: '/', title: 'Ahelis Lab — Création de sites web & studio digital à Genève', description: 'Ahelis Lab, studio digital à Genève. Création de sites web, design UX/UI, développement et IA pour PME, indépendants et particuliers en Suisse romande.', content: homeContent(config), faqs: homeFaqs },
+    { path: '/', title: 'Ahelis Lab | Création de sites web & studio digital à Genève', description: 'Ahelis Lab, studio digital à Genève. Création de sites web, design UX/UI, développement et IA pour PME, indépendants et particuliers en Suisse romande.', content: homeContent(config), faqs: homeFaqs },
     ...services.map(service => ({ path: `/services/${service.slug}/`, title: service.seoTitle, description: service.description, content: serviceContent(service), faqs: service.faqs, service })),
     { path: '/confidentialite/', title: 'Confidentialité | Ahelis Lab', description: 'Les informations sur la confidentialité du site Ahelis Lab, la préparation locale des messages et les préférences d’animation.', content: privacyContent(config) }
   ];
