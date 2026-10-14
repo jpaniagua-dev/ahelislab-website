@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.5.1 — 2026-10-14
+
+- Footer centré sur mobile : présentation du studio, colonnes de navigation, badge suisse et mentions légales.
+- Signature conservée au centre de la dernière ligne mobile ; disposition sur ordinateur inchangée.
+- Phrase d’introduction des services reformulée sans deux-points, en français et en anglais.
+- Modèle HTTPS et documentation de l’installation VPS ajoutés après activation de la consultation non indexable.
+
 ## 0.5.0 — 2026-10-14
 
 - Internationalisation français/anglais, français par défaut et URLs françaises conservées.

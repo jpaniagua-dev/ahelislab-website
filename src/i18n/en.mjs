@@ -17,7 +17,7 @@ export const english = {
   'Sites web, applications et automatisations pour faire avancer votre activité. De la première idée au lancement, nous donnons forme à un projet qui vous ressemble.': 'Websites, applications and automation to move your business forward. From the first idea to launch, we shape a project that feels like you.',
   'Parlons de votre projet': 'Let’s talk about your project', 'Nos services': 'Our services',
   'Ce que nous créons.': 'What we create.',
-  'Un nouveau site, une interface à repenser ou un outil à construire : les compétences adaptées à votre projet.': 'A new website, an interface to rethink or a tool to build: the right skills for your project.',
+  'Pour un nouveau site, une interface à repenser ou un outil à construire, nous réunissons les compétences adaptées à votre projet.': 'For a new website, an interface to rethink or a tool to build, we bring together the right skills for your project.',
   'Création de sites web': 'Website creation', 'Design UX/UI': 'UX/UI design',
   'Développement sur mesure': 'Custom development', 'IA & automatisation': 'AI & automation',
   'Un site sur mesure pour présenter votre activité, être trouvé et faciliter la prise de contact.': 'A tailored website to present your business, help people find you and make it easy to get in touch.',

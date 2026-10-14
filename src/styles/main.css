@@ -441,12 +441,12 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .form-field { margin-bottom: 22px; }
   .brief-result { padding: 22px 18px; }
   .brief-actions { align-items: stretch; flex-direction: column; gap: 16px; }
-  .site-footer { padding-top: 45px; padding-bottom: 75px; }
+  .site-footer { padding-top: 45px; padding-bottom: 75px; text-align: center; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; padding-bottom: 40px; }
   .footer-bottom { grid-template-columns: 1fr; gap: 20px; }
   .footer-bottom > * { grid-column: auto; grid-row: auto; }
-  .footer-swiss { border-radius: 16px; max-width: 100%; }
-  .footer-legal { gap: 16px; justify-self: start; }
+  .footer-swiss { border-radius: 16px; max-width: 100%; justify-self: center; justify-content: center; }
+  .footer-legal { gap: 16px; justify-self: center; justify-content: center; }
   .service-hero { padding-top: 35px; padding-bottom: 45px; }
   .breadcrumbs { margin-bottom: 34px; font-size: .75rem; }
   .service-hero h1 { font-size: clamp(2.75rem, 11vw, 3.65rem); overflow-wrap: anywhere; }

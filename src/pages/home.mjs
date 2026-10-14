@@ -12,7 +12,7 @@ export function homeContent() {
     </div><div class="hero-visual"><div class="planet-dock" data-planet-dock data-size="600">${staticPlanet}</div></div></div>
   </section>
   <section class="expertises section" id="expertises" data-scene="imagine"><div class="container">
-    <div class="section-heading" data-reveal><h2>Ce que nous créons.</h2><p class="section-lead">Un nouveau site, une interface à repenser ou un outil à construire : les compétences adaptées à votre projet.</p></div>
+    <div class="section-heading" data-reveal><h2>Ce que nous créons.</h2><p class="section-lead">Pour un nouveau site, une interface à repenser ou un outil à construire, nous réunissons les compétences adaptées à votre projet.</p></div>
     <div class="expertise-index">${services.map(s => `<article class="expertise-entry" data-reveal><div class="expertise-title"><h3><a class="stretched-link" href="/services/${s.slug}/">${s.label}</a></h3></div><p>${s.intro}</p><span class="entry-arrow" aria-hidden="true">↗</span></article>`).join('')}</div>
     <a class="text-link" href="/services/">Découvrir nos services</a>
   </div></section>

@@ -25,15 +25,18 @@ npm run check
 
 Le dossier `dist/` contient la version déployable. Il est généré et n’est pas commité.
 
-Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute le build,
-la vérification des pages et les contrôles de syntaxe à chaque push et pull request.
+Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
+de syntaxe, le build, la vérification des 22 pages (liens, métadonnées, langues et
+données structurées) et les régressions de la planète à chaque push et pull request.
+La CI vérifie le code ; elle ne déploie pas sur le VPS et ne crée pas de release GitHub.
+Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette CI.
 
 ## Contexte et versions
 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.5.0` ; les évolutions suivent SemVer
+La version est `0.5.1` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -125,16 +128,17 @@ Le formulaire prépare un brief dans le navigateur, sans stockage ni requête d�
 
 ## Hébergement
 
-Préparation du VPS et étapes avant activation : [`deploy/README.md`](deploy/README.md).
-Le vhost Ahelis reste inactif tant que le contenu, le DNS et le HTTPS ne sont pas prêts.
+Préparation, installation et vérifications du VPS : [`deploy/README.md`](deploy/README.md).
+La consultation `0.5.1` est servie en HTTPS sur `ahelis.ch` et `ahelislab.ch`,
+avec certificat renouvelable et mode non indexable. Le domaine principal reste à choisir.
 
 Site statique compatible avec un hébergeur de fichiers statiques. `.openai/hosting.json` conserve l’identité de la version de consultation Sites et sa sortie `dist/`. La configuration de cet aperçu ne remplace pas le domaine public final.
 
 ## Dépôt GitHub
 
 Dépôt public : [jpaniagua-dev/ahelislab-website](https://github.com/jpaniagua-dev/ahelislab-website),
-créé par Julio le 2026-10-08. La branche `main` et le tag `v0.5.0` portent les sources
-du site multilingue. Le build généré reste hors versionnement.
+créé par Julio le 2026-10-08. La branche `main` porte les sources `0.5.1` ; le tag
+`v0.5.0` conserve la précédente release multilingue. Le build généré reste hors versionnement.
 La version de consultation `0.3.3` reste publiée en privé sur [Sites](https://ahelis-lab.jjpsoft-julio.chatgpt.site).
 La [release GitHub](https://github.com/jpaniagua-dev/ahelislab-website/releases/tag/v0.5.0)
 fournit aussi une archive statique non indexable ; elle n’active aucun hébergement.
@@ -146,7 +150,7 @@ La révision multipage conserve la marque avec une composition éditoriale,
 un index de services et un accueil allégé, sans section d’offres redondante. Manrope est auto-hébergée sous OFL ;
 sa sélection reste un choix de site, pas une modification définitive de la charte.
 L’illustration de marque est originale et générée, sans représenter de réalisation client.
-L’accueil contient 270 mots, avec un aperçu des services, du studio et de la méthode,
+L’accueil français contient 272 mots, avec un aperçu des services, du studio et de la méthode,
 ainsi qu’une invitation à prendre contact. Les détails sont répartis sur les pages dédiées.
 Le formulaire et les trois questions pratiques sont sur `/contact/`. Les pages de
 services conservent leurs URLs et leurs FAQ spécifiques. Le menu indique la page active ;
