@@ -238,50 +238,61 @@ if ('IntersectionObserver' in window && motionEnabled) {
   });
 }
 
-// Prepare the brief locally. The visitor controls the eventual email submission.
+// Send the enquiry through the same-origin contact endpoint.
 const form = document.querySelector('#project-form');
 const result = document.querySelector('#brief-result');
 if (form && result) {
   const submit = form.querySelector('[type="submit"]');
   submit.disabled = false;
-  const briefText = document.querySelector('#brief-text');
-  const status = document.querySelector('#brief-status');
+  const status = document.querySelector('#contact-status');
+  let pending = false;
+  let requestId = null;
+  let previousPayload = null;
   document.querySelectorAll('[data-project]').forEach(link => link.addEventListener('click', () => {
     const select = form.querySelector('#project');
-    const projects = { launch: messages.websiteChoice, redesign: messages.redesignChoice, build: messages.buildChoice };
-    select.value = projects[link.dataset.project] || messages.exploreChoice;
+    const projects = { launch: 'website', redesign: 'redesign', build: 'custom' };
+    select.value = projects[link.dataset.project] || 'explore';
   }));
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
+    if (pending || !form.reportValidity()) return;
     const data = new FormData(form);
-    const name = String(data.get('name')).trim();
-    const email = String(data.get('email')).trim();
-    const project = String(data.get('project')).trim();
-    const message = String(data.get('message')).trim();
-    const text = `${messages.greeting}\n\n${messages.projectIntro} ${project.toLowerCase()}.\n\n${message}\n\n${name}\n${email}`;
-    briefText.value = text;
-    const compose = document.querySelector('#compose-email');
-    if (compose) compose.href = `mailto:${document.body.dataset.contactEmail}?subject=${encodeURIComponent(`${messages.subject} ${project}`)}&body=${encodeURIComponent(text)}`;
-    form.hidden = true;
-    result.hidden = false;
-    result.querySelector('h3').setAttribute('tabindex', '-1');
-    result.querySelector('h3').focus({ preventScroll: true });
+    const payload = Object.fromEntries(['name', 'email', 'project', 'message', 'company'].map(key => [key, String(data.get(key) || '').trim()]));
+    payload.locale = document.body.dataset.locale;
+    const serialized = JSON.stringify(payload);
+    if (serialized !== previousPayload || !requestId) requestId = crypto.randomUUID();
+    previousPayload = serialized;
+    pending = true;
+    submit.disabled = true;
+    form.setAttribute('aria-busy', 'true');
+    submit.textContent = messages.sending;
     status.textContent = '';
+    try {
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...payload, requestId }), signal: AbortSignal.timeout(20000) });
+      const outcome = await response.json().catch(() => ({}));
+      if (!response.ok || outcome.ok !== true || outcome.code !== 'sent') {
+        status.textContent = response.status === 429 ? messages.rateLimited : response.status === 400 ? messages.invalid : messages.sendFailed;
+        return;
+      }
+      form.hidden = true;
+      result.hidden = false;
+      result.querySelector('h3').setAttribute('tabindex', '-1');
+      result.querySelector('h3').focus({ preventScroll: true });
+    } catch { status.textContent = messages.sendFailed; }
+    finally {
+      pending = false;
+      submit.disabled = false;
+      submit.textContent = messages.sendButton;
+      form.removeAttribute('aria-busy');
+    }
   });
-  document.querySelector('#edit-brief').addEventListener('click', () => {
+  document.querySelector('#new-message').addEventListener('click', () => {
     result.hidden = true;
     form.hidden = false;
-    form.querySelector('#message').focus({ preventScroll: true });
-  });
-  document.querySelector('#copy-brief').addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(briefText.value);
-      status.textContent = messages.copied;
-    } catch {
-      briefText.focus();
-      briefText.select();
-      status.textContent = messages.copyFallback;
-    }
+    form.reset();
+    status.textContent = '';
+    requestId = null;
+    previousPayload = null;
+    form.querySelector('#name').focus({ preventScroll: true });
   });
 }

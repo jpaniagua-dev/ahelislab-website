@@ -1,6 +1,6 @@
 // Build and serve the static website locally without third-party dependencies.
 // Usage: node scripts/dev.mjs [--port 3000] [--host 0.0.0.0]. Stop with Ctrl+C.
-import { createServer } from 'node:http';
+import { createServer, request as proxyRequest } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { build, projectRoot } from './build.mjs';
@@ -13,6 +13,15 @@ const port = Number(argValue('--port') || process.env.PORT || 3000);
 const host = argValue('--host') || '0.0.0.0';
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8' };
 const server = createServer(async (request, response) => {
+  if (request.url === '/api/contact') {
+    const upstream = proxyRequest(new URL('/api/contact', process.env.CONTACT_API_ORIGIN || 'http://127.0.0.1:4201'), { method: request.method, headers: request.headers }, proxied => {
+      response.writeHead(proxied.statusCode, proxied.headers);
+      proxied.pipe(response);
+    });
+    upstream.on('error', () => { response.writeHead(502, { 'Content-Type': 'application/json' }); response.end('{"ok":false,"code":"send_failed"}'); });
+    request.pipe(upstream);
+    return;
+  }
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     let path = resolve(root, `.${pathname}`);

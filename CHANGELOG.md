@@ -1,5 +1,24 @@
 # Historique des versions
 
+## 0.6.1 — 2026-10-15
+
+- Soulignement du lien Paniagua.dev supprimé dans le crédit du footer, en français et en anglais.
+
+## 0.6.0 — 2026-10-15
+
+- Envoi direct du formulaire à `hello@ahelislab.ch` par une API Node dédiée et Resend, sans ouverture de messagerie.
+- Validation serveur, destinataire fixe, champ anti-robot, vérification d’origine et limites par IP et globales.
+- Clé d’envoi dédiée au domaine vérifié `ahelislab.ch`, adresse du visiteur utilisée uniquement pour la réponse, protection contre les doublons de nouvelle tentative.
+- États d’envoi, succès et échec en français et anglais ; champs conservés lors d’un échec, réinitialisation après succès.
+- Confidentialité adaptée au traitement des demandes, aucun contenu de message dans les logs de l’application.
+- Service systemd limité au port local 4201, proxy Nginx et tests de livraison/sécurité ajoutés à la CI.
+
+## 0.5.2 — 2026-10-15
+
+- Adresse de contact confirmée `hello@ahelislab.ch` utilisée par défaut pour la préparation des e-mails, les liens Contact et Confidentialité et les données du studio.
+- Destinataire commun aux formulaires français et anglais ; ouverture de la messagerie du visiteur, puis envoi après sa validation.
+- Possibilité de remplacer l’adresse avec `CONTACT_EMAIL`, ou de désactiver les liens de messagerie avec une valeur explicitement vide.
+
 ## 0.5.1 — 2026-10-14
 
 - Footer centré sur mobile : présentation du studio, colonnes de navigation, badge suisse et mentions légales.

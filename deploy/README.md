@@ -1,8 +1,8 @@
 # Préparation du VPS
 
 Le site est statique : seul le contenu de `dist/` doit être servi par Nginx.
-Le build reste local ou en CI ; aucun processus Node, port applicatif ou base de
-données supplémentaire n’est nécessaire sur le serveur.
+Le build reste local ou en CI. L’envoi automatique du formulaire utilise désormais
+une petite API Node sur un port local ; aucune base de données supplémentaire.
 
 ## Préparation effectuée le 2026-10-14
 
@@ -57,6 +57,43 @@ La release `0.5.0-2c75b65` reste disponible pour retour arrière. Les sources `0
 sont versionnées sur `main` ; aucune nouvelle release GitHub n’a été créée.
 
 ## Procédure de déploiement
+
+### API de contact `0.6.0`
+
+Le site reste statique ; seule la route `/api/contact` est relayée vers le service
+`ahelis-contact.service`, lié à `127.0.0.1:4201`. Copier `server/contact.mjs` dans
+la release en plus de `dist/`, installer le modèle systemd et le vhost HTTPS.
+Le service utilise un utilisateur dynamique, une mémoire limitée à 128 Mio et un
+quota CPU de 25 %. Il ne partage aucune clé ni aucun processus avec les autres applications.
+
+La clé Resend dédiée est restreinte au domaine vérifié `ahelislab.ch`. L’environnement
+`/etc/ahelis-contact.env` appartient à root, mode `0600`. `store-contact-key.py` permet
+de le créer avec un prompt masqué sur SSH ; ne pas passer de clé en argument ni l’afficher.
+Les origines autorisées sont les deux domaines HTTPS, et le destinataire fixe est
+`hello@ahelislab.ch`. L’expéditeur est `Ahelis Lab <hello@ahelislab.ch>`.
+
+Après transfert, valider le service, régénérer les en-têtes CSP, basculer `current`,
+démarrer le service et vérifier sa readiness locale avant activation du proxy Nginx.
+En cas d’échec, restaurer le lien `current` et le vhost précédent puis arrêter le service.
+Ne pas publier le formulaire direct avec un backend indisponible. La CI vérifie l’API
+avec un prestataire simulé ; elle ne peut pas attester la réception d’un e-mail réel.
+
+La consultation `0.5.2`, dans `releases/0.5.2-contact/`, suivait la configuration
+du destinataire `hello@ahelislab.ch` le 2026-10-15. Le formulaire prépare un e-mail à ouvrir
+dans la messagerie du visiteur ; aucun service d’envoi serveur n’a été ajouté.
+L’adresse apparaît aussi sur Contact, Confidentialité et dans les données structurées.
+Les en-têtes CSP ont été régénérés, Nginx validé puis rechargé ; `0.5.1-footer` est conservée
+pour retour arrière. Les sources de cette étape restaient locales, sans nouveau commit ou tag.
+
+La consultation actuelle est `0.6.1`, avec API active et activée au démarrage système.
+Cette correction retire le soulignement du crédit Paniagua.dev ; l’API est conservée sans redémarrage.
+Le test technique unique du 2026-10-15 a reçu un identifiant Resend puis le statut
+`delivered`. Les autres sites ont été vérifiés après activation. Sources versionnées sur `main`,
+mode non indexable conservé. La validation visuelle locale du succès et de l’erreur
+en français a réussi ; le navigateur de contrôle a ensuite cessé de répondre.
+La vérification publique de cette session porte sur HTTP, le service et la livraison e-mail.
+API et déduplication : [documentation Resend](https://resend.com/docs/api-reference/emails/send-email),
+[clés d’idempotence](https://resend.com/docs/dashboard/emails/idempotency-keys).
 
 1. Choisir le domaine principal et la redirection de l’autre domaine.
 2. Construire et vérifier `dist/` avec l’origine choisie, en conservant le mode non indexable.

@@ -27,7 +27,7 @@ Le dossier `dist/` contient la version déployable. Il est généré et n’est 
 
 Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
 de syntaxe, le build, la vérification des 22 pages (liens, métadonnées, langues et
-données structurées) et les régressions de la planète à chaque push et pull request.
+données structurées), les régressions de la planète et les tests de l’API de contact à chaque push et pull request.
 La CI vérifie le code ; elle ne déploie pas sur le VPS et ne crée pas de release GitHub.
 Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette CI.
 
@@ -36,7 +36,7 @@ Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.5.1` ; les évolutions suivent SemVer
+La version est `0.6.1` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -48,7 +48,8 @@ et sont consignées dans `CHANGELOG.md`.
 - `src/data/services.mjs` : contenu français des expertises et questions fréquentes.
 - `src/i18n/` : catalogue anglais, traduction statique, routes par langue et messages du formulaire.
 - `src/styles/main.css` : palette validée, mise en page et responsive.
-- `src/scripts/site.js` : planète, menu mobile, révélations et préparation locale du brief.
+- `src/scripts/site.js` : planète, menu mobile, révélations et envoi du formulaire de contact.
+- `server/contact.mjs` : API d’envoi, validation et protections contre les abus.
 - `scripts/build.mjs` : assemblage statique, empreintes des assets, sitemap et robots.
 - `scripts/verify.mjs` : contrôle du résultat généré et des liens internes.
 
@@ -124,12 +125,33 @@ Avant le lancement : compléter les mentions légales et les informations de con
 
 ## Contact
 
-Le formulaire prépare un brief dans le navigateur, sans stockage ni requête d’envoi. Si `CONTACT_EMAIL` est renseigné, il propose un lien `mailto:` : le visiteur relit puis envoie lui-même le message dans sa messagerie. Sinon, seule la copie du brief est proposée. Aucun envoi n’est simulé. Un formulaire avec livraison serveur pourra être ajouté dans un périmètre ultérieur.
+Le formulaire envoie directement une demande à `hello@ahelislab.ch` via une API Node
+sur le VPS et Resend. Le destinataire est fixe côté serveur ; l’adresse du visiteur
+est utilisée comme `Reply-To`. L’expéditeur est `Ahelis Lab <hello@ahelislab.ch>`, sur
+le domaine vérifié. Une clé Resend dédiée, limitée à l’envoi sur ce domaine, est chargée
+depuis un fichier serveur protégé et ne figure jamais dans le HTML ou les assets.
+
+La confirmation suit l’acceptation de l’e-mail par Resend ; elle ne garantit pas son
+classement dans la boîte du destinataire. Un échec conserve les champs et permet de
+réessayer avec la même clé de déduplication. Les origines sont limitées aux deux domaines,
+les messages à 8 000 caractères et 32 Kio par requête, avec cinq tentatives par IP en dix
+minutes et soixante tentatives globales par heure. Ces compteurs temporaires sont remis
+à zéro au redémarrage du service. Aucun envoi de confirmation à l’adresse saisie,
+inscription marketing ou stockage du contenu dans les journaux de l’application.
+
+`CONTACT_EMAIL` configure les liens directs affichés ; une valeur explicitement vide
+les masque. Elle ne change pas le destinataire fixe de l’API. Sans JavaScript, le visiteur
+dispose de l’adresse e-mail affichée. L’aperçu Sites reste sur son ancienne version.
+
+Vérification serveur : `npm run test:contact`. Démarrage : `npm run start:contact`
+avec `RESEND_API_KEY`, `CONTACT_FROM` et `CONTACT_ALLOWED_ORIGINS` configurés.
+Le serveur web local relaie `/api/contact` vers `CONTACT_API_ORIGIN`
+(par défaut `http://127.0.0.1:4201`). Le prestataire est simulé uniquement dans les tests.
 
 ## Hébergement
 
 Préparation, installation et vérifications du VPS : [`deploy/README.md`](deploy/README.md).
-La consultation `0.5.1` est servie en HTTPS sur `ahelis.ch` et `ahelislab.ch`,
+La consultation `0.6.1` est servie en HTTPS sur `ahelis.ch` et `ahelislab.ch`,
 avec certificat renouvelable et mode non indexable. Le domaine principal reste à choisir.
 
 Site statique compatible avec un hébergeur de fichiers statiques. `.openai/hosting.json` conserve l’identité de la version de consultation Sites et sa sortie `dist/`. La configuration de cet aperçu ne remplace pas le domaine public final.
@@ -137,7 +159,7 @@ Site statique compatible avec un hébergeur de fichiers statiques. `.openai/host
 ## Dépôt GitHub
 
 Dépôt public : [jpaniagua-dev/ahelislab-website](https://github.com/jpaniagua-dev/ahelislab-website),
-créé par Julio le 2026-10-08. La branche `main` porte les sources `0.5.1` ; le tag
+créé par Julio le 2026-10-08. La branche `main` porte les sources `0.6.1` ; le tag
 `v0.5.0` conserve la précédente release multilingue. Le build généré reste hors versionnement.
 La version de consultation `0.3.3` reste publiée en privé sur [Sites](https://ahelis-lab.jjpsoft-julio.chatgpt.site).
 La [release GitHub](https://github.com/jpaniagua-dev/ahelislab-website/releases/tag/v0.5.0)

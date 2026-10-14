@@ -1,6 +1,6 @@
 export function getConfig() {
   const siteUrl = process.env.SITE_URL?.trim().replace(/\/$/, '') || '';
-  const email = process.env.CONTACT_EMAIL?.trim() || '';
+  const email = process.env.CONTACT_EMAIL?.trim() ?? 'hello@ahelislab.ch';
   const indexable = process.env.SITE_INDEXABLE === 'true';
   if (siteUrl) {
     const origin = new URL(siteUrl);

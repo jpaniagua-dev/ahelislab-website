@@ -24,8 +24,12 @@ Ne publier ni chemin du hub privé, ni copie de ses fiches, ni secret dans ce d�
 - Conserver le mode non indexable pour les aperçus. L’activation publique nécessite
   une origine et un contact confirmés, des canoniques et des données structurées cohérentes.
 - Ne pas inventer de témoignages, de résultats commerciaux ou de coordonnées de l’agence.
+- Le formulaire envoie via l’API Node dédiée et Resend au destinataire fixe
+  `hello@ahelislab.ch`. Conserver la validation, les limites, l’origine et la déduplication ;
+  afficher le succès uniquement après acceptation du prestataire. Les secrets restent sur le serveur.
 - `dist/` est généré ; modifier les sources. Préserver le `project_id` de l’aperçu Sites
   si `.openai/hosting.json` est utilisé ; il ne désigne pas le domaine public final.
 - Vérifier avec `npm run build`, `npm run check` et `node --check src/scripts/site.js`.
   Une modification visuelle ou interactive doit aussi être vérifiée dans le navigateur.
 - Suivre SemVer dans `package.json` et consigner les versions dans `CHANGELOG.md`.
+- Vérifier l’API avec `npm run test:contact` ; les tests utilisent un prestataire simulé.

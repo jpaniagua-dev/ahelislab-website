@@ -1,0 +1,28 @@
+# Start the loopback-only contact API with a dedicated protected sending key.
+# Usage: install in /etc/systemd/system and enable after validating the environment.
+# Rollback: stop/disable this unit and restore the previous website release and vhost.
+[Unit]
+Description=Ahelis Lab contact delivery
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=true
+WorkingDirectory=/srv/ahelislab-website/current
+ExecStart=/usr/bin/node server/contact.mjs
+EnvironmentFile=/etc/ahelis-contact.env
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=128M
+CPUQuota=25%
+SupplementaryGroups=www-data
+
+[Install]
+WantedBy=multi-user.target

@@ -225,6 +225,8 @@ select { appearance: auto; background-color: #0a1a30; }
 .brief-actions .button { padding-inline: 18px; }
 .brief-actions .text-link { align-self: center; }
 #brief-status { margin: 20px 0 0; }
+.contact-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+#contact-status { margin-top: 20px; }
 .site-footer { padding-block: 65px 35px; position: relative; z-index: 3; background: var(--midnight); }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr .75fr; gap: 64px; padding-bottom: 56px; }
 .footer-brand > p { color: var(--muted); font-size: .875rem; line-height: 1.8; margin-block: 24px; }
@@ -242,7 +244,7 @@ select { appearance: auto; background-color: #0a1a30; }
 .footer-bottom a:hover { color: var(--ivory); }
 .footer-credit { grid-column: 2; grid-row: 1; justify-self: center; display: flex; justify-content: center; align-items: center; gap: 6px; margin: 0; color: var(--muted); font-size: .75rem; }
 .footer-heart { flex: 0 0 14px; color: #ef6461; }
-.footer-credit a { text-decoration: underline; text-underline-offset: 3px; }
+.footer-credit a { text-decoration: none; }
 .footer-credit a:hover { color: var(--ivory); }
 .breadcrumbs { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .8125rem; margin-bottom: 50px; }
 .breadcrumbs a { border-bottom: 1px solid #4e657f; }

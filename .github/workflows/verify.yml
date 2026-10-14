@@ -25,9 +25,12 @@ jobs:
           node --check scripts/build.mjs
           node --check scripts/dev.mjs
           node --check scripts/verify.mjs
+          node --check server/contact.mjs
       - name: Build and verify the private preview
         run: |
           npm run build
           npm run check
       - name: Verify planet interaction regressions
         run: npm run check:motion
+      - name: Verify contact delivery and abuse protections
+        run: npm run test:contact

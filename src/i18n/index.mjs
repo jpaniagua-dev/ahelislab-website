@@ -46,10 +46,9 @@ export function localizeMarkup(markup, locale) {
 
 export function clientMessages(locale) {
   return Object.fromEntries(Object.entries({
-    planet: 'Faire réagir la planète', greeting: 'Bonjour Ahelis Lab,',
-    projectIntro: 'Je souhaite échanger au sujet de :', subject: 'Projet :',
-    copied: 'Message copié. Aucun message n’a été envoyé.',
-    copyFallback: 'Sélectionnez et copiez le texte ci-dessus. Aucun message n’a été envoyé.',
-    websiteChoice: 'Un site web', redesignChoice: 'Une refonte', buildChoice: 'Une application sur mesure', exploreChoice: 'Une idée à explorer'
+    planet: 'Faire réagir la planète', sendButton: 'Envoyer mon message', sending: 'Envoi en cours…',
+    sendFailed: 'Votre message n’a pas pu être envoyé. Réessayez ou écrivez-nous directement par e-mail.',
+    rateLimited: 'Trop de tentatives. Patientez quelques minutes avant de réessayer.',
+    invalid: 'Vérifiez les informations du formulaire avant de réessayer.'
   }).map(([key, value]) => [key, translate(value, locale)]));
 }
