@@ -478,9 +478,18 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
 .stars { opacity: .25; }
 .planet-aura { opacity: .25; }
 .planet { box-shadow: inset -18px -24px 32px rgb(72 39 5 / 22%); }
-.orbit-one { border-color: rgb(248 246 239 / 42%); }
-.orbit-two { border-color: rgb(248 246 239 / 12%); }
-.orbit-three { border-color: rgb(255 212 71 / 18%); }
+/* Stage scaling must not turn the orbital signature into subpixel hairlines. */
+.orbit-one { border-width: calc(2.4 * var(--orbit-unit, 1px)); border-color: rgb(248 246 239 / 78%); }
+.orbit-two { border-width: calc(1.6 * var(--orbit-unit, 1px)); border-color: rgb(126 200 255 / 52%); }
+.orbit-three { border-width: calc(1.8 * var(--orbit-unit, 1px)); border-color: rgb(255 212 71 / 65%); }
+.planet-stage[data-surface="light"] .orbit-one { border-color: rgb(8 22 43 / 72%); }
+.planet-stage[data-surface="light"] .orbit-two { border-color: rgb(44 92 128 / 60%); }
+.planet-stage[data-surface="light"] .orbit-three { border-color: rgb(125 85 8 / 68%); }
+/* Attached waypoints make the existing orbital follow-through easy to track. */
+.orbit-one::after, .orbit-two::after { content: ''; position: absolute; width: calc(9 * var(--orbit-unit, 1px)); height: calc(9 * var(--orbit-unit, 1px)); border-radius: 50%; background: var(--ivory); top: 50%; left: 0; transform: translate(-50%, -50%); box-shadow: 0 0 0 calc(3 * var(--orbit-unit, 1px)) rgb(248 246 239 / 12%); }
+.orbit-two::after { width: calc(7 * var(--orbit-unit, 1px)); height: calc(7 * var(--orbit-unit, 1px)); background: var(--sky); top: 0; left: 50%; box-shadow: 0 0 0 calc(3 * var(--orbit-unit, 1px)) rgb(126 200 255 / 12%); }
+.planet-stage[data-surface="light"] .orbit-one::after { background: var(--midnight); }
+.planet-stage[data-surface="light"] .orbit-two::after { background: #2c5c80; }
 input::placeholder, textarea::placeholder { color: #a7b4c6; }
 .brief-result, .related-service { border-radius: 0; }
 .service-hero h1 { font-weight: 550; }

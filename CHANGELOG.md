@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.3.1 — 2026-10-14
+
+- Orbites plus épaisses et contrastées, avec une hiérarchie ivoire, bleu et jaune.
+- Épaisseur compensée selon la taille de la planète pour préserver la lisibilité mobile.
+- Deux repères attachés aux orbites rendent leurs réactions plus perceptibles.
+- Mouvement, confinement, pause et réduction des animations conservés.
+
 ## 0.3.0 — 2026-10-14
 
 - Skill officiel LottieFiles appliqué à la planète, personnalité Premium.

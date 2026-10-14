@@ -82,6 +82,9 @@ function measure() {
     }
     visual.dataset.surface = dock.closest('.light-section') ? 'light' : 'dark';
     const rect = dock.getBoundingClientRect();
+    const size = Math.max(1, Math.min(Number(dock.dataset.size) || 200, rect.width - 64, rect.height - 64));
+    // Compensate for scene scaling so orbital lines remain legible on mobile.
+    visual.style.setProperty('--orbit-unit', `${560 / size}px`);
     return {
       dock,
       visual,
@@ -89,7 +92,7 @@ function measure() {
       docY: rect.top + y + rect.height / 2,
       width: rect.width,
       height: rect.height,
-      size: Math.min(Number(dock.dataset.size) || 200, rect.width - 64, rect.height - 64),
+      size,
     };
   });
   sections = [...document.querySelectorAll('section[data-scene]')].map(section => ({ element: section, top: section.getBoundingClientRect().top + y }));

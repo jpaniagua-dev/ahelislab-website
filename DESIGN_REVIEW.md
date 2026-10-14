@@ -79,3 +79,15 @@ La régression `npm run check:motion` vérifie cinq largeurs, le toucher, le poi
 le clavier, le défilement, le retour au repos, la présence du hero et la pause.
 Elle ne mesure pas les FPS et ne remplace pas la validation visuelle en navigateur,
 qui reste indisponible dans cet environnement.
+
+## Lisibilité des orbites — 0.3.1, 2026-10-14
+
+Retour explicite : traits trop fins, réaction difficile à percevoir immédiatement.
+Application du skill LottieFiles : renforcer la mise en évidence du sujet et la
+lisibilité du mouvement secondaire, en conservant la personnalité Premium.
+Orbites de 2,4 / 1,6 / 1,8 px avant inclinaison 3D, compensées contre la réduction
+de la scène sur mobile ; opacités 78 / 52 / 65 %, deux repères solidaires des
+orbites. Aucun mouvement supplémentaire, aucun flash ni halo animé.
+Contrastes adaptés aux surfaces claires, pause et réduction des mouvements conservées.
+Validation : build, contrôle des pages et régression motion existante.
+Limite : navigateur de QA pris en charge indisponible ; rendu visuel à confirmer.
