@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.3.3 — 2026-10-14
+
+- Signature personnelle remplacée par Ahelis Lab et les disciplines du studio.
+
 ## 0.3.2 — 2026-10-14
 
 - Retrait du texte « Touchez la planète » sur mobile.
