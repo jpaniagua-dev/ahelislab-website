@@ -57,3 +57,25 @@ Le navigateur de QA pris en charge n’est pas disponible dans cette session.
 Le rendu visuel, les retours clavier en navigateur et Lighthouse ne sont donc
 pas validés ; aucun score de performance ou conformité complète n’est revendiqué.
 À confirmer sur ordinateur et téléphone avant la publication publique indexable.
+
+## Révision motion LottieFiles, 0.3.0, 2026-10-14
+
+Skill officiel : https://github.com/LottieFiles/motion-design-skill
+Révision consultée : `f9a8a041b85185ee4881b3471d3415e939aac772`, licence MIT.
+Le skill a été importé dans l’espace personnel de skills et synchronisé ; aucun
+lecteur Lottie ou framework supplémentaire n’est ajouté au site.
+
+- Intention : curiosité, élégance et confirmation immédiate du geste.
+- Personnalité : Premium, sans rebonds exagérés.
+- Couche primaire : inclinaison et suivi local de la planète, déplacement borné à 18px sur ordinateur.
+- Couche secondaire : les orbites suivent avec un retard contrôlé et réagissent au défilement.
+- Couche ambiante : flottement de 3px avec un cycle sinusoïdal de 4s.
+- Feedback : 90ms de réponse ; orbites en suivi à 180ms ; impulsion décroissante avec constante de 400ms.
+- Mobile : inclinaison et impulsion au toucher, sans translation parallax ; défilement natif préservé.
+- Clavier : bouton natif sur la planète, activation Entrée/Espace et focus visible.
+- Réduction des mouvements : scène statique et interaction animée désactivée ; pause toujours disponible.
+
+La régression `npm run check:motion` vérifie cinq largeurs, le toucher, le pointeur,
+le clavier, le défilement, le retour au repos, la présence du hero et la pause.
+Elle ne mesure pas les FPS et ne remplace pas la validation visuelle en navigateur,
+qui reste indisponible dans cet environnement.

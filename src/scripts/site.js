@@ -27,6 +27,9 @@ menuBreakpoint.addEventListener('change', () => closeMenu());
 const stage = document.querySelector('.planet-stage');
 const control = document.querySelector('.motion-control');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const coarsePointer = matchMedia('(pointer: coarse)');
+// LottieFiles Premium: fast feedback, 400ms settle, 4s calm ambient cycle.
+const motion = Object.freeze({ feedback: 90, followThrough: 180, settle: 400, ambient: 4000, maxShift: 18 });
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const mix = (a, b, amount) => a + (b - a) * amount;
 let savedMotion = null;
@@ -40,6 +43,9 @@ let lastTime = 0;
 let pointer = { x: 0, y: 0 };
 let smoothPointer = { x: 0, y: 0 };
 let pulse = 0;
+let orbitPointer = { x: 0, y: 0 };
+let orbitAngle = 0;
+let smoothOrbitAngle = 0;
 let previousScroll = scrollY;
 let scrollEnergy = 0;
 const reveals = [...document.querySelectorAll('[data-reveal]')];
@@ -52,6 +58,28 @@ function measure() {
       visual = index === 0 ? stage : stage.cloneNode(true);
       dock.append(visual);
     }
+    if (!dock.querySelector('.planet-interact')) {
+      const interaction = document.createElement('button');
+      interaction.type = 'button';
+      interaction.className = 'planet-interact';
+      interaction.setAttribute('aria-label', 'Faire réagir la planète');
+      interaction.innerHTML = '<span class="planet-hint planet-hint-pointer">Explorez son orbite</span><span class="planet-hint planet-hint-touch">Touchez la planète</span>';
+      dock.append(interaction);
+      const aim = event => {
+        if (!motionEnabled) return;
+        const box = dock.getBoundingClientRect();
+        pointer.x = clamp((event.clientX - box.left) / box.width * 2 - 1, -1, 1);
+        pointer.y = clamp((event.clientY - box.top) / box.height * 2 - 1, -1, 1);
+      };
+      interaction.addEventListener('pointermove', aim, { passive: true });
+      interaction.addEventListener('pointerdown', event => { aim(event); if (motionEnabled) pulse = 1; }, { passive: true });
+      const release = () => { pointer = { x: 0, y: 0 }; };
+      interaction.addEventListener('pointerup', release);
+      interaction.addEventListener('pointercancel', release);
+      interaction.addEventListener('pointerleave', release);
+      interaction.addEventListener('blur', release);
+      interaction.addEventListener('click', () => { if (motionEnabled) { pulse = 1; orbitAngle += 24; requestTick(); } });
+    }
     visual.dataset.surface = dock.closest('.light-section') ? 'light' : 'dark';
     const rect = dock.getBoundingClientRect();
     return {
@@ -61,7 +89,7 @@ function measure() {
       docY: rect.top + y + rect.height / 2,
       width: rect.width,
       height: rect.height,
-      size: Math.min(Number(dock.dataset.size) || 200, rect.width - 28, rect.height - 28),
+      size: Math.min(Number(dock.dataset.size) || 200, rect.width - 64, rect.height - 64),
     };
   });
   sections = [...document.querySelectorAll('section[data-scene]')].map(section => ({ element: section, top: section.getBoundingClientRect().top + y }));
@@ -95,6 +123,9 @@ function renderPaused() {
     path.visual.style.setProperty('--px', '0');
     path.visual.style.setProperty('--py', '0');
     path.visual.style.setProperty('--spin', '0deg');
+    path.visual.style.setProperty('--orbit-turn', '0deg');
+    path.visual.style.setProperty('--orbit-x', '0');
+    path.visual.style.setProperty('--orbit-y', '0');
     path.visual.style.setProperty('--energy', '1');
     path.visual.style.opacity = '1';
   });
@@ -103,32 +134,40 @@ function renderPaused() {
 function animate(time) {
   frame = 0;
   if (!motionEnabled || document.hidden || !stage || !paths.length) return;
-  if (time - lastTime < 32) { requestTick(); return; }
+  if (time - lastTime < 16) { requestTick(); return; }
   const elapsed = Math.min(time - lastTime || 32, 80);
   lastTime = time;
-  if (scrollY !== previousScroll) dirty = true;
-  const needsSceneUpdate = dirty;
+  const scrollChanged = scrollY !== previousScroll;
+  const needsSceneUpdate = dirty || scrollChanged;
   if (dirty) measure();
   const target = targetForScroll();
   if (!target) return;
-  const amount = 1 - Math.exp(-elapsed / 150);
+  const amount = 1 - Math.exp(-elapsed / motion.feedback);
+  const secondaryAmount = 1 - Math.exp(-elapsed / motion.followThrough);
+  orbitPointer.x = mix(orbitPointer.x, smoothPointer.x, secondaryAmount);
+  orbitPointer.y = mix(orbitPointer.y, smoothPointer.y, secondaryAmount);
   smoothPointer.x = mix(smoothPointer.x, pointer.x, amount);
   smoothPointer.y = mix(smoothPointer.y, pointer.y, amount);
-  pulse *= Math.exp(-elapsed / 360);
-  const drift = Math.sin(time / 1800) * 7;
-  const sway = Math.cos(time / 2400) * 5;
-  const px = smoothPointer.x * 5;
-  const py = smoothPointer.y * 4;
+  pulse *= Math.exp(-elapsed / motion.settle);
+  const drift = Math.sin(time / motion.ambient * Math.PI * 2) * 3;
+  const sway = Math.cos(time / (motion.ambient * 1.3) * Math.PI * 2) * 2;
+  const px = coarsePointer.matches ? 0 : smoothPointer.x * motion.maxShift;
+  const py = coarsePointer.matches ? 0 : smoothPointer.y * motion.maxShift * .7;
+  orbitAngle += clamp(scrollY - previousScroll, -120, 120) * .18;
   scrollEnergy = mix(scrollEnergy, clamp((scrollY - previousScroll) / 25, -1, 1), amount);
   previousScroll = scrollY;
+  smoothOrbitAngle = mix(smoothOrbitAngle, orbitAngle, secondaryAmount);
   // Each dock owns its visual: choosing a new scene cannot empty the hero.
   paths.forEach(path => {
     if (path.docY + path.height / 2 < scrollY || path.docY - path.height / 2 > scrollY + innerHeight) return;
     path.visual.style.transform = `translate3d(${path.width / 2 - 280 + px + sway}px, ${path.height / 2 - 280 + py + drift}px, 0) scale(${path.size / 560})`;
-    path.visual.style.setProperty('--px', String(smoothPointer.x + Math.sin(time / 2200) * .35));
-    path.visual.style.setProperty('--py', String(smoothPointer.y + scrollEnergy * .6));
-    path.visual.style.setProperty('--spin', `${time / 240 + scrollY / 16}deg`);
-    path.visual.style.setProperty('--energy', String(1 + pulse * .025));
+    path.visual.style.setProperty('--px', String(smoothPointer.x));
+    path.visual.style.setProperty('--py', String(clamp(smoothPointer.y + scrollEnergy * .8, -1, 1)));
+    path.visual.style.setProperty('--orbit-x', String(orbitPointer.x));
+    path.visual.style.setProperty('--orbit-y', String(orbitPointer.y));
+    path.visual.style.setProperty('--orbit-turn', `${smoothOrbitAngle + Math.sin(time / 6000) * 8}deg`);
+    path.visual.style.setProperty('--spin', `${smoothPointer.x * 4 + scrollEnergy * 9}deg`);
+    path.visual.style.setProperty('--energy', String(1 + pulse * .05));
   });
   if (needsSceneUpdate) updateScene(target);
   requestTick();
@@ -153,6 +192,11 @@ function setMotion(enabled, persist = false) {
   if (frame) cancelAnimationFrame(frame);
   frame = 0;
   dirty = true;
+  pointer = { x: 0, y: 0 };
+  smoothPointer = { x: 0, y: 0 };
+  orbitPointer = { x: 0, y: 0 };
+  pulse = 0;
+  paths.forEach(path => { path.dock.querySelector('.planet-interact').disabled = !enabled; });
   if (enabled) {
     requestTick();
   } else {
@@ -172,9 +216,9 @@ if (stage && document.body.dataset.page !== 'document') {
     if (motionEnabled) requestTick(); else renderPaused();
   }, { passive: true });
   window.addEventListener('pointermove', event => {
-    if (event.pointerType !== 'mouse' || !motionEnabled) return;
-    pointer.x = clamp(event.clientX / innerWidth * 2 - 1, -1, 1);
-    pointer.y = clamp(event.clientY / innerHeight * 2 - 1, -1, 1);
+    if (event.pointerType !== 'mouse' || !motionEnabled || event.target.closest('.planet-dock')) return;
+    pointer.x = clamp(event.clientX / innerWidth * 2 - 1, -1, 1) * .4;
+    pointer.y = clamp(event.clientY / innerHeight * 2 - 1, -1, 1) * .4;
   }, { passive: true });
   document.addEventListener('pointerleave', () => { pointer = { x: 0, y: 0 }; });
   document.addEventListener('visibilitychange', () => {
@@ -185,8 +229,8 @@ if (stage && document.body.dataset.page !== 'document') {
   document.querySelectorAll('[data-planet-react]').forEach(element => {
     element.addEventListener('pointerenter', () => { if (motionEnabled) pulse = 1; });
     element.addEventListener('focusin', () => { if (motionEnabled) pulse = 1; });
-    element.addEventListener('pointerdown', () => { if (motionEnabled) pulse = 2; }, { passive: true });
-    element.addEventListener('click', () => { if (motionEnabled) pulse = 2; });
+    element.addEventListener('pointerdown', () => { if (motionEnabled) pulse = 1; }, { passive: true });
+    element.addEventListener('click', () => { if (motionEnabled) pulse = 1; });
   });
   // Recalculate the trajectory when fonts or content change the document height.
   if ('ResizeObserver' in window) new ResizeObserver(() => { dirty = true; if (motionEnabled) requestTick(); else renderPaused(); }).observe(document.querySelector('main'));

@@ -33,7 +33,7 @@ la vérification des pages et les contrôles de syntaxe à chaque push et pull r
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version de cette première intégration est `0.2.0` ; les évolutions suivent SemVer
+La version de cette première intégration est `0.3.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -108,14 +108,18 @@ Site statique compatible avec un hébergeur de fichiers statiques. `.openai/host
 
 Dépôt public : [jpaniagua-dev/ahelislab-website](https://github.com/jpaniagua-dev/ahelislab-website),
 créé par Julio le 2026-10-08. La branche `main` porte les sources de la première
-intégration `0.2.0`. Le build généré reste hors versionnement.
+intégration `0.3.0`. Le build généré reste hors versionnement.
 La version de consultation est publiée en privé sur [Sites](https://ahelis-lab.jjpsoft-julio.chatgpt.site).
 Le lancement indexable sur le domaine public reste à préparer.
 
 ## Direction visuelle
 
-La révision `0.2.0` conserve la marque et les parcours, avec une composition éditoriale,
+La révision `0.3.0` conserve la marque et les parcours, avec une composition éditoriale,
 un index d’expertises et des offres asymétriques. Manrope est auto-hébergée sous OFL ;
 sa sélection reste un choix de site, pas une modification définitive de la charte.
 L’illustration de marque est originale et générée, sans représenter de réalisation client.
 Audit, arbitrages et limites de vérification : `DESIGN_REVIEW.md`.
+
+La révision motion utilise les principes du [skill LottieFiles](https://github.com/LottieFiles/motion-design-skill),
+avec interactions directes sur la planète (souris, toucher, clavier), orbites en suivi
+et retour au repos. Le skill ne nécessite aucun lecteur Lottie dans le navigateur.

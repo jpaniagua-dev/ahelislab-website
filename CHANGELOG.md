@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.3.0 — 2026-10-14
+
+- Skill officiel LottieFiles appliqué à la planète, personnalité Premium.
+- Réponse locale au pointeur, orbites à retard contrôlé et retour progressif au repos.
+- Interaction directe au toucher et au clavier, inclinaison liée au défilement.
+- Cadre réservé conservé, marge accrue, pause et réduction des mouvements respectées.
+
 ## 0.2.0 — 2026-10-12
 
 - Direction visuelle revue avec Taste : typographie Manrope auto-hébergée, hero condensé.
