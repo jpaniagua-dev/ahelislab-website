@@ -2,98 +2,95 @@ export const services = [
   {
     slug: 'creation-site-web', number: '01', discipline: 'Stratégie & web', icon: 'web',
     title: 'Un site qui vous ressemble.', label: 'Création de sites web',
-    summary: 'Un site vitrine clair, rapide et facile à utiliser. Pour présenter votre activité et donner envie de vous contacter.',
+    summary: 'Créer ou refaire votre site pour présenter votre activité et faciliter la prise de contact. Design sur mesure, navigation mobile et bases du référencement sont pensés ensemble.',
     seoTitle: 'Création de sites web à Genève et en Suisse romande | Ahelis Lab',
     description: 'Création et refonte de sites vitrines pour PME, indépendants et particuliers à Genève et en Suisse romande. Stratégie, design, développement et SEO.',
     headline: 'Votre activité mérite\nun site à sa hauteur.',
-    intro: 'Un site web doit permettre de comprendre ce que vous faites, à qui vous vous adressez et comment vous contacter. Nous construisons votre présence en ligne autour de ces trois questions.',
-    audience: 'PME, indépendants, associations et particuliers qui lancent une activité, souhaitent présenter un projet ou faire évoluer leur site actuel.',
+    intro: 'Un site sur mesure pour présenter votre activité, être trouvé et faciliter la prise de contact.',
+    audience: 'Pour lancer votre présence en ligne ou refaire un site existant.',
     deliverables: [
-      ['Une structure claire', 'Une arborescence et des contenus organisés selon les besoins de vos visiteurs.'],
-      ['Un design adapté à votre marque', 'Des maquettes personnalisées et une expérience cohérente sur mobile, tablette et ordinateur.'],
-      ['Un site rapide et accessible', 'Un développement avec du contenu lisible sans JavaScript, des images adaptées et une navigation au clavier.'],
-      ['Les bases du référencement', 'Titres, descriptions, liens internes, URLs canoniques, sitemap et données structurées cohérentes avec vos contenus.']
+      ['Des contenus organisés', 'Vos visiteurs trouvent rapidement l’essentiel.'],
+      ['Un design sur mesure', 'Votre identité, sur mobile comme sur ordinateur.'],
+      ['Un site rapide et accessible', 'Des pages légères et une navigation utilisable au clavier.'],
+      ['Les bases du référencement', 'Des pages structurées pour les moteurs de recherche.']
     ],
-    approach: 'Nous commençons par votre activité et l’action attendue de vos visiteurs. Nous validons ensuite la structure, le contenu et les maquettes avant de développer le site. L’hébergement, l’édition des contenus et la maintenance se décident selon vos besoins.',
+    approach: 'Vous validez les contenus et les maquettes avant le développement. Nous définissons ensemble l’hébergement, l’édition des contenus et la maintenance.',
     faqs: [
-      ['Pouvez-vous refaire un site existant ?', 'Oui. La refonte commence par un état des lieux des contenus, de la navigation et des pages déjà référencées. Les URLs utiles sont conservées ou redirigées pour accompagner la transition.'],
-      ['Mon site sera-t-il visible sur Google ?', 'Nous préparons les bases techniques et les contenus pour leur exploration et leur indexation. La position sur Google dépend aussi de votre concurrence, de la qualité de vos contenus et de votre notoriété. Aucune première position n’est garantie.'],
-      ['Pourrai-je modifier mes contenus ?', 'Si vous avez besoin de mises à jour régulières, nous choisissons ensemble une solution d’édition adaptée. Le besoin de gestion de contenu est défini avant le développement.']
+      ['Pouvez-vous refaire un site existant ?', 'Oui, après un état des lieux. Les adresses des pages utiles sont conservées ou redirigées.'],
+      ['Mon site sera-t-il visible sur Google ?', 'Les bases techniques du référencement sont incluses. Le classement dépend aussi des contenus et de la concurrence ; aucune position n’est garantie.'],
+      ['Pourrai-je modifier mes contenus ?', 'Oui, avec une solution d’édition choisie ensemble avant le développement.']
     ]
   },
   {
     slug: 'design-ux-ui', number: '02', discipline: 'Design UX/UI', icon: 'design',
     title: 'Du beau. Et du sens.', label: 'Design UX/UI',
-    summary: 'Des interfaces soignées et des parcours simples. Chaque choix de design sert votre identité et vos utilisateurs.',
+    summary: 'Des maquettes et des parcours simples pour vos sites et applications. Nous organisons les écrans autour des besoins de vos utilisateurs, avec une identité visuelle cohérente.',
     seoTitle: 'Design UX/UI à Genève et en Suisse romande | Ahelis Lab',
     description: 'Design UX/UI pour sites et applications à Genève et en Suisse romande : parcours utilisateurs, maquettes, prototypes et interfaces accessibles.',
     headline: 'Une belle interface.\nUne expérience évidente.',
-    intro: 'Le design ne s’arrête pas à l’apparence. Il aide vos visiteurs à trouver la bonne information, comprendre votre offre et accomplir leur tâche sans hésiter.',
-    audience: 'Entreprises et porteurs de projets qui veulent améliorer un parcours existant ou concevoir un site, une application ou un espace client.',
+    intro: 'Des interfaces lisibles et des parcours simples, conçus autour de ce que vos utilisateurs viennent faire.',
+    audience: 'Pour concevoir une interface ou améliorer un parcours existant.',
     deliverables: [
-      ['Des parcours réfléchis', 'Une analyse des usages et une organisation des écrans autour des tâches essentielles.'],
-      ['Des maquettes précises', 'Des interfaces sur mesure avec une hiérarchie visuelle claire et des états définis.'],
-      ['Un prototype à explorer', 'Une version interactive pour discuter des choix avant le développement.'],
-      ['Un système cohérent', 'Des composants, couleurs et règles de mise en page pour conserver la même logique dans tous les écrans.']
+      ['Des parcours réfléchis', 'Les écrans organisés autour des tâches essentielles.'],
+      ['Des maquettes précises', 'L’apparence et les comportements de chaque écran.'],
+      ['Un prototype interactif', 'Une version à essayer avant le développement.'],
+      ['Un système cohérent', 'Des composants réutilisables dans toute l’interface.']
     ],
-    approach: 'Nous clarifions d’abord les utilisateurs, leurs objectifs et les contraintes métier. Les parcours et maquettes évoluent ensuite avec vos retours. Lorsque le contexte le permet, nous vérifions les choix auprès de personnes qui utiliseront réellement le produit.',
+    approach: 'Les parcours et maquettes évoluent avec vos retours. Des tests auprès des futurs utilisateurs peuvent compléter la conception.',
     faqs: [
-      ['Quelle est la différence entre UX et UI ?', 'L’UX concerne l’expérience : organisation, parcours et compréhension. L’UI concerne l’interface : mise en page, typographie, couleurs et composants. Les deux se travaillent ensemble.'],
-      ['Pouvez-vous travailler avec mon équipe de développement ?', 'Oui. Le périmètre peut se limiter à la conception des parcours, des maquettes et des composants. Les livrables sont définis avec votre équipe pour faciliter leur intégration.'],
-      ['L’accessibilité fait-elle partie du design ?', 'Oui. La lisibilité, le contraste, la navigation et les différents états des composants sont pris en compte dès la conception. Une certification ou un audit formel constitue un périmètre distinct.']
+      ['Quelle est la différence entre UX et UI ?', 'L’UX organise les parcours. L’UI définit l’apparence et les interactions. Les deux se conçoivent ensemble.'],
+      ['Pouvez-vous travailler avec mon équipe de développement ?', 'Oui. Nous pouvons livrer uniquement les parcours, maquettes et composants, selon les besoins de votre équipe.'],
+      ['L’accessibilité fait-elle partie du design ?', 'Oui : lisibilité, contrastes et navigation sont pris en compte. Un audit formel se prévoit séparément.']
     ]
   },
   {
     slug: 'developpement-sur-mesure', number: '03', discipline: 'Développement', icon: 'code',
     title: 'Vos idées, en action.', label: 'Développement sur mesure',
-    summary: 'Applications web, espaces clients et outils métier. La technologie s’adapte à votre projet, pas l’inverse.',
+    summary: 'Applications, espaces clients et outils adaptés à votre métier. Nous concevons les fonctionnalités dont votre équipe a besoin et les relions à vos services existants.',
     seoTitle: 'Développement web sur mesure à Genève | Ahelis Lab',
     description: 'Développement d’applications web, portails clients et outils métier à Genève et en Suisse romande. Expertise Angular et interfaces sur mesure.',
     headline: 'L’outil dont\nvotre activité a besoin.',
-    intro: 'Quand un site vitrine ne suffit plus, nous concevons des interfaces et des applications web autour de vos processus. Un outil utile commence par un problème bien défini.',
-    audience: 'PME et porteurs de projets qui ont besoin d’un portail, d’une application, d’un tableau de bord ou d’une interface reliée à leurs services existants.',
+    intro: 'Une application web conçue pour votre façon de travailler et reliée à vos outils existants.',
+    audience: 'Portails clients, tableaux de bord et applications métier.',
     deliverables: [
-      ['Un périmètre cadré', 'Les usages prioritaires, les contraintes et les intégrations à prévoir avant de développer.'],
-      ['Une interface sur mesure', 'Des écrans conçus pour les personnes qui utiliseront l’outil au quotidien.'],
-      ['Une technologie adaptée', 'Angular lorsque le projet le justifie, ou une solution plus légère pour un besoin plus simple.'],
-      ['Un code maintenable', 'Une structure lisible, des vérifications adaptées et une documentation pour faire évoluer le produit.']
+      ['Un périmètre cadré', 'Les fonctionnalités et intégrations définies avant de développer.'],
+      ['Une interface sur mesure', 'Des écrans adaptés au travail quotidien de votre équipe.'],
+      ['Des outils connectés', 'Les échanges avec vos services existants.'],
+      ['Un code maintenable', 'Des vérifications et une documentation pour faire évoluer l’application.']
     ],
-    approach: 'Nous identifions la plus petite version qui répond à votre besoin réel. Nous concevons puis développons les fonctionnalités prioritaires, avec des points de validation. Les accès, les données et les interfaces avec vos systèmes sont cadrés avant toute intégration.',
+    approach: 'Nous livrons d’abord une version utile, puis l’enrichissons selon vos retours. Les accès et les données sont cadrés avant toute intégration.',
     faqs: [
-      ['Utilisez-vous uniquement Angular ?', 'Non. Angular est une expertise du studio, mais la technologie est choisie selon le périmètre, la maintenance et les compétences de votre équipe. Un site vitrine n’a pas les mêmes besoins qu’une application métier.'],
-      ['Pouvez-vous reprendre une application existante ?', 'Une reprise commence par une revue du code et du fonctionnement actuel. Nous définissons ensuite les améliorations possibles et les risques avant de proposer un périmètre.'],
-      ['Le projet peut-il être réalisé progressivement ?', 'Oui. Nous pouvons organiser le développement en étapes avec une première version utilisable, puis faire évoluer l’outil selon les retours et les priorités.']
+      ['Utilisez-vous uniquement Angular ?', 'Non. C’est une expertise du studio ; le choix dépend du projet et de votre équipe.'],
+      ['Pouvez-vous reprendre une application existante ?', 'Oui, après une revue du code pour évaluer les améliorations et les risques.'],
+      ['Le projet peut-il être réalisé progressivement ?', 'Oui. Une première version utilisable, puis des évolutions selon vos priorités.']
     ]
   },
   {
     slug: 'ia-automatisation', number: '04', discipline: 'IA & automatisation', icon: 'ai',
     title: 'Moins de répétition.', label: 'IA & automatisation',
-    summary: 'Des automatisations et des fonctions intelligentes là où elles sont utiles. Pour libérer du temps, avec un cadre clair.',
+    summary: 'Moins de saisies répétitives, des outils qui travaillent ensemble. Nous identifions les tâches à automatiser et testons les usages de l’IA qui peuvent vous être utiles.',
     seoTitle: 'IA et automatisation pour PME en Suisse romande | Ahelis Lab',
     description: 'Étude et intégration d’automatisations et de fonctions IA pour PME à Genève et en Suisse romande. Cas d’usage, prototypes et validation humaine.',
     headline: 'Du temps retrouvé.\nUn usage concret.',
-    intro: 'L’IA n’est pas une fin en soi. Nous partons des tâches répétitives et des difficultés de votre équipe pour déterminer si une automatisation, une fonction IA ou un outil plus simple peut aider.',
-    audience: 'PME et indépendants qui souhaitent mieux organiser des informations, réduire des saisies répétitives ou intégrer une assistance dans un outil existant.',
+    intro: 'Automatisez les tâches répétitives et intégrez une assistance IA là où elle vous fait gagner du temps.',
+    audience: 'Pour réduire les saisies, organiser l’information ou connecter vos outils.',
     deliverables: [
-      ['Un cas d’usage défini', 'Une tâche précise, les données nécessaires et un résultat attendu que l’on peut évaluer.'],
-      ['Un prototype ciblé', 'Une première intégration pour vérifier la faisabilité avant d’élargir le périmètre.'],
-      ['Des points de contrôle', 'Les limites du système et les étapes qui nécessitent une validation humaine.'],
-      ['Une intégration utile', 'Une fonction reliée à votre fonctionnement, avec des coûts et une maintenance identifiés.']
+      ['Un objectif précis', 'Une tâche et un résultat que l’on peut mesurer.'],
+      ['Un prototype ciblé', 'Un premier essai pour vérifier la faisabilité.'],
+      ['Des points de contrôle', 'Une validation humaine pour les actions sensibles.'],
+      ['Une intégration utile', 'Des coûts et une maintenance identifiés.']
     ],
-    approach: 'Nous vérifions le besoin, la qualité des données et les contraintes de confidentialité. Un prototype permet ensuite d’évaluer le résultat sur des cas représentatifs. Une automatisation simple reste préférable lorsqu’elle suffit à résoudre le problème.',
+    approach: 'Nous vérifions vos contraintes de confidentialité, puis testons un prototype sur des cas réels. L’IA est utilisée seulement si elle apporte un bénéfice.',
     faqs: [
-      ['Faut-il forcément utiliser de l’IA pour automatiser ?', 'Non. Une règle, un formulaire ou une intégration classique peut être plus fiable et plus économique. Nous distinguons les tâches déterministes de celles qui nécessitent l’interprétation d’un modèle.'],
-      ['Que se passe-t-il avec les données de mon entreprise ?', 'Les données nécessaires, les fournisseurs et les conditions de traitement sont examinés avant l’intégration. Les contraintes de confidentialité guident le choix de la solution.'],
-      ['L’IA peut-elle agir sans contrôle ?', 'Le niveau d’autonomie est défini selon le cas d’usage. Les actions sensibles doivent avoir des contrôles explicites et, lorsque nécessaire, une validation humaine.']
+      ['Faut-il forcément utiliser de l’IA pour automatiser ?', 'Non. Une automatisation classique peut suffire et coûter moins cher.'],
+      ['Que deviennent les données de mon entreprise ?', 'Les données utilisées, les fournisseurs et les conditions de traitement sont définis avant l’intégration.'],
+      ['L’IA peut-elle agir sans contrôle ?', 'Son autonomie est définie avec vous. Les actions sensibles restent soumises à des contrôles et, si nécessaire, à une validation humaine.']
     ]
   }
 ];
 
-export const homeFaqs = [
-  ['Quels projets accompagne Ahelis Lab ?', 'Ahelis Lab accompagne la création et la refonte de sites web, le design UX/UI, les applications web sur mesure et les projets d’automatisation ou d’IA. Le périmètre est construit selon votre activité et vos objectifs.'],
-  ['Travaillez-vous uniquement avec les PME ?', 'Non. Nous nous adressons aussi aux indépendants, associations et particuliers qui ont un projet web, quel que soit leur secteur.'],
-  ['Intervenez-vous dans toute la Suisse romande ?', 'Le studio est basé à Genève et s’adresse à la Suisse romande : Genève, Vaud, Fribourg, Neuchâtel, Valais et Jura. Les échanges à distance permettent aussi de travailler avec des clients ailleurs en Suisse ou à l’international.'],
-  ['Quel budget prévoir pour un site web ?', 'Le budget dépend du nombre de pages, des contenus, du niveau de design et des fonctionnalités. Nous commençons par cadrer le besoin pour proposer un devis correspondant au périmètre convenu.'],
-  ['L’IA remplace-t-elle le travail humain ?', 'L’IA peut assister certaines étapes de conception et de développement. Les choix de stratégie, la validation du design, la revue du code et la responsabilité du résultat restent humains.'],
-  ['Le référencement est-il prévu dès le départ ?', 'Oui. La structure des pages, la lisibilité des contenus, les métadonnées et la performance sont intégrées au développement. La visibilité sur Google et dans les moteurs de réponse se construit aussi avec des contenus utiles et des références réelles.']
+export const contactFaqs = [
+  ['Quel budget prévoir ?', 'Le devis dépend des pages, du design et des fonctionnalités. Un premier échange permet de définir les priorités et le périmètre avant de commencer. Pour un projet plus large, nous pouvons prévoir une première version, puis des évolutions.'],
+  ['Travaillez-vous à distance ?', 'Oui. Le studio est basé à Genève et accompagne des projets en Suisse romande comme à l’international. Les échanges, les présentations de maquettes et les validations peuvent se faire à distance.'],
+  ['Le référencement est-il inclus ?', 'Les bases techniques sont intégrées au site : structure des pages, métadonnées et performance. Le classement dépend aussi des contenus, de la concurrence et de votre notoriété. Aucune position sur Google n’est garantie.']
 ];

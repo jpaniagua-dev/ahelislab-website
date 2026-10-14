@@ -1,5 +1,6 @@
 const root = document.documentElement;
 root.classList.add('is-js');
+const messages = JSON.parse(document.body.dataset.messages || '{}');
 
 // Navigation and content remain usable independently of animation.
 const menuButton = document.querySelector('.menu-toggle');
@@ -25,16 +26,13 @@ const menuBreakpoint = matchMedia('(min-width: 901px)');
 menuBreakpoint.addEventListener('change', () => closeMenu());
 
 const stage = document.querySelector('.planet-stage');
-const control = document.querySelector('.motion-control');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const coarsePointer = matchMedia('(pointer: coarse)');
 // LottieFiles Premium: fast feedback, 400ms settle, 4s calm ambient cycle.
 const motion = Object.freeze({ feedback: 90, followThrough: 180, settle: 400, ambient: 4000, maxShift: 18 });
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const mix = (a, b, amount) => a + (b - a) * amount;
-let savedMotion = null;
-try { savedMotion = localStorage.getItem('ahelis-motion'); } catch { /* Storage is optional. */ }
-let motionEnabled = !reducedMotion.matches && savedMotion !== 'off';
+let motionEnabled = !reducedMotion.matches;
 let paths = [];
 let sections = [];
 let dirty = true;
@@ -62,11 +60,10 @@ function measure() {
       const interaction = document.createElement('button');
       interaction.type = 'button';
       interaction.className = 'planet-interact';
-      interaction.setAttribute('aria-label', 'Faire réagir la planète');
-      interaction.innerHTML = '<span class="planet-hint planet-hint-pointer">Explorez son orbite</span>';
+      interaction.setAttribute('aria-label', messages.planet || 'Faire réagir la planète');
       dock.append(interaction);
       const aim = event => {
-        if (!motionEnabled) return;
+        if (!motionEnabled || event.pointerType === 'mouse') return;
         const box = dock.getBoundingClientRect();
         pointer.x = clamp((event.clientX - box.left) / box.width * 2 - 1, -1, 1);
         pointer.y = clamp((event.clientY - box.top) / box.height * 2 - 1, -1, 1);
@@ -119,7 +116,7 @@ function updateScene(target) {
   });
 }
 
-function renderPaused() {
+function renderStatic() {
   if (dirty) measure();
   paths.forEach(path => {
     path.visual.style.transform = `translate3d(${path.width / 2 - 280}px, ${path.height / 2 - 280}px, 0) scale(${path.size / 560})`;
@@ -184,14 +181,9 @@ function showReveals() {
   reveals.forEach(element => element.classList.remove('reveal-pending'));
 }
 
-function setMotion(enabled, persist = false) {
-  motionEnabled = enabled;
-  root.dataset.motion = enabled ? 'on' : 'off';
-  control?.setAttribute('aria-pressed', String(enabled));
-  control?.setAttribute('aria-label', enabled ? 'Mettre les animations en pause' : 'Activer les animations');
-  const label = control?.querySelector('.motion-label');
-  if (label) label.textContent = enabled ? 'Animations' : 'En pause';
-  if (persist) try { localStorage.setItem('ahelis-motion', enabled ? 'on' : 'off'); } catch { /* Without storage, the preference applies to this page only. */ }
+function applyMotionPreference(reduce) {
+  motionEnabled = !reduce;
+  root.dataset.motion = reduce ? 'off' : 'on';
   if (frame) cancelAnimationFrame(frame);
   frame = 0;
   dirty = true;
@@ -199,44 +191,35 @@ function setMotion(enabled, persist = false) {
   smoothPointer = { x: 0, y: 0 };
   orbitPointer = { x: 0, y: 0 };
   pulse = 0;
-  paths.forEach(path => { path.dock.querySelector('.planet-interact').disabled = !enabled; });
-  if (enabled) {
+  paths.forEach(path => { path.dock.querySelector('.planet-interact').disabled = reduce; });
+  if (!reduce) {
     requestTick();
   } else {
     if (!paths.length) measure();
     showReveals();
-    renderPaused();
+    renderStatic();
   }
 }
 
-if (stage && document.body.dataset.page !== 'document') {
+if (stage && document.querySelectorAll('[data-planet-dock]').length) {
   measure();
-  control.hidden = false;
-  setMotion(motionEnabled);
-  control.addEventListener('click', () => setMotion(!motionEnabled, true));
+  applyMotionPreference(reducedMotion.matches);
   window.addEventListener('resize', () => {
     dirty = true;
-    if (motionEnabled) requestTick(); else renderPaused();
+    if (motionEnabled) requestTick(); else renderStatic();
   }, { passive: true });
-  window.addEventListener('pointermove', event => {
-    if (event.pointerType !== 'mouse' || !motionEnabled || event.target.closest('.planet-dock')) return;
-    pointer.x = clamp(event.clientX / innerWidth * 2 - 1, -1, 1) * .4;
-    pointer.y = clamp(event.clientY / innerHeight * 2 - 1, -1, 1) * .4;
-  }, { passive: true });
-  document.addEventListener('pointerleave', () => { pointer = { x: 0, y: 0 }; });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
     else { dirty = true; lastTime = 0; requestTick(); }
   });
-  reducedMotion.addEventListener('change', event => { if (event.matches) setMotion(false); });
+  reducedMotion.addEventListener('change', event => applyMotionPreference(event.matches));
   document.querySelectorAll('[data-planet-react]').forEach(element => {
-    element.addEventListener('pointerenter', () => { if (motionEnabled) pulse = 1; });
     element.addEventListener('focusin', () => { if (motionEnabled) pulse = 1; });
     element.addEventListener('pointerdown', () => { if (motionEnabled) pulse = 1; }, { passive: true });
     element.addEventListener('click', () => { if (motionEnabled) pulse = 1; });
   });
   // Recalculate the trajectory when fonts or content change the document height.
-  if ('ResizeObserver' in window) new ResizeObserver(() => { dirty = true; if (motionEnabled) requestTick(); else renderPaused(); }).observe(document.querySelector('main'));
+  if ('ResizeObserver' in window) new ResizeObserver(() => { dirty = true; if (motionEnabled) requestTick(); else renderStatic(); }).observe(document.querySelector('main'));
 }
 
 if ('IntersectionObserver' in window && motionEnabled) {
@@ -265,8 +248,8 @@ if (form && result) {
   const status = document.querySelector('#brief-status');
   document.querySelectorAll('[data-project]').forEach(link => link.addEventListener('click', () => {
     const select = form.querySelector('#project');
-    const projects = { launch: 'Un site web', redesign: 'Une refonte', build: 'Une application sur mesure' };
-    select.value = projects[link.dataset.project] || 'Une idée à explorer';
+    const projects = { launch: messages.websiteChoice, redesign: messages.redesignChoice, build: messages.buildChoice };
+    select.value = projects[link.dataset.project] || messages.exploreChoice;
   }));
   form.addEventListener('submit', event => {
     event.preventDefault();
@@ -276,10 +259,10 @@ if (form && result) {
     const email = String(data.get('email')).trim();
     const project = String(data.get('project')).trim();
     const message = String(data.get('message')).trim();
-    const text = `Bonjour Ahelis Lab,\n\nJe souhaite échanger au sujet de : ${project.toLowerCase()}.\n\n${message}\n\n${name}\n${email}`;
+    const text = `${messages.greeting}\n\n${messages.projectIntro} ${project.toLowerCase()}.\n\n${message}\n\n${name}\n${email}`;
     briefText.value = text;
     const compose = document.querySelector('#compose-email');
-    if (compose) compose.href = `mailto:${document.body.dataset.contactEmail}?subject=${encodeURIComponent(`Projet : ${project}`)}&body=${encodeURIComponent(text)}`;
+    if (compose) compose.href = `mailto:${document.body.dataset.contactEmail}?subject=${encodeURIComponent(`${messages.subject} ${project}`)}&body=${encodeURIComponent(text)}`;
     form.hidden = true;
     result.hidden = false;
     result.querySelector('h3').setAttribute('tabindex', '-1');
@@ -294,11 +277,11 @@ if (form && result) {
   document.querySelector('#copy-brief').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(briefText.value);
-      status.textContent = 'Message copié. Aucun message n’a été envoyé.';
+      status.textContent = messages.copied;
     } catch {
       briefText.focus();
       briefText.select();
-      status.textContent = 'Sélectionnez et copiez le texte ci-dessus. Aucun message n’a été envoyé.';
+      status.textContent = messages.copyFallback;
     }
   });
 }

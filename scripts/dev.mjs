@@ -19,7 +19,7 @@ const server = createServer(async (request, response) => {
     if (path !== root && !path.startsWith(`${root}${sep}`)) { response.writeHead(403); response.end(); return; }
     let code = 200;
     try { if ((await stat(path)).isDirectory()) path = resolve(path, 'index.html'); }
-    catch { code = 404; path = resolve(root, '404.html'); }
+    catch { code = 404; path = resolve(root, pathname.startsWith('/en/') ? 'en/404.html' : '404.html'); }
     const content = await readFile(path);
     response.writeHead(code, { 'Content-Type': types[extname(path)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
     response.end(content);

@@ -17,8 +17,9 @@ Ne publier ni chemin du hub privé, ni copie de ses fiches, ni secret dans ce d�
 - L’identité Ahelis Lab et le prototype fourni font référence pour ce projet.
   La charte Paniagua.dev appartient à une autre marque.
 - Garder les textes et les liens essentiels dans le HTML initial, ainsi que la navigation
-  utilisable sans JavaScript. Les contenus publics sont en français suisse (`fr-CH`).
-- Respecter la réduction des mouvements, le bouton pause, le clavier et la version mobile.
+  utilisable sans JavaScript. Les contenus publics sont en français suisse (`fr-CH`)
+  par défaut et en anglais (`en`) sous `/en/`, avec des liens vers la page équivalente.
+- Respecter la réduction des mouvements, le clavier et la version mobile.
   La planète enrichit le parcours sans masquer les contenus ni bloquer le défilement.
 - Conserver le mode non indexable pour les aperçus. L’activation publique nécessite
   une origine et un contact confirmés, des canoniques et des données structurées cohérentes.

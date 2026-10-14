@@ -1,5 +1,79 @@
 # Historique des versions
 
+## 0.5.0 — 2026-10-14
+
+- Internationalisation français/anglais, français par défaut et URLs françaises conservées.
+- Version anglaise complète sous `/en/`, avec sélecteur de langue vers la page équivalente.
+- Textes, formulaire, messages préparés, labels accessibles, footer, métadonnées et FAQ structurées traduits au build.
+- Canoniques propres à chaque langue, `hreflang` réciproques et sitemap de vingt pages ; deux 404 localisées.
+- Traductions manquantes bloquantes, contrôles étendus aux 22 pages et adaptation de la 404 du serveur local et du vhost Nginx modèle.
+- Aperçu toujours non indexable ; aucune publication ni activation sur le VPS.
+
+## 0.4.6 — 2026-10-14
+
+- Signature du footer corrigée vers Paniagua.dev, avec lien vers `https://paniagua.dev/`.
+
+## 0.4.5 — 2026-10-14
+
+- Bouton de pause des animations supprimé, avec ses styles, événements et préférence stockée localement.
+- Réduction des mouvements pilotée uniquement par la préférence système, avec prise en compte des changements en cours de navigation.
+- Signature Paniagua.ch centrée dans la ligne du footer sur ordinateur et sur la dernière ligne sur mobile.
+- Texte de confidentialité et contrôles motion adaptés à la suppression de la préférence locale.
+
+## 0.4.4 — 2026-10-14
+
+- Signature discrète « Made with ♥ by Paniagua.ch » ajoutée sous le copyright du footer.
+- Cœur SVG rouge avec nom accessible « love » et lien vers Paniagua.ch, sur toutes les pages.
+
+## 0.4.3 — 2026-10-14
+
+- Configuration Nginx inactive préparée pour `ahelis.ch` et `ahelislab.ch`, avec aperçu non indexable.
+- Dossiers de releases et de validation ACME préparés sur le VPS après contrôle de capacité et des sites existants.
+- Procédure d’activation documentée ; aucun contenu installé, aucune publication ni modification des services existants.
+
+## 0.4.2 — 2026-10-14
+
+- Badge complété par « Conçu, opéré et hébergé en Suisse » pour la version destinée à l’hébergement suisse prévu sur Infomaniak.
+- L’aperçu publié sur Sites reste inchangé ; aucune migration ni publication effectuée.
+
+## 0.4.1 — 2026-10-14
+
+- Footer inspiré de Keypr : présentation du studio, colonnes Services et Ahelis Lab, liens de confidentialité et copyright.
+- Badge suisse discret, adapté à la palette du site, avec mention « Conçu et opéré en Suisse ».
+- Mise en page responsive et navigation statique sur toutes les pages.
+
+## 0.4.0 — 2026-10-14
+
+- Site réparti sur dix pages et une 404, avec les nouveaux index Services, Studio, Approche et Contact.
+- Accueil de 270 mots : aperçus et liens explicites, ancres historiques conservées ; formulaire et FAQ déplacés sur Contact.
+- Formulaire, présentation du studio et étapes extraits en composants réutilisables ; préparation locale du message conservée.
+- Navigation par URLs, page active accessible, fils d’Ariane à trois niveaux pour les services, métadonnées et sitemap étendus.
+- FAQ structurée limitée aux pages qui présentent les réponses ; retrait de celle de l’accueil.
+- Compositions dédiées, titres secondaires plafonnés à 40 px sur ordinateur et animation limitée aux cadres réservés.
+- Vérifications étendues aux dix pages et à la 404, accès direct/rechargement à 390 et 1440 px, formulaire, motion et navigation avec scripts bloqués.
+- Livraison locale non indexable ; aucune publication.
+
+## 0.3.7 — 2026-10-14
+
+- Titre « De l’idée à la mise en ligne » rétabli : la demande concernait sa présentation.
+- Taille du titre réduite sur ordinateur et espacement supérieur de la section rétabli.
+
+## 0.3.6 — 2026-10-14
+
+- Textes de l’accueil rééquilibrés vers 75 % du volume initial, avec davantage de précisions sur les services, le studio et l’accompagnement.
+- Titre de la méthode remplacé par « Comment nous travaillons ».
+
+## 0.3.5 — 2026-10-14
+
+- Accueil allégé : services explicites, présentation du studio raccourcie et méthode en quatre phrases.
+- Suppression des offres redondantes et réduction de la FAQ d’accueil à trois questions pratiques.
+- Textes des pages de services raccourcis, informations utiles et navigation conservées.
+
+## 0.3.4 — 2026-10-14
+
+- Retrait du texte « Explorez son orbite » sous la planète.
+- Suppression du suivi de la souris et des réactions au survol ; réaction au défilement conservée.
+
 ## 0.3.3 — 2026-10-14
 
 - Signature personnelle remplacée par Ahelis Lab et les disciplines du studio.

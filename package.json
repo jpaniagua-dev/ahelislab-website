@@ -1,6 +1,6 @@
 {
   "name": "ahelislab-website",
-  "version": "0.3.3",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "description": "Ahelis Lab static agency website with SEO and interactive motion design.",
