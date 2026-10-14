@@ -63,7 +63,7 @@ function measure() {
       interaction.type = 'button';
       interaction.className = 'planet-interact';
       interaction.setAttribute('aria-label', 'Faire réagir la planète');
-      interaction.innerHTML = '<span class="planet-hint planet-hint-pointer">Explorez son orbite</span><span class="planet-hint planet-hint-touch">Touchez la planète</span>';
+      interaction.innerHTML = '<span class="planet-hint planet-hint-pointer">Explorez son orbite</span>';
       dock.append(interaction);
       const aim = event => {
         if (!motionEnabled) return;

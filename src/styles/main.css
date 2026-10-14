@@ -638,10 +638,8 @@ input, textarea, select { border-color: #6f839f; }
 .planet-interact:disabled .planet-hint { display: none; }
 .planet-interact:focus-visible { outline: 2px solid var(--yellow); outline-offset: -3px; }
 .planet-hint { position: absolute; bottom: 0; inset-inline: 0; text-align: center; font-size: .6875rem; line-height: 1.6; }
-.planet-hint-touch { display: none; }
 @media (pointer: coarse) {
   .planet-hint-pointer { display: none; }
-  .planet-hint-touch { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .planet-interact { cursor: default; }

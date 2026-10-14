@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.3.2 — 2026-10-14
+
+- Retrait du texte « Touchez la planète » sur mobile.
+
 ## 0.3.1 — 2026-10-14
 
 - Orbites plus épaisses et contrastées, avec une hiérarchie ivoire, bleu et jaune.
