@@ -38,8 +38,7 @@ main:focus { outline: none; }
 .wordmark { font-size: 1.2rem; letter-spacing: .045em; font-weight: 750; line-height: 1; }
 .brand-slash { color: var(--muted); font-weight: 300; margin-inline: 4px; }
 .brand-period { color: var(--yellow); }
-.brand-mark { width: 26px; height: 26px; border: 1.4px solid var(--yellow); border-radius: 50%; position: relative; transform: rotate(-23deg); }
-.brand-mark::after { content: ''; width: 6px; height: 6px; background: var(--yellow); border-radius: 50%; position: absolute; right: -4px; top: 6px; }
+.brand-mark { display: block; width: 40px; height: 40px; flex: 0 0 auto; }
 .nav-links { display: flex; align-items: center; gap: 34px; font-size: .875rem; font-weight: 500; }
 .nav-links > a:not(.button) { color: #c8d2df; transition: color .2s; position: relative; }
 .nav-links > a:not(.button)::after { content: ''; width: 100%; height: 1px; background: var(--yellow); position: absolute; left: 0; bottom: -8px; transform: scaleX(0); transform-origin: left; transition: transform .3s; }
@@ -367,6 +366,10 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
 }
 @media (max-width: 620px) {
   .container { width: min(calc(100% - 40px), var(--max)); }
+  .nav-inner { gap: 12px; }
+  .brand { gap: 8px; }
+  .brand-mark { width: 32px; height: 32px; }
+  .wordmark { font-size: 1rem; white-space: nowrap; }
   .hero { padding-block: 46px 25px; min-height: auto; }
   .hero-grid { grid-template-columns: 1fr; gap: 14px; }
   .hero-eyebrow { font-size: .6875rem; letter-spacing: .105em; }
