@@ -1,11 +1,5 @@
 # Historique des versions
 
-## 0.6.2-logo-preview.1 — 2026-10-15 (aperçu)
-
-- Signe orbital d’Ahelis Business repris dans l’en-tête et le footer, avec le même SVG que le favicon existant.
-- Proportions du logo et espacement de la signature adaptés aux petits écrans ; nom AHELIS / LAB conservé.
-- Aperçu exploratoire, sans déploiement ni modification définitive de la charte.
-
 ## 0.6.1 — 2026-10-15
 
 - Soulignement du lien Paniagua.dev supprimé dans le crédit du footer, en français et en anglais.
