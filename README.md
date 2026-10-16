@@ -1,5 +1,13 @@
 # Ahelis Lab — Website
 
+Le domaine Business partage désormais sa vitrine publique et son application privée.
+La racine et `/en/` restent statiques ; `/login`, `/manager` et les API métier sont
+transmis au service Business via `ahelis-business-app-proxy.conf`. `/api/contact`
+reste réservé au formulaire public. Conserver ces locations dans les futurs
+déploiements de `deploy/nginx-business-https.conf` ; les ressources privées de
+l’application sont sous `/manager/`. `admin.ahelislab.ch` accueille le portail
+d’administration Ahelis Lab, hébergé séparément des vitrines.
+
 ## Site produit Vault — 0.7.1
 
 La rubrique `/produits/` présente Vault et renvoie vers `vault.ahelislab.ch`.
