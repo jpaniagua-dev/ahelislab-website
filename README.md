@@ -1,6 +1,6 @@
 # Ahelis Lab — Website
 
-## Site produit Vault — 0.7.0
+## Site produit Vault — 0.7.1
 
 La rubrique `/produits/` présente Vault et renvoie vers `vault.ahelislab.ch`.
 Le site Vault possède son build `npm run build:vault` (`dist-vault/`), sa vérification
@@ -44,7 +44,7 @@ Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.7.0` ; les évolutions suivent SemVer
+La version est `0.7.1` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure

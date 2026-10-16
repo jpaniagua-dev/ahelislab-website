@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.7.1 — 2026-10-16
+
+- Introduction de la page Contact Vault reformulée en français et anglais pour éviter les deux-points explicatifs.
+
 ## 0.7.0 — 2026-10-16
 
 - Rubrique Produits FR/EN et présentation de Vault dans la navigation et le footer du studio.
