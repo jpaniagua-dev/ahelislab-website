@@ -8,7 +8,7 @@ import { build, projectRoot } from './build.mjs';
 const args = process.argv.slice(2);
 const argValue = name => { const index = args.indexOf(name); return index >= 0 ? args[index + 1] : args.find(arg => arg.startsWith(`${name}=`))?.split('=')[1]; };
 const site = argValue('--site') || 'agency';
-const { out: root } = await build({ site });
+const { out: root, redirects } = await build({ site });
 const port = Number(argValue('--port') || process.env.PORT || 3000);
 const host = argValue('--host') || '0.0.0.0';
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8' };
@@ -29,6 +29,11 @@ const server = createServer(async (request, response) => {
   }
   try {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    if (Object.hasOwn(redirects, pathname)) {
+      response.writeHead(301, { Location: redirects[pathname] });
+      response.end();
+      return;
+    }
     let path = resolve(root, `.${pathname}`);
     if (path !== root && !path.startsWith(`${root}${sep}`)) { response.writeHead(403); response.end(); return; }
     let code = 200;

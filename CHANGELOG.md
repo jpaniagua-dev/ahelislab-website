@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.10.0 — 2026-10-16
+
+- Footer commun à l’agence et aux sites produits, avec badge suisse et signature au cœur rouge.
+- Liens vers le studio, tous les produits et la confidentialité sur les sites produits.
+- Page de confidentialité bilingue unique sur `ahelislab.ch/privacy/`, partagée par les formulaires et les footers.
+- Redirections permanentes des anciennes pages de confidentialité vers cette page commune.
+
 ## 0.9.2 — 2026-10-16
 
 - Signature du footer Vault avec une icône de cœur rouge et attribution Ahelis Lab, en français et en anglais.

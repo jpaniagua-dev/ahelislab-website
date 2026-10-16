@@ -12,6 +12,14 @@ Site vitrine Ahelis Lab, à partir du prototype retenu et de `BRAND_IDENTITY.md`
 
 ## Choix technique
 
+Les trois sites partagent le footer de `src/components/footer.mjs`, avec les styles de l’agence,
+le badge suisse et la signature au cœur rouge. Tout futur site produit doit appeler
+`footer({ config, locale, product: true })` puis localiser son rendu, comme Vault et Business.
+Le footer produit renvoie vers le studio, tous les produits et la page bilingue unique
+`https://ahelislab.ch/privacy/`. Les formulaires pointent aussi vers cette page.
+Le build génère `nginx-redirects.conf` pour les anciens chemins de confidentialité ;
+ce fichier doit être inclus dans les vhosts et son accès HTTP doit être refusé.
+
 HTML pré-généré, CSS et JavaScript natif. Un petit build Node assemble les composants communs et les contenus. Aucun framework client ni dépendance de production : le navigateur reçoit directement les pages et leurs textes. Les animations enrichissent la présentation sans conditionner l’accès au contenu.
 
 La planète du prototype est conservée comme asset CSS et animée avec `requestAnimationFrame`. Chaque espace réservé possède sa planète, dont le hero en permanence, sans traverser les textes. Chaque planète tourne de manière autonome sur ordinateur et mobile et réagit au défilement, au toucher et aux actions explicites, sans suivre les mouvements de la souris ni les survols. Pas de WebGL ni de chargement de moteur 3D pour cette première intégration.
@@ -34,7 +42,7 @@ npm run check
 Le dossier `dist/` contient la version déployable. Il est généré et n’est pas commité.
 
 Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
-de syntaxe, le build, la vérification des 24 pages (liens, métadonnées, langues et
+de syntaxe, le build, la vérification des 23 pages du studio (liens, métadonnées, langues et
 données structurées), les régressions de la planète et les tests de l’API de contact à chaque push et pull request.
 La CI vérifie le code ; elle ne déploie pas sur le VPS et ne crée pas de release GitHub.
 Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette CI.
@@ -73,14 +81,14 @@ et sont consignées dans `CHANGELOG.md`.
 - `/services/design-ux-ui/`
 - `/services/developpement-sur-mesure/`
 - `/services/ia-automatisation/`
-- `/confidentialite/`
+- `/privacy/` (page bilingue commune)
 - `/404.html`
 
-Les mêmes pages existent en anglais sous `/en/`, avec `/en/approach/`,
-`/en/privacy/` et les quatre URLs de service traduites. Le sélecteur FR/EN mène
-à la page équivalente et fonctionne sans JavaScript. Le français garde toutes
-ses URLs existantes ; aucune redirection automatique ni préférence de langue
-stockée dans le navigateur.
+Les pages existent en anglais sous `/en/`, avec `/en/approach/` et les quatre URLs
+de service traduites. La confidentialité fait exception, avec les deux langues sur
+`/privacy/`. Les anciens chemins `/confidentialite/` et `/en/privacy/` y redirigent.
+Le sélecteur FR/EN mène à la page équivalente, ou à la section de langue de la page
+commune, sans JavaScript ni préférence de langue enregistrée dans le navigateur.
 
 Le build traduit les textes et attributs accessibles des templates, ainsi que les
 métadonnées et messages dynamiques. Le catalogue anglais utilise les textes sources

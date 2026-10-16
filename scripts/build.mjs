@@ -9,7 +9,8 @@ import { services, contactFaqs } from '../src/data/services.mjs';
 import { layout } from '../src/components/shared.mjs';
 import { servicesContent, studioContent, approachContent, contactContent } from '../src/pages/sections.mjs';
 import { homeContent } from '../src/pages/home.mjs';
-import { serviceContent, privacyContent, notFoundContent } from '../src/pages/service.mjs';
+import { serviceContent, notFoundContent } from '../src/pages/service.mjs';
+import { centralPrivacyContent } from '../src/pages/privacy.mjs';
 import { locales, localizedPath } from '../src/i18n/index.mjs';
 
 import { productsContent } from '../src/pages/products.mjs';
@@ -47,10 +48,12 @@ export async function build({ site = 'agency' } = {}) {
     { path: '/studio/', pageType: 'studio', pageLabel: 'Le studio', title: 'Le studio digital indépendant à Genève | Ahelis Lab', description: 'Découvrez Ahelis Lab : un studio indépendant à Genève, un interlocuteur direct et une approche qui réunit stratégie, design, développement et IA.', content: studioContent() },
     { path: '/approche/', pageType: 'approach', pageLabel: 'Notre approche', title: 'Notre approche, de l’idée au lancement | Ahelis Lab', description: 'Cadrer, dessiner, construire et lancer : découvrez les étapes, les livrables et les validations qui accompagnent votre projet avec Ahelis Lab.', content: approachContent() },
     { path: '/contact/', pageType: 'contact', pageLabel: 'Contact', title: 'Parlons de votre projet | Contact Ahelis Lab', description: 'Présentez votre activité et votre projet à Ahelis Lab. Envoyez votre message au studio et découvrez les réponses sur le budget, la distance et le référencement.', content: contactContent(config), faqs: contactFaqs },
-    ...services.map(service => ({ path: `/services/${service.slug}/`, title: service.seoTitle, description: service.description, content: serviceContent(service), faqs: service.faqs, service })),
-    { path: '/confidentialite/', title: 'Confidentialité | Ahelis Lab', description: 'Les informations sur la confidentialité du site Ahelis Lab, le traitement des demandes de contact et les préférences d’animation.', content: privacyContent(config) }
+    ...services.map(service => ({ path: `/services/${service.slug}/`, title: service.seoTitle, description: service.description, content: serviceContent(service), faqs: service.faqs, service }))
   ];
   const pages = vault ? vaultPages(config) : business ? businessPages(config) : sourcePages.flatMap(page => locales.map(locale => ({ ...page, basePath: page.path, locale, path: localizedPath(page.path, locale) })));
+  if (!vault && !business) pages.push({ path: '/privacy/', basePath: '/privacy/', locale: 'fr', pageType: 'privacy', title: 'Confidentialité / Privacy | Ahelis Lab', description: 'Confidentialité des sites Ahelis Lab et de ses produits. Privacy information for the studio and product websites, browsing and contact enquiries.', content: centralPrivacyContent(config), bilingual: true });
+  const redirects = Object.fromEntries((site === 'agency' ? ['/confidentialite/', '/en/privacy/'] : ['/privacy/', '/confidentialite/', '/en/privacy/']).map(path => [path, `${config.agencyUrl}/privacy/`]));
+  await writeFile(resolve(out, 'nginx-redirects.conf'), Object.entries(redirects).map(([path, target]) => `location = ${path} { return 301 ${target}; }`).join('\n') + '\n');
   const errors = vault ? vaultErrors() : business ? businessErrors() : locales.map(locale => ({ path: localizedPath('/404.html', locale), basePath: '/404.html', locale, title: 'Page introuvable | Ahelis Lab', description: 'Cette page n’existe pas. Retrouvez le studio Ahelis Lab et ses expertises.', pageType: 'not-found', content: notFoundContent() }));
   const render = vault ? vaultLayout : business ? businessLayout : layout;
   const schemaHashes = new Set();
@@ -82,9 +85,9 @@ export async function build({ site = 'agency' } = {}) {
     }).join('\n');
     await writeFile(resolve(out, 'nginx-security-headers.conf'), nginxHeaders + '\n');
   }
-  await writeFile(resolve(out, 'build-info.json'), JSON.stringify({ pages: pages.map(p => p.path), errors: errors.map(p => p.path), translations: [...pages, ...errors].map(({ path, basePath, locale }) => ({ path, basePath, locale })), indexable: config.indexable, siteUrl: config.siteUrl, assets }, null, 2));
+  await writeFile(resolve(out, 'build-info.json'), JSON.stringify({ pages: pages.map(p => p.path), errors: errors.map(p => p.path), translations: [...pages, ...errors].map(({ path, basePath, locale }) => ({ path, basePath, locale })), redirects, agencyUrl: config.agencyUrl, indexable: config.indexable, siteUrl: config.siteUrl, assets }, null, 2));
   console.log(`Static build: ${pages.length} pages + ${errors.length} localized 404 pages, ${config.indexable ? 'indexing enabled' : 'private non-indexable preview'}.`);
-  return { pages, config, out };
+  return { pages, config, out, redirects };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

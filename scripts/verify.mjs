@@ -5,19 +5,21 @@ import { readFile, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { projectRoot } from './build.mjs';
 import { languageTags, locales, localizedPath } from '../src/i18n/index.mjs';
+import { verifyFooter } from './verify-footer.mjs';
 
 const out = resolve(projectRoot, 'dist');
 const info = JSON.parse(await readFile(resolve(out, 'build-info.json'), 'utf8'));
 let linkCount = 0;
 const titles = new Set();
 const descriptions = new Set();
-assert.equal(info.pages.length, 22, 'eleven content pages per locale');
+assert.equal(info.pages.length, 21, 'ten content pages per locale and one shared bilingual privacy page');
 assert.equal(info.errors.length, 2, 'one 404 per locale');
 for (const path of [...info.pages, ...info.errors]) {
   const { basePath, locale } = info.translations.find(page => page.path === path);
   const isError = info.errors.includes(path);
   const file = isError ? resolve(out, `.${path}`) : resolve(out, `.${path}`, 'index.html');
   const html = await readFile(file, 'utf8');
+  verifyFooter(html, { locale, product: false, agencyUrl: info.agencyUrl });
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `${path}: exactly one H1`);
   assert.ok(html.includes(`<html lang="${languageTags[locale]}">`), `${path}: language`);
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
@@ -35,10 +37,10 @@ for (const path of [...info.pages, ...info.errors]) {
   assert.ok(html.includes('noindex') || info.indexable, `${path}: controlled indexing`);
   const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
   assert.equal(schema['@context'], 'https://schema.org');
-  for (const entity of schema['@graph'].filter(entity => ['WebSite', 'WebPage', 'FAQPage'].includes(entity['@type']))) assert.equal(entity.inLanguage, languageTags[locale], `${path}: structured language`);
+  for (const entity of schema['@graph'].filter(entity => ['WebSite', 'WebPage', 'FAQPage'].includes(entity['@type']))) assert.deepEqual(entity.inLanguage, basePath === '/privacy/' && entity['@type'] === 'WebPage' ? ['fr-CH', 'en'] : languageTags[locale], `${path}: structured language`);
   const switcher = html.match(/<span class="language-switcher"[^>]*>(.*?)<\/span>/s)[1];
   for (const language of locales) assert.ok(switcher.includes(`href="${localizedPath(basePath, language)}" lang="${language}"`), `${path}: equivalent language link`);
-  assert.ok(switcher.includes(`lang="${locale}" hreflang="${languageTags[locale]}" aria-label="${locale === 'fr' ? 'Français' : 'English'}" aria-current="true"`), `${path}: current language`);
+  if (basePath !== '/privacy/') assert.ok(switcher.includes(`lang="${locale}" hreflang="${languageTags[locale]}" aria-label="${locale === 'fr' ? 'Français' : 'English'}" aria-current="true"`), `${path}: current language`);
   if (locale === 'en') {
     assert.ok(html.includes('Skip to content') && html.includes('Designed, operated and hosted in Switzerland'), `${path}: translated shared content`);
     assert.ok(!html.includes('Parlons de votre projet') && !html.includes('Préparer mon message'), `${path}: no French UI fallback`);
@@ -76,8 +78,10 @@ for (const path of [...info.pages, ...info.errors]) {
   }
   if (info.siteUrl && !isError) {
     assert.ok(html.includes(`rel="canonical" href="${info.siteUrl}${path}"`), `${path}: canonical`);
-    for (const language of locales) assert.ok(html.includes(`rel="alternate" hreflang="${languageTags[language]}" href="${info.siteUrl}${localizedPath(basePath, language)}"`), `${path}: reciprocal hreflang`);
-    assert.ok(html.includes(`rel="alternate" hreflang="x-default" href="${info.siteUrl}${basePath}"`), `${path}: French default`);
+    if (basePath !== '/privacy/') {
+      for (const language of locales) assert.ok(html.includes(`rel="alternate" hreflang="${languageTags[language]}" href="${info.siteUrl}${localizedPath(basePath, language)}"`), `${path}: reciprocal hreflang`);
+      assert.ok(html.includes(`rel="alternate" hreflang="x-default" href="${info.siteUrl}${basePath}"`), `${path}: French default`);
+    }
   }
   if (isError) assert.ok(html.includes('noindex') && !html.includes('rel="canonical"'), `${path}: non-indexable error page`);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
@@ -99,6 +103,10 @@ for (const path of [...info.pages, ...info.errors]) {
   }
 }
 const sitemap = await readFile(resolve(out, 'sitemap.xml'), 'utf8');
+assert.equal(info.pages.filter(path => path.includes('privacy')).length, 1, 'one bilingual privacy page');
+const privacy = await readFile(resolve(out, 'privacy/index.html'), 'utf8');
+assert.ok(privacy.includes('id="privacy-fr" lang="fr-CH"') && privacy.includes('id="privacy-en" lang="en"'));
+assert.deepEqual(info.redirects, { '/confidentialite/': `${info.agencyUrl}/privacy/`, '/en/privacy/': `${info.agencyUrl}/privacy/` });
 if (info.siteUrl) for (const path of info.pages) assert.ok(sitemap.includes(`<loc>${info.siteUrl}${path}</loc>`));
 const robots = await readFile(resolve(out, 'robots.txt'), 'utf8');
 assert.ok(robots.includes(info.indexable ? 'Allow: /' : 'Disallow: /'));

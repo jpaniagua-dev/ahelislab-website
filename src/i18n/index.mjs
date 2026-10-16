@@ -7,18 +7,20 @@ export const languageTags = { fr: 'fr-CH', en: 'en' };
 export const routes = {
   '/': '/en/', '/services/': '/en/services/', '/produits/': '/en/products/', '/studio/': '/en/studio/',
   '/approche/': '/en/approach/', '/contact/': '/en/contact/',
-  '/confidentialite/': '/en/privacy/', '/404.html': '/en/404.html',
+  '/privacy/': '/privacy/', '/404.html': '/en/404.html',
   '/services/creation-site-web/': '/en/services/website-creation/',
   '/services/design-ux-ui/': '/en/services/ux-ui-design/',
   '/services/developpement-sur-mesure/': '/en/services/custom-development/',
   '/services/ia-automatisation/': '/en/services/ai-automation/'
 };
 const frenchSignature = { 'Made with': 'Créé avec', by: 'par', love: 'amour' };
+const footerEnglish = { 'Découvrir le studio': 'Discover the studio', 'Tous nos produits': 'All our products' };
 const neutral = new Set(['AHELIS', 'LAB', 'Ahelis Lab', 'Ahelis Vault', 'Ahelis Business', 'Paniagua.dev', 'FR', 'EN', 'English', 'Français']);
 
 export function translate(value, locale = 'fr') {
   if (!locales.includes(locale)) throw new Error(`Unsupported locale: ${locale}`);
   if (locale === 'fr') return frenchSignature[value] || value;
+  if (Object.hasOwn(footerEnglish, value)) return footerEnglish[value];
   if (Object.hasOwn(businessEnglish, value)) return businessEnglish[value];
   if (Object.hasOwn(productsEnglish, value)) return productsEnglish[value];
   if (Object.hasOwn(english, value)) return english[value];
@@ -28,6 +30,7 @@ export function translate(value, locale = 'fr') {
 }
 
 export function localizedPath(path, locale = 'fr') {
+  if (path === '/privacy/') return `/privacy/#privacy-${locale}`;
   const [base, anchor] = path.split('#');
   return `${locale === 'en' ? routes[base] || base : base}${anchor === undefined ? '' : `#${anchor}`}`;
 }

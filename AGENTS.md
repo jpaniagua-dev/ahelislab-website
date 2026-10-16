@@ -16,6 +16,11 @@ Ne publier ni chemin du hub privé, ni copie de ses fiches, ni secret dans ce d�
   Conserver ce choix pour la première intégration. La stack n’est pas imposée par le hub.
 - L’identité Ahelis Lab et le prototype fourni font référence pour ce projet.
   La charte Paniagua.dev appartient à une autre marque.
+- Les sites produits utilisent le footer commun `footer({ config, locale, product: true })`
+  de `src/components/shared.mjs`, rendu par `src/components/footer.mjs`. Conserver le badge suisse,
+  la signature au cœur rouge et les liens Studio / Tous nos produits / Confidentialité.
+  La confidentialité des sites de présentation est une page bilingue unique sur
+  `https://ahelislab.ch/privacy/`. Les anciens chemins y redirigent ; ne pas recréer de page produit.
 - Garder les textes et les liens essentiels dans le HTML initial, ainsi que la navigation
   utilisable sans JavaScript. Les contenus publics sont en français suisse (`fr-CH`)
   par défaut et en anglais (`en`) sous `/en/`, avec des liens vers la page équivalente.

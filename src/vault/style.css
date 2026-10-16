@@ -76,14 +76,6 @@
 .vault-contact p { color: #c8d2df; }
 .vault-contact .contact-email { font-size: 1.15rem; }
 .vault-site .contact-form-wrap { min-width: 0; }
-.vault-footer { border-top: 1px solid var(--line); padding-block: 44px; }
-.vault-footer > .container { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; }
-.vault-footer p { color: var(--muted); font-size: .85rem; }
-.vault-credit { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-.vault-credit svg { color: #ef4444; flex: 0 0 14px; }
-.vault-footer nav { display: flex; gap: 24px; font-size: .85rem; }
-.vault-footer nav a:hover { color: var(--yellow); }
-.vault-copyright { grid-column: 1 / -1; margin: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .vault-hero-copy { animation: vault-enter .6s ease-out both; }
   .vault-hero-art { animation: vault-enter .8s ease-out both; }
@@ -117,6 +109,4 @@
   .vault-intro { padding-block: 48px 28px; }
   .vault-download-panel { padding: 28px 22px; }
   .vault-download, .vault-contact, .vault-prose { padding-bottom: 60px; }
-  .vault-footer > .container { grid-template-columns: 1fr; gap: 20px; }
-  .vault-footer nav { flex-wrap: wrap; gap: 16px; }
 }

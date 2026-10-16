@@ -4,10 +4,11 @@ import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { projectRoot } from './build.mjs';
 import { businessPath } from '../src/business/site.mjs';
+import { verifyFooter } from './verify-footer.mjs';
 
 const out = resolve(projectRoot, 'dist-business');
 const info = JSON.parse(await readFile(resolve(out, 'build-info.json'), 'utf8'));
-assert.equal(info.pages.length, 4);
+assert.equal(info.pages.length, 2);
 assert.equal(info.errors.length, 2);
 const headers = await readFile(resolve(out, 'nginx-security-headers.conf'), 'utf8');
 let links = 0;
@@ -15,6 +16,7 @@ for (const entry of info.translations) {
   const { path, basePath, locale } = entry;
   const error = info.errors.includes(path);
   const html = await readFile(resolve(out, `.${path}${error ? '' : 'index.html'}`), 'utf8');
+  verifyFooter(html, { locale, product: true, agencyUrl: info.agencyUrl });
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, path);
   assert.ok(html.includes(`<html lang="${locale === 'fr' ? 'fr-CH' : 'en'}">`));
   assert.ok(html.includes('noindex') || info.indexable);
@@ -45,4 +47,6 @@ for (const entry of info.translations) {
     links++;
   }
 }
-console.log(`Business verified: 6 pages, ${links} links/assets, language pairs, contact, FAQ, metadata and CSP.`);
+assert.ok(!info.pages.some(path => /privacy|confidentialite/.test(path)));
+for (const path of ['/privacy/', '/confidentialite/', '/en/privacy/']) assert.equal(info.redirects[path], `${info.agencyUrl}/privacy/`);
+console.log(`Business verified: 4 pages, ${links} links/assets, language pairs, contact, FAQ, metadata and CSP.`);

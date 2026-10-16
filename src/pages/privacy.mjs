@@ -1,0 +1,20 @@
+import { escapeHtml } from '../components/shared.mjs';
+
+export function centralPrivacyContent(config) {
+  const email = escapeHtml(config.email);
+  const sections = [
+    { locale: 'fr-CH', id: 'privacy-fr', title: 'Confidentialité', lead: 'Cette page concerne les sites de présentation Ahelis Lab, Ahelis Vault et Ahelis Business.', entries: [
+      ['Vos messages', 'Les formulaires transmettent votre nom, votre adresse e-mail, le produit ou type de projet et votre message à Ahelis Lab pour répondre à votre demande. L’envoi passe par notre serveur puis par Resend, notre prestataire d’e-mail. Votre adresse sert à vous répondre. Vous n’êtes inscrit à aucune liste marketing.'],
+      ['Navigation et protections', 'Ces sites ne chargent aucun outil de publicité ou de mesure d’audience et ne déposent aucun cookie applicatif. Le contenu de votre demande n’est pas enregistré dans le stockage du navigateur ni dans les journaux applicatifs. Des informations techniques sont utilisées temporairement pour vérifier l’origine des demandes et limiter les abus.'],
+      ['Hébergement et préférences', 'L’hébergement peut traiter les informations techniques nécessaires à la mise à disposition des sites, comme l’adresse IP et les journaux d’accès. Les sites respectent la préférence de réduction des mouvements de votre appareil, sans enregistrer de choix d’animation.'],
+      ['Sites de présentation et applications', 'Les sites de présentation n’ouvrent aucun coffre Vault et ne donnent accès à aucun budget Business. Les captures utilisent des données fictives. Cette page décrit la navigation et les demandes de contact sur ces sites ; les conditions d’utilisation et le traitement des données dans les applications sont précisés séparément lors de la mise à disposition du service.']
+    ], contact: 'Pour une question concernant les informations transmises, écrivez à', contactTitle: 'Nous contacter' },
+    { locale: 'en', id: 'privacy-en', title: 'Privacy', lead: 'This page covers the Ahelis Lab, Ahelis Vault and Ahelis Business presentation websites.', entries: [
+      ['Your messages', 'Forms send your name, email address, product or project type and message to Ahelis Lab to answer your enquiry. Delivery goes through our server and then Resend, our email provider. Your address is used to reply to you. You are not added to a marketing list.'],
+      ['Browsing and protections', 'These websites load no advertising or audience analytics tools and set no application cookies. Enquiry contents are not saved in browser storage or application logs. Technical information is used temporarily to check request origins and limit abuse.'],
+      ['Hosting and preferences', 'Hosting may process technical information needed to serve the websites, such as IP addresses and access logs. The websites respect your device’s reduced-motion preference without storing an animation setting.'],
+      ['Presentation websites and applications', 'The presentation websites do not access Vault passwords or provide access to Business budgets. Screenshots use fictional data. This page describes browsing and contact enquiries on these websites; application terms and data handling are explained separately when the service is made available.']
+    ], contact: 'For a question about information you have submitted, write to', contactTitle: 'Contact us' }
+  ];
+  return `<section class="document section"><div class="container document-inner"><p class="eyebrow">Ahelis Lab</p><h1>Confidentialité / Privacy.</h1><nav class="privacy-languages" aria-label="Langue / Language"><a href="#privacy-fr" lang="fr">Français</a><a href="#privacy-en" lang="en">English</a></nav>${sections.map(section => `<section class="privacy-language" id="${section.id}" lang="${section.locale}"><h2>${section.title}</h2><p class="document-lead">${section.lead}</p>${section.entries.map(([title, text]) => `<h3>${title}</h3><p>${text}</p>`).join('')}<h3>${section.contactTitle}</h3><p>${section.contact} <a href="mailto:${email}">${email}</a>.</p></section>`).join('')}</div></section>`;
+}

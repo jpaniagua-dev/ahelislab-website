@@ -6,9 +6,10 @@ import { projectRoot } from './build.mjs';
 import { vaultRoutes, vaultPath } from '../src/vault/site.mjs';
 import { escapeHtml } from '../src/components/shared.mjs';
 import { createHash } from 'node:crypto';
+import { verifyFooter } from './verify-footer.mjs';
 const root = resolve(projectRoot, 'dist-vault');
 const info = JSON.parse(await readFile(resolve(root, 'build-info.json'), 'utf8'));
-assert.equal(info.pages.length, 10);
+assert.equal(info.pages.length, 8);
 assert.equal(info.errors.length, 2);
 const titles = new Set();
 const nginxHeaders = await readFile(resolve(root, 'nginx-security-headers.conf'), 'utf8');
@@ -17,6 +18,7 @@ for (const { path, basePath, locale } of info.translations) {
   assert.ok(Object.hasOwn(vaultRoutes, basePath));
   const error = basePath === '/404.html';
   const html = await readFile(resolve(root, `.${path}`, error ? '' : 'index.html'), 'utf8');
+  verifyFooter(html, { locale, product: true, agencyUrl: info.agencyUrl });
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `${path}: one H1`);
   const title = html.match(/<title>(.*?)<\/title>/s)[1];
   assert.ok(!titles.has(title)); titles.add(title);
@@ -62,4 +64,6 @@ for (const path of info.pages) assert.ok(sitemap.includes(`${info.siteUrl}${path
 for (const path of info.errors) assert.ok(!sitemap.includes(path));
 assert.ok((await readFile(resolve(root,'robots.txt'),'utf8')).includes(info.indexable ? 'Allow: /' : 'Disallow: /'));
 await access(resolve(root, 'vault/vault-demo.png'));
-console.log(`Vault verified: 12 pages, ${links} links/assets, metadata, language pairs, forms and download availability.`);
+assert.ok(!info.pages.some(path => /privacy|confidentialite/.test(path)));
+for (const path of ['/privacy/', '/confidentialite/', '/en/privacy/']) assert.equal(info.redirects[path], `${info.agencyUrl}/privacy/`);
+console.log(`Vault verified: 10 pages, ${links} links/assets, metadata, language pairs, forms and download availability.`);

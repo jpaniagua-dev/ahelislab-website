@@ -8,6 +8,10 @@ Pas de paiement, de portail client ni d’accès aux coffres depuis ce site.
 
 Le dépôt conserve le site du studio et ajoute une sortie indépendante pour Vault.
 Le domaine cible est `https://vault.ahelislab.ch` ; le site reste non indexable par défaut.
+Le footer est commun aux sites produits et reprend la composition de l’agence.
+La confidentialité des sites de présentation est centralisée sur `https://ahelislab.ch/privacy/` ;
+les anciennes pages de Vault redirigent vers cette page bilingue. Aucun contenu de coffre
+n’est accessible depuis ce site de présentation.
 
 ## Prévisualisation locale
 
