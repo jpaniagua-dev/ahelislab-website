@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.10.1 — 2026-10-16
+
+- Accès à la connexion Business depuis la navigation FR/EN et au budget privé depuis l’accueil.
+- Liens dirigés vers `/login` et `/manager` sur `business.ahelislab.ch`, sans inscription publique.
+
 ## 0.10.0 — 2026-10-16
 
 - Footer commun à l’agence et aux sites produits, avec badge suisse et signature au cœur rouge.

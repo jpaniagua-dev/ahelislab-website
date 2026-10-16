@@ -60,7 +60,7 @@ Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.7.1` ; les évolutions suivent SemVer
+La version est `0.10.1` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -216,7 +216,10 @@ facturation facultative. L’entrée correspondante figure dans le répertoire d
 Les captures `public/business/budget-fr.png` et `budget-en.png` proviennent de l’application
 avec des données synthétiques. Elles ne représentent aucun compte réel.
 Le formulaire utilise la catégorie `business` du service de contact existant.
-La page ne donne pas accès à l’instance personnelle et ne propose pas d’inscription publique.
+La navigation propose « Se connecter » vers `https://business.ahelislab.ch/login`.
+Le lien « Accéder à mon budget » de l’accueil mène à `https://business.ahelislab.ch/manager` ;
+l’application demande une connexion si la session n’est pas active. Les liens sont présents
+dans le HTML initial FR/EN. L’accès reste réservé aux utilisateurs autorisés, sans inscription publique.
 
 `npm run build:business`, `npm run check:business` et `npm run dev:business` construisent,
 vérifient et servent ce site distinct (port 3012). `BUSINESS_SITE_URL` configure son origine

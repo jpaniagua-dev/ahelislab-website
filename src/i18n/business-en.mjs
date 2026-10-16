@@ -5,6 +5,7 @@ export const businessEnglish = {
   'Revenus, dépenses et reste du mois réunis dans une application. La facturation en plus, si vous en avez besoin.': 'Income, expenses and your monthly budget in one application. With invoicing when you need it.',
   'Demander une démonstration': 'Request a demonstration',
   'Découvrir le fonctionnement': 'See how it works',
+  'Accéder à mon budget': 'Open my budget',
   'Bêta accompagnée · CHF · Français et anglais': 'Guided beta · CHF · French and English',
   'Aperçu de Business': 'Business preview',
   'Vue d’ensemble du budget Ahelis Business avec des revenus, des dépenses et un reste mensuel fictifs': 'Ahelis Business budget overview with fictional income, expenses and monthly remaining budget',
