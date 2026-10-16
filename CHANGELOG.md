@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.10.2 — 2026-10-16
+
+- Sélecteur FR/EN placé à droite du logo Business, visible dans l’en-tête sans ouvrir le menu mobile.
+
 ## 0.10.1 — 2026-10-16
 
 - Accès à la connexion Business depuis la navigation FR/EN et au budget privé depuis l’accueil.
