@@ -5,7 +5,6 @@ import { businessEnglish } from './business-en.mjs';
 export const locales = ['fr', 'en'];
 export const languageTags = { fr: 'fr-CH', en: 'en' };
 export const routes = {
-  '/produits/business/': '/en/products/business/',
   '/': '/en/', '/services/': '/en/services/', '/produits/': '/en/products/', '/studio/': '/en/studio/',
   '/approche/': '/en/approach/', '/contact/': '/en/contact/',
   '/confidentialite/': '/en/privacy/', '/404.html': '/en/404.html',
@@ -46,7 +45,7 @@ export function localizeMarkup(markup, locale) {
     }
     const text = token.trim();
     return text ? token.replace(text, () => encode(translate(decode(text), locale))) : token;
-  }).replace(/(<a[^>]*data-vault-link[^>]*href=")([^"]+)\/("[^>]*>)/g, (_, before, origin, after) => `${before}${origin}${locale === 'en' ? '/en/' : '/'}${after}`)
+  }).replace(/(<a[^>]*data-(?:vault|business)-link[^>]*href=")([^"]+)\/("[^>]*>)/g, (_, before, origin, after) => `${before}${origin}${locale === 'en' ? '/en/' : '/'}${after}`)
     .replaceAll('/business/budget-fr.png', `/business/budget-${locale}.png`);
 }
 

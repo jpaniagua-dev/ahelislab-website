@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { createContactServer, loadConfig } from '../server/contact.mjs';
 
 const origin = 'https://ahelislab.ch';
-const config = { apiKey: 'test-only', from: 'Ahelis Lab <contact@example.com>', to: 'hello@ahelislab.ch', allowedOrigins: [origin, 'https://vault.ahelislab.ch'], timeoutMs: 100 };
+const config = { apiKey: 'test-only', from: 'Ahelis Lab <contact@example.com>', to: 'hello@ahelislab.ch', allowedOrigins: [origin, 'https://vault.ahelislab.ch', 'https://business.ahelislab.ch'], timeoutMs: 100 };
 const enquiry = () => ({ name: 'Visitor', email: 'visitor@example.com', project: 'website', message: 'A new website enquiry.', locale: 'en', requestId: randomUUID(), company: '' });
 async function withServer(run, fetchImpl = async () => Response.json({ id: 'test-id' })) {
   const server = createContactServer(config, { fetchImpl, log: () => {} });
@@ -44,7 +44,7 @@ test('unchanged retries use the same provider idempotency key', async () => {
 test('routes Business enquiries to the studio in both languages', async () => {
   const subjects = [];
   await withServer(async post => {
-    for (const locale of ['fr', 'en']) assert.equal((await post({ ...enquiry(), project: 'business', locale })).status, 200);
+    for (const locale of ['fr', 'en']) assert.equal((await post({ ...enquiry(), project: 'business', locale }, { Origin: 'https://business.ahelislab.ch' })).status, 200);
     assert.deepEqual(subjects, ['Ahelis Lab — Ahelis Business', 'Ahelis Lab — Ahelis Business']);
   }, async (_, request) => { subjects.push(JSON.parse(request.body).subject); return Response.json({ id: 'business-test' }); });
 });

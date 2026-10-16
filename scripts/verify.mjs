@@ -11,7 +11,7 @@ const info = JSON.parse(await readFile(resolve(out, 'build-info.json'), 'utf8'))
 let linkCount = 0;
 const titles = new Set();
 const descriptions = new Set();
-assert.equal(info.pages.length, 24, 'twelve content pages per locale');
+assert.equal(info.pages.length, 22, 'eleven content pages per locale');
 assert.equal(info.errors.length, 2, 'one 404 per locale');
 for (const path of [...info.pages, ...info.errors]) {
   const { basePath, locale } = info.translations.find(page => page.path === path);
@@ -44,7 +44,7 @@ for (const path of [...info.pages, ...info.errors]) {
     assert.ok(!html.includes('Parlons de votre projet') && !html.includes('Préparer mon message'), `${path}: no French UI fallback`);
   } else assert.ok(html.includes('Créé avec') && html.includes('aria-label="amour"'), `${path}: French signature`);
   const faq = schema['@graph'].find(entity => entity['@type'] === 'FAQPage');
-  assert.equal(Boolean(faq), basePath.startsWith('/services/') && basePath !== '/services/' || ['/contact/', '/produits/business/'].includes(basePath), `${path}: FAQ only where displayed`);
+  assert.equal(Boolean(faq), basePath.startsWith('/services/') && basePath !== '/services/' || basePath === '/contact/', `${path}: FAQ only where displayed`);
   if (basePath.startsWith('/services/') && basePath !== '/services/') {
     const crumbs = schema['@graph'].find(entity => entity['@type'] === 'BreadcrumbList');
     assert.equal(crumbs.itemListElement.length, 3, `${path}: three breadcrumb levels`);
@@ -59,17 +59,13 @@ for (const path of [...info.pages, ...info.errors]) {
     console.log(`Home (${locale}): ${words} words, four preserved anchors, no form or FAQ.`);
   }
   if (basePath === '/produits/') {
-    assert.equal((html.match(new RegExp(`href="${localizedPath('/produits/business/', locale)}"`, 'g')) || []).length, 2, `${path}: Business text and image links`);
+    const businessLinks = [...html.matchAll(/data-business-link href="([^\"]+)"/g)].map(match => match[1]);
+    assert.equal(businessLinks.length, 2);
+    for (const href of businessLinks) assert.ok(href.endsWith(locale === "fr" ? "/" : "/en/"));
     const productLinks = [...html.matchAll(/data-vault-link href="([^"]+)"/g)].map(match => match[1]);
     assert.equal(productLinks.length, 2);
     for (const href of productLinks) assert.ok(href.endsWith(locale === 'fr' ? '/' : '/en/'), `${path}: product language`);
     if (locale === 'fr') assert.ok(!productLinks.some(href => href.endsWith('/en/')));
-  }
-  if (basePath === '/produits/business/') {
-    assert.ok(html.includes('name="project" value="business"'), `${path}: Business contact category`);
-    assert.ok(html.includes(`/business/budget-${locale}.png`), `${path}: localized demonstration`);
-    assert.ok(!html.includes('admin.ahelislab.ch'), `${path}: no access to the personal instance`);
-    assert.equal(schema['@graph'].find(entity => entity['@type'] === 'BreadcrumbList').itemListElement.length, 3, `${path}: product breadcrumb`);
   }
   for (const entity of schema['@graph']) {
     if (entity['@type'] === 'FAQPage') for (const question of entity.mainEntity) {

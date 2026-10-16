@@ -39,3 +39,7 @@ jobs:
           npm run test:download
       - name: Verify contact delivery and abuse protections
         run: npm run test:contact
+      - name: Build and verify the Business website
+        run: |
+          npm run build:business
+          npm run check:business

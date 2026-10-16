@@ -9,3 +9,4 @@ artifacts/
 .sites-runtime/
 *.tar.gz
 *.log
+dist-business/

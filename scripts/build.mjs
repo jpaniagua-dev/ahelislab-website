@@ -13,18 +13,19 @@ import { serviceContent, privacyContent, notFoundContent } from '../src/pages/se
 import { locales, localizedPath } from '../src/i18n/index.mjs';
 
 import { productsContent } from '../src/pages/products.mjs';
-import { businessContent, businessFaqs } from '../src/pages/business.mjs';
+import { businessPages, businessErrors, businessLayout } from '../src/business/site.mjs';
 import { vaultPages, vaultErrors, vaultLayout } from '../src/vault/site.mjs';
 import { loadDownload } from '../src/vault/download.mjs';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 export async function build({ site = 'agency' } = {}) {
-  if (!['agency', 'vault'].includes(site)) throw new Error('Unknown website target.');
+  if (!['agency', 'vault', 'business'].includes(site)) throw new Error('Unknown website target.');
   const vault = site === 'vault';
-  const config = getConfig(vault ? { ...process.env, SITE_URL: process.env.VAULT_SITE_URL || 'https://vault.ahelislab.ch', SITE_INDEXABLE: process.env.VAULT_SITE_INDEXABLE } : process.env);
+  const business = site === 'business';
+  const config = getConfig(vault ? { ...process.env, SITE_URL: process.env.VAULT_SITE_URL || 'https://vault.ahelislab.ch', SITE_INDEXABLE: process.env.VAULT_SITE_INDEXABLE } : business ? { ...process.env, SITE_URL: process.env.BUSINESS_SITE_URL || 'https://business.ahelislab.ch', SITE_INDEXABLE: process.env.BUSINESS_SITE_INDEXABLE } : process.env);
   if (vault) config.download = await loadDownload(process.env.VAULT_DOWNLOAD_MANIFEST, resolve(projectRoot, 'public'));
-  const out = resolve(projectRoot, vault ? 'dist-vault' : 'dist');
+  const out = resolve(projectRoot, vault ? 'dist-vault' : business ? 'dist-business' : 'dist');
   await rm(out, { recursive: true, force: true });
   await mkdir(resolve(out, 'assets'), { recursive: true });
   const assets = {};
@@ -40,7 +41,6 @@ export async function build({ site = 'agency' } = {}) {
     await cp(config.download.file, resolve(out, `.${config.download.url}`));
   }
   const sourcePages = [
-    { path: '/produits/business/', pageType: 'business', pageLabel: 'Ahelis Business', title: 'Ahelis Business | Votre budget mensuel, simplement', description: 'Découvrez Ahelis Business, une bêta accompagnée pour suivre votre budget personnel en CHF, préparer vos mois et facturer votre activité complémentaire.', content: businessContent(config), faqs: businessFaqs },
     { path: '/produits/', pageType: 'products', pageLabel: 'Produits', title: 'Les produits du studio | Ahelis Lab', description: 'Découvrez Ahelis Vault pour vos mots de passe et Ahelis Business pour votre budget personnel. Des applications créées par le studio Ahelis Lab.', content: productsContent(config) },
     { path: '/', title: 'Ahelis Lab | Création de sites web & studio digital à Genève', description: 'Ahelis Lab, studio digital à Genève. Création de sites web, design UX/UI, développement et IA pour PME, indépendants et particuliers en Suisse romande.', content: homeContent(config), pageType: 'home' },
     { path: '/services/', pageType: 'services', pageLabel: 'Services', title: 'Services du studio digital à Genève | Ahelis Lab', description: 'Découvrez nos quatre expertises : création de sites web, design UX/UI, développement sur mesure et IA et automatisation en Suisse romande.', content: servicesContent() },
@@ -50,9 +50,9 @@ export async function build({ site = 'agency' } = {}) {
     ...services.map(service => ({ path: `/services/${service.slug}/`, title: service.seoTitle, description: service.description, content: serviceContent(service), faqs: service.faqs, service })),
     { path: '/confidentialite/', title: 'Confidentialité | Ahelis Lab', description: 'Les informations sur la confidentialité du site Ahelis Lab, le traitement des demandes de contact et les préférences d’animation.', content: privacyContent(config) }
   ];
-  const pages = vault ? vaultPages(config) : sourcePages.flatMap(page => locales.map(locale => ({ ...page, basePath: page.path, locale, path: localizedPath(page.path, locale) })));
-  const errors = vault ? vaultErrors() : locales.map(locale => ({ path: localizedPath('/404.html', locale), basePath: '/404.html', locale, title: 'Page introuvable | Ahelis Lab', description: 'Cette page n’existe pas. Retrouvez le studio Ahelis Lab et ses expertises.', pageType: 'not-found', content: notFoundContent() }));
-  const render = vault ? vaultLayout : layout;
+  const pages = vault ? vaultPages(config) : business ? businessPages(config) : sourcePages.flatMap(page => locales.map(locale => ({ ...page, basePath: page.path, locale, path: localizedPath(page.path, locale) })));
+  const errors = vault ? vaultErrors() : business ? businessErrors() : locales.map(locale => ({ path: localizedPath('/404.html', locale), basePath: '/404.html', locale, title: 'Page introuvable | Ahelis Lab', description: 'Cette page n’existe pas. Retrouvez le studio Ahelis Lab et ses expertises.', pageType: 'not-found', content: notFoundContent() }));
+  const render = vault ? vaultLayout : business ? businessLayout : layout;
   const schemaHashes = new Set();
   const saveHtml = async (file, html) => {
     const schema = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)?.[1];
@@ -75,7 +75,7 @@ export async function build({ site = 'agency' } = {}) {
   const headers = `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Content-Security-Policy: default-src 'self'; script-src 'self' ${[...schemaHashes].join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'\n${!config.indexable ? '  X-Robots-Tag: noindex, nofollow\n' : ''}\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n`;
   // JSON-LD is non-executable data. Only its exact inline hashes are allowed by CSP.
   await writeFile(resolve(out, '_headers'), headers);
-  if (vault) {
+  if (vault || business) {
     const nginxHeaders = headers.split('\n/assets/*')[0].split('\n').slice(1).filter(line => line.trim()).map(line => {
       const [, name, value] = line.trim().match(/^([^:]+): (.*)$/);
       return `add_header ${name} "${value}" always;`;

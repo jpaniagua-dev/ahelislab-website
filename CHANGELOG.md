@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.9.0 — 2026-10-16
+
+- Site Business distinct sur `business.ahelislab.ch`, avec accueil, confidentialité et erreurs FR/EN.
+- Liens Produits dirigés vers le sous-domaine et conservation de la langue choisie.
+- Build, aperçu, vérification et configurations Nginx dédiés au site Business.
+
 ## 0.8.0 — 2026-10-16
 
 - Ajout de la présentation Ahelis Business en français et en anglais et de son entrée dans les produits.

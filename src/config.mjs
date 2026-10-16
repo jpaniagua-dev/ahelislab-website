@@ -11,10 +11,11 @@ export function getConfig(env = process.env) {
   if (email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) throw new Error('CONTACT_EMAIL must be a valid email address.');
   if (indexable && (!siteUrl || !email)) throw new Error('Indexable builds require a validated SITE_URL and CONTACT_EMAIL.');
   const vaultUrl = (env.VAULT_SITE_URL || 'https://vault.ahelislab.ch').replace(/\/$/, '');
+  const businessUrl = (env.BUSINESS_SITE_URL || 'https://business.ahelislab.ch').replace(/\/$/, '');
   const agencyUrl = (env.AGENCY_SITE_URL || 'https://ahelislab.ch').replace(/\/$/, '');
-  for (const value of [vaultUrl, agencyUrl]) {
+  for (const value of [vaultUrl, businessUrl, agencyUrl]) {
     const parsed = new URL(value);
     if (!['http:', 'https:'].includes(parsed.protocol) || parsed.origin !== value) throw new Error('Product links require an HTTP(S) origin.');
   }
-  return { siteUrl, email, indexable, vaultUrl, agencyUrl, name: 'Ahelis Lab' };
+  return { siteUrl, email, indexable, vaultUrl, businessUrl, agencyUrl, name: 'Ahelis Lab' };
 }

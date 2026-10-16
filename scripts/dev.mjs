@@ -39,5 +39,5 @@ const server = createServer(async (request, response) => {
     response.end(content);
   } catch { response.writeHead(400); response.end('Bad request'); }
 });
-server.listen(port, host, () => console.log(`${site === 'vault' ? 'Ahelis Vault' : 'Ahelis Lab'} listening on ${host}:${port}`));
+server.listen(port, host, () => console.log(`${site === 'vault' ? 'Ahelis Vault' : site === 'business' ? 'Ahelis Business' : 'Ahelis Lab'} listening on ${host}:${port}`));
 for (const signal of ['SIGTERM', 'SIGINT']) process.on(signal, () => server.close(() => process.exit(0)));
