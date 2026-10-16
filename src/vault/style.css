@@ -79,6 +79,8 @@
 .vault-footer { border-top: 1px solid var(--line); padding-block: 44px; }
 .vault-footer > .container { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; }
 .vault-footer p { color: var(--muted); font-size: .85rem; }
+.vault-credit { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.vault-credit svg { color: #ef4444; flex: 0 0 14px; }
 .vault-footer nav { display: flex; gap: 24px; font-size: .85rem; }
 .vault-footer nav a:hover { color: var(--yellow); }
 .vault-copyright { grid-column: 1 / -1; margin: 0; }

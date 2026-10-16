@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.9.2 — 2026-10-16
+
+- Signature du footer Vault avec une icône de cœur rouge et attribution Ahelis Lab, en français et en anglais.
+- Alternance automatique des produits sur ordinateur, avec l’image à gauche et le texte à droite pour les produits en position paire.
+- Ordre texte puis image conservé sur mobile, en français et en anglais.
+
 ## 0.9.1 — 2026-10-16
 
 - Signature Ahelis Lab du site Business avec une icône de cœur rouge.
