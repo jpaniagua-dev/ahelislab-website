@@ -41,6 +41,14 @@ test('unchanged retries use the same provider idempotency key', async () => {
   }, async (_, request) => { keys.push(request.headers['Idempotency-Key']); return Response.json({ id: 'same-id' }); });
 });
 
+test('routes Business enquiries to the studio in both languages', async () => {
+  const subjects = [];
+  await withServer(async post => {
+    for (const locale of ['fr', 'en']) assert.equal((await post({ ...enquiry(), project: 'business', locale })).status, 200);
+    assert.deepEqual(subjects, ['Ahelis Lab — Ahelis Business', 'Ahelis Lab — Ahelis Business']);
+  }, async (_, request) => { subjects.push(JSON.parse(request.body).subject); return Response.json({ id: 'business-test' }); });
+});
+
 test('rejects cross-origin and missing-origin requests before provider calls', async () => {
   await withServer(async post => {
     assert.equal((await post(enquiry(), { Origin: 'https://other.example' })).status, 403);

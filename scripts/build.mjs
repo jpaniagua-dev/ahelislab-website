@@ -13,6 +13,7 @@ import { serviceContent, privacyContent, notFoundContent } from '../src/pages/se
 import { locales, localizedPath } from '../src/i18n/index.mjs';
 
 import { productsContent } from '../src/pages/products.mjs';
+import { businessContent, businessFaqs } from '../src/pages/business.mjs';
 import { vaultPages, vaultErrors, vaultLayout } from '../src/vault/site.mjs';
 import { loadDownload } from '../src/vault/download.mjs';
 
@@ -39,7 +40,8 @@ export async function build({ site = 'agency' } = {}) {
     await cp(config.download.file, resolve(out, `.${config.download.url}`));
   }
   const sourcePages = [
-    { path: '/produits/', pageType: 'products', pageLabel: 'Produits', title: 'Les produits du studio | Ahelis Lab', description: 'Découvrez les applications Ahelis Lab : des outils utiles pour les petites équipes, à commencer par le coffre de mots de passe Ahelis Vault.', content: productsContent(config) },
+    { path: '/produits/business/', pageType: 'business', pageLabel: 'Ahelis Business', title: 'Ahelis Business | Votre budget mensuel, simplement', description: 'Découvrez Ahelis Business, une bêta accompagnée pour suivre votre budget personnel en CHF, préparer vos mois et facturer votre activité complémentaire.', content: businessContent(config), faqs: businessFaqs },
+    { path: '/produits/', pageType: 'products', pageLabel: 'Produits', title: 'Les produits du studio | Ahelis Lab', description: 'Découvrez Ahelis Vault pour vos mots de passe et Ahelis Business pour votre budget personnel. Des applications créées par le studio Ahelis Lab.', content: productsContent(config) },
     { path: '/', title: 'Ahelis Lab | Création de sites web & studio digital à Genève', description: 'Ahelis Lab, studio digital à Genève. Création de sites web, design UX/UI, développement et IA pour PME, indépendants et particuliers en Suisse romande.', content: homeContent(config), pageType: 'home' },
     { path: '/services/', pageType: 'services', pageLabel: 'Services', title: 'Services du studio digital à Genève | Ahelis Lab', description: 'Découvrez nos quatre expertises : création de sites web, design UX/UI, développement sur mesure et IA et automatisation en Suisse romande.', content: servicesContent() },
     { path: '/studio/', pageType: 'studio', pageLabel: 'Le studio', title: 'Le studio digital indépendant à Genève | Ahelis Lab', description: 'Découvrez Ahelis Lab : un studio indépendant à Genève, un interlocuteur direct et une approche qui réunit stratégie, design, développement et IA.', content: studioContent() },

@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 
 const projects = {
+  business: ['Ahelis Business', 'Ahelis Business'],
   vault: ['Ahelis Vault', 'Ahelis Vault'],
   website: ['Un site web', 'A website'], redesign: ['Une refonte', 'A redesign'],
   design: ['Du design UX/UI', 'UX/UI design'], custom: ['Une application sur mesure', 'A custom application'],

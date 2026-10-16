@@ -708,3 +708,29 @@ body[data-page='contact'] .faq { padding-top: 100px; }
   body[data-page='contact'] .contact-dock { width: 190px; height: 190px; }
   body[data-page='contact'] .faq { padding-top: 62px; }
 }
+
+/* Business product presentation uses the agency's existing typography and spacing. */
+.product-business { padding-top: 0; }
+.product-business .product-feature { border-top: 1px solid rgb(8 22 43 / 18%); padding-top: 80px; }
+.business-intro { padding-bottom: 52px; }
+.business-actions { display: flex; align-items: center; gap: 28px; margin-top: 30px; flex-wrap: wrap; }
+.business-status { color: var(--muted); font-size: .8125rem; margin-top: 24px; }
+.business-preview figure { margin: 0; }
+.business-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }
+.business-preview figcaption { color: var(--muted); font-size: .8125rem; margin-top: 14px; }
+.business-details { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; }
+.business-details h2 { margin-top: 0; }
+.business-features article { padding-block: 26px; border-top: 1px solid var(--line); }
+.business-features article:first-child { padding-top: 0; border: 0; }
+.business-features h3 { margin-block: 0 14px; font-size: 1.5rem; letter-spacing: -.03em; }
+.business-details p { color: var(--muted); }
+.business-features .business-note { font-size: .875rem; }
+.business-beta { border-block: 1px solid var(--line); }
+body[data-page='business'] .contact-copy h2 { margin-top: 0; }
+body[data-page='business'] .contact-copy p { color: var(--muted); max-width: 420px; }
+@media(max-width:900px) { .business-details { grid-template-columns: 1fr; gap: 36px; } }
+@media(max-width:600px) {
+  .business-actions { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .product-business .product-feature { padding-top: 48px; }
+  .business-intro { padding-bottom: 36px; }
+}

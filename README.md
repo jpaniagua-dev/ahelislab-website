@@ -192,3 +192,12 @@ Audit, arbitrages et limites de vérification : `DESIGN_REVIEW.md`.
 La révision motion utilise les principes du [skill LottieFiles](https://github.com/LottieFiles/motion-design-skill),
 avec interactions directes sur la planète (souris, toucher, clavier), orbites en suivi
 et retour au repos. Le skill ne nécessite aucun lecteur Lottie dans le navigateur.
+## Présentation Business
+
+La page `/produits/business/` et son équivalent `/en/products/business/` présentent
+la bêta accompagnée de budget personnel en CHF, les opérations récurrentes et la
+facturation facultative. L’entrée correspondante figure dans le répertoire des produits.
+Les captures `public/business/budget-fr.png` et `budget-en.png` proviennent de l’application
+avec des données synthétiques. Elles ne représentent aucun compte réel.
+Le formulaire utilise la catégorie `business` du service de contact existant.
+La page ne donne pas accès à l’instance personnelle et ne propose pas d’inscription publique.

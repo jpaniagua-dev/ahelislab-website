@@ -1,9 +1,11 @@
 import { english } from './en.mjs';
 import { productsEnglish } from './products-en.mjs';
+import { businessEnglish } from './business-en.mjs';
 
 export const locales = ['fr', 'en'];
 export const languageTags = { fr: 'fr-CH', en: 'en' };
 export const routes = {
+  '/produits/business/': '/en/products/business/',
   '/': '/en/', '/services/': '/en/services/', '/produits/': '/en/products/', '/studio/': '/en/studio/',
   '/approche/': '/en/approach/', '/contact/': '/en/contact/',
   '/confidentialite/': '/en/privacy/', '/404.html': '/en/404.html',
@@ -13,11 +15,12 @@ export const routes = {
   '/services/ia-automatisation/': '/en/services/ai-automation/'
 };
 const frenchSignature = { 'Made with': 'Créé avec', by: 'par', love: 'amour' };
-const neutral = new Set(['AHELIS', 'LAB', 'Ahelis Lab', 'Ahelis Vault', 'Paniagua.dev', 'FR', 'EN', 'English', 'Français']);
+const neutral = new Set(['AHELIS', 'LAB', 'Ahelis Lab', 'Ahelis Vault', 'Ahelis Business', 'Paniagua.dev', 'FR', 'EN', 'English', 'Français']);
 
 export function translate(value, locale = 'fr') {
   if (!locales.includes(locale)) throw new Error(`Unsupported locale: ${locale}`);
   if (locale === 'fr') return frenchSignature[value] || value;
+  if (Object.hasOwn(businessEnglish, value)) return businessEnglish[value];
   if (Object.hasOwn(productsEnglish, value)) return productsEnglish[value];
   if (Object.hasOwn(english, value)) return english[value];
   if (!value.trim() || neutral.has(value) || /^[\d\s*/.↗©]+$/.test(value) || /^[^\s<>]+@[^\s<>]+$/.test(value) || /^© \d{4} Ahelis Lab$/.test(value)) return value;
@@ -43,7 +46,8 @@ export function localizeMarkup(markup, locale) {
     }
     const text = token.trim();
     return text ? token.replace(text, () => encode(translate(decode(text), locale))) : token;
-  }).replace(/(<a[^>]*data-vault-link[^>]*href=")([^"]+)\/("[^>]*>)/g, (_, before, origin, after) => `${before}${origin}${locale === 'en' ? '/en/' : '/'}${after}`);
+  }).replace(/(<a[^>]*data-vault-link[^>]*href=")([^"]+)\/("[^>]*>)/g, (_, before, origin, after) => `${before}${origin}${locale === 'en' ? '/en/' : '/'}${after}`)
+    .replaceAll('/business/budget-fr.png', `/business/budget-${locale}.png`);
 }
 
 export function clientMessages(locale) {

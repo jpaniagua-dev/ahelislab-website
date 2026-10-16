@@ -11,5 +11,5 @@ export const productsEnglish = {
   'Découvrir Ahelis Vault': 'Discover Ahelis Vault',
   'Ahelis Vault, coffre personnel et partagé avec des données de démonstration': 'Ahelis Vault, personal and shared passwords with demonstration data',
   'Les produits du studio | Ahelis Lab': 'Products from the studio | Ahelis Lab',
-  'Découvrez les applications Ahelis Lab : des outils utiles pour les petites équipes, à commencer par le coffre de mots de passe Ahelis Vault.': 'Explore Ahelis Lab applications: useful tools for small teams, starting with the Ahelis Vault password vault.'
+  'Découvrez Ahelis Vault pour vos mots de passe et Ahelis Business pour votre budget personnel. Des applications créées par le studio Ahelis Lab.': 'Explore Ahelis Vault for your passwords and Ahelis Business for your personal budget. Applications created by the Ahelis Lab studio.'
 };

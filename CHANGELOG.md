@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.8.0 — 2026-10-16
+
+- Ajout de la présentation Ahelis Business en français et en anglais et de son entrée dans les produits.
+- Présentation du budget personnel en CHF, des récurrents et de la facturation facultative, avec statut de bêta accompagnée.
+- Captures de l’application avec données fictives et formulaire de contact dédié à Business.
+
 ## 0.7.1 — 2026-10-16
 
 - Introduction de la page Contact Vault reformulée en français et anglais pour éviter les deux-points explicatifs.

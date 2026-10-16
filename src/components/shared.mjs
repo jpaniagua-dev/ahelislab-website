@@ -7,7 +7,7 @@ const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
 export const wordmark = `<span class="brand-mark" aria-hidden="true"></span><span class="wordmark">AHELIS <span class="brand-slash">/</span> LAB<span class="brand-period">.</span></span>`;
 
 export function header(path, locale = 'fr') {
-  const active = url => path === url || (url === '/services/' && path.startsWith(url)) ? ' aria-current="page"' : '';
+  const active = url => path === url || (['/services/', '/produits/'].includes(url) && path.startsWith(url)) ? ' aria-current="page"' : '';
   return `<a class="skip-link" href="#main">Aller au contenu</a>
     <header class="site-header"><div class="container nav-inner">
       <a class="brand" href="/" aria-label="Ahelis Lab, accueil">${wordmark}</a>
@@ -61,8 +61,9 @@ export function layout({ title, description, path = '/', basePath = path, locale
   const graph = [organization, { '@type': 'WebSite', name: 'Ahelis Lab', ...(config.siteUrl ? { url: `${config.siteUrl}/` } : {}), inLanguage: language, publisher: { '@id': organization['@id'] } }, { '@type': 'WebPage', ...(url ? { url, '@id': `${url}#page` } : {}), name: title, description, inLanguage: language, about: { '@id': organization['@id'] } }];
   if (faqs.length) graph.push({ '@type': 'FAQPage', inLanguage: language, ...(url ? { '@id': `${url}#questions` } : {}), mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: t(q), acceptedAnswer: { '@type': 'Answer', text: t(a) } })) });
   if (service) graph.push({ '@type': 'Service', name: t(service.label), description: t(service.intro), ...(url ? { url } : {}), provider: { '@id': organization['@id'] }, areaServed: { '@type': 'Place', name: t('Suisse romande') } });
+  if (pageType === 'business') graph.push({ '@type': 'SoftwareApplication', name: 'Ahelis Business', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', description, ...(url ? { url } : {}), publisher: { '@id': organization['@id'] } });
   if (basePath !== '/' && pageType !== 'not-found') {
-    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service ? [{ path: '/services/', name: 'Services' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
+    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service ? [{ path: '/services/', name: 'Services' }] : basePath.startsWith('/produits/') && basePath !== '/produits/' ? [{ path: '/produits/', name: 'Produits' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
     graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: t(crumb.name), ...(config.siteUrl ? { item: `${config.siteUrl}${localizedPath(crumb.path, locale)}` } : {}) })) });
   }
   const alternatives = config.siteUrl && pageType !== 'not-found' ? `${locales.map(language => `<link rel="alternate" hreflang="${languageTags[language]}" href="${config.siteUrl}${localizedPath(basePath, language)}">`).join('')}<link rel="alternate" hreflang="x-default" href="${config.siteUrl}${basePath}">` : '';
