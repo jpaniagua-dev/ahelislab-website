@@ -1,0 +1,6 @@
+import { breadcrumbs } from '../components/shared.mjs';
+
+export function productsContent(config) {
+  return `<section class="page-intro section"><div class="container">${breadcrumbs('Produits')}<p class="eyebrow">Les produits Ahelis Lab</p><h1>Des outils utiles.<br>Au quotidien.</h1><p class="page-lead">Nées des besoins concrets de nos clients, nos applications sont aussi proposées à celles et ceux qui rencontrent les mêmes défis.</p></div></section>
+  <section class="section light-section"><div class="container product-feature"><div><p class="eyebrow">Windows · Mots de passe</p><h2>Ahelis Vault</h2><p class="page-lead">Vos mots de passe à portée de main. Un coffre local gratuit, et le partage en équipe sur abonnement.</p><p>Retrouvez vos identifiants sur votre PC, même sans connexion. Activez la synchronisation et choisissez les mots de passe à partager avec votre organisation.</p><a class="button button-primary" data-vault-link href="${config.vaultUrl}/">Découvrir Vault</a></div><a class="product-picture" data-vault-link href="${config.vaultUrl}/" aria-label="Découvrir Ahelis Vault"><img src="/vault/vault-demo.png" width="1264" height="741" loading="lazy" alt="Ahelis Vault, coffre personnel et partagé avec des données de démonstration"></a></div></section>`;
+}

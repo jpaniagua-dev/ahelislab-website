@@ -1,5 +1,16 @@
 # Historique des versions
 
+## 0.7.0 — 2026-10-16
+
+- Rubrique Produits FR/EN et présentation de Vault dans la navigation et le footer du studio.
+- Introduction des produits précisant leur origine dans les besoins concrets des clients et leur ouverture aux personnes rencontrant les mêmes défis.
+- Site produit Vault distinct : accueil, sécurité, téléchargement, contact et confidentialité, en français et anglais.
+- Offre locale gratuite, abonnement d’organisation sur devis et personnalisation en option ; aucune intégration de paiement.
+- Deux builds indépendants, aperçu non indexable, configuration HTTPS et en-têtes Nginx générés pour le sous-domaine.
+- Formulaire Vault réutilisant les protections du service existant ; destinataire inchangé.
+- Activation du téléchargement public conditionnée à un installateur générique dont signature, éditeur et SHA-256 sont vérifiés ; aucun build client distribué.
+- Contrôles du site produit et des téléchargements intégrés à la CI.
+
 ## 0.6.1 — 2026-10-15
 
 - Soulignement du lien Paniagua.dev supprimé dans le crédit du footer, en français et en anglais.

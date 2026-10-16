@@ -1,6 +1,6 @@
 {
   "name": "ahelislab-website",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "description": "Ahelis Lab static agency website with SEO and interactive motion design.",
@@ -8,6 +8,10 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs",
+    "build:vault": "node scripts/build.mjs --site vault",
+    "dev:vault": "node scripts/dev.mjs --site vault --port 3011",
+    "check:vault": "node scripts/verify-vault.mjs",
+    "test:download": "node --test tests/download.test.mjs",
     "check": "node scripts/verify.mjs",
     "check:motion": "node scripts/verify-motion.cjs",
     "test:contact": "node --test tests/contact.test.mjs",

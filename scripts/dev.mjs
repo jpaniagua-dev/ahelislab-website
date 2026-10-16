@@ -5,15 +5,20 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { build, projectRoot } from './build.mjs';
 
-await build();
-const root = resolve(projectRoot, 'dist');
 const args = process.argv.slice(2);
 const argValue = name => { const index = args.indexOf(name); return index >= 0 ? args[index + 1] : args.find(arg => arg.startsWith(`${name}=`))?.split('=')[1]; };
+const site = argValue('--site') || 'agency';
+const { out: root } = await build({ site });
 const port = Number(argValue('--port') || process.env.PORT || 3000);
 const host = argValue('--host') || '0.0.0.0';
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8' };
 const server = createServer(async (request, response) => {
   if (request.url === '/api/contact') {
+    if (!process.env.CONTACT_API_ORIGIN) {
+      response.writeHead(503, { 'Content-Type': 'application/json' });
+      response.end('{"ok":false,"code":"send_failed"}');
+      return;
+    }
     const upstream = proxyRequest(new URL('/api/contact', process.env.CONTACT_API_ORIGIN || 'http://127.0.0.1:4201'), { method: request.method, headers: request.headers }, proxied => {
       response.writeHead(proxied.statusCode, proxied.headers);
       proxied.pipe(response);
@@ -34,5 +39,5 @@ const server = createServer(async (request, response) => {
     response.end(content);
   } catch { response.writeHead(400); response.end('Bad request'); }
 });
-server.listen(port, host, () => console.log(`Ahelis Lab listening on ${host}:${port}`));
+server.listen(port, host, () => console.log(`${site === 'vault' ? 'Ahelis Vault' : 'Ahelis Lab'} listening on ${host}:${port}`));
 for (const signal of ['SIGTERM', 'SIGINT']) process.on(signal, () => server.close(() => process.exit(0)));

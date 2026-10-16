@@ -1,5 +1,13 @@
 # Ahelis Lab — Website
 
+## Site produit Vault — 0.7.0
+
+La rubrique `/produits/` présente Vault et renvoie vers `vault.ahelislab.ch`.
+Le site Vault possède son build `npm run build:vault` (`dist-vault/`), sa vérification
+`npm run check:vault` et son aperçu `npm run dev:vault` (port 3011).
+Les deux sites restent non indexables par défaut. Offre, téléchargement signé,
+configuration du contact et publication VPS : [guide Vault](docs/vault-website.md).
+
 Site vitrine Ahelis Lab, à partir du prototype retenu et de `BRAND_IDENTITY.md`. Le branding original est conservé. Le français suisse est la langue par défaut, avec une version anglaise complète.
 
 ## Choix technique
@@ -26,7 +34,7 @@ npm run check
 Le dossier `dist/` contient la version déployable. Il est généré et n’est pas commité.
 
 Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
-de syntaxe, le build, la vérification des 22 pages (liens, métadonnées, langues et
+de syntaxe, le build, la vérification des 24 pages (liens, métadonnées, langues et
 données structurées), les régressions de la planète et les tests de l’API de contact à chaque push et pull request.
 La CI vérifie le code ; elle ne déploie pas sur le VPS et ne crée pas de release GitHub.
 Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette CI.
@@ -36,7 +44,7 @@ Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.6.1` ; les évolutions suivent SemVer
+La version est `0.7.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -57,6 +65,7 @@ et sont consignées dans `CHANGELOG.md`.
 
 - `/`
 - `/services/`
+- `/produits/`
 - `/studio/`
 - `/approche/`
 - `/contact/`
@@ -81,7 +90,7 @@ La signature du footer devient « Créé avec ♥ par Paniagua.dev » en frança
 suivent la langue du formulaire ; les textes saisis par le visiteur restent inchangés.
 
 Avec `SITE_URL`, chaque page possède sa propre canonique et des liens `hreflang`
-réciproques `fr-CH`, `en` et `x-default` (français). Le sitemap contient les vingt
+réciproques `fr-CH`, `en` et `x-default` (français). Le sitemap contient les vingt-deux
 pages de contenu ; les deux 404 restent non indexables et hors sitemap.
 Le serveur de développement choisit la 404 anglaise pour une URL inconnue sous `/en/`.
 

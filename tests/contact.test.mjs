@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { createContactServer, loadConfig } from '../server/contact.mjs';
 
 const origin = 'https://ahelislab.ch';
-const config = { apiKey: 'test-only', from: 'Ahelis Lab <contact@example.com>', to: 'hello@ahelislab.ch', allowedOrigins: [origin], timeoutMs: 100 };
+const config = { apiKey: 'test-only', from: 'Ahelis Lab <contact@example.com>', to: 'hello@ahelislab.ch', allowedOrigins: [origin, 'https://vault.ahelislab.ch'], timeoutMs: 100 };
 const enquiry = () => ({ name: 'Visitor', email: 'visitor@example.com', project: 'website', message: 'A new website enquiry.', locale: 'en', requestId: randomUUID(), company: '' });
 async function withServer(run, fetchImpl = async () => Response.json({ id: 'test-id' })) {
   const server = createContactServer(config, { fetchImpl, log: () => {} });
@@ -95,4 +95,14 @@ test('credentials are mandatory and destinations are never environment-controlle
   const values = loadConfig({ RESEND_API_KEY: 'test-only', CONTACT_FROM: 'Studio <contact@example.com>', CONTACT_TO: 'attacker@example.com' });
   assert.equal(values.to, 'hello@ahelislab.ch');
   assert.throws(() => loadConfig({ RESEND_API_KEY: 'test-only', CONTACT_FROM: 'bad\r\nvalue' }));
+});
+
+test('Vault enquiries accept the explicitly configured product origin and keep the fixed recipient', async () => {
+  let payload;
+  await withServer(async post => {
+    assert.equal((await post({ ...enquiry(), project: 'vault' }, { Origin: 'https://vault.ahelislab.ch' })).status, 200);
+    assert.equal(payload.subject, 'Ahelis Lab — Ahelis Vault');
+    assert.deepEqual(payload.to, ['hello@ahelislab.ch']);
+    assert.equal((await post({ ...enquiry(), project: 'vault' }, { Origin: 'https://untrusted.ahelislab.ch' })).status, 403);
+  }, async (_, request) => { payload = JSON.parse(request.body); return Response.json({ id: 'vault-test' }); });
 });

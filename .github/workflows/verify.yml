@@ -32,5 +32,10 @@ jobs:
           npm run check
       - name: Verify planet interaction regressions
         run: npm run check:motion
+      - name: Build and verify the Vault preview and download guards
+        run: |
+          npm run build:vault
+          npm run check:vault
+          npm run test:download
       - name: Verify contact delivery and abuse protections
         run: npm run test:contact

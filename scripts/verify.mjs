@@ -11,7 +11,7 @@ const info = JSON.parse(await readFile(resolve(out, 'build-info.json'), 'utf8'))
 let linkCount = 0;
 const titles = new Set();
 const descriptions = new Set();
-assert.equal(info.pages.length, 20, 'ten content pages per locale');
+assert.equal(info.pages.length, 22, 'eleven content pages per locale');
 assert.equal(info.errors.length, 2, 'one 404 per locale');
 for (const path of [...info.pages, ...info.errors]) {
   const { basePath, locale } = info.translations.find(page => page.path === path);
@@ -29,7 +29,7 @@ for (const path of [...info.pages, ...info.errors]) {
   descriptions.add(description);
   const navigation = html.match(/<nav class="nav-links"[^>]*>(.*?)<\/nav>/s)[1];
   const active = [...navigation.matchAll(/<a href="([^"]+)" aria-current="page"/g)].map(match => match[1]);
-  const expectedActive = basePath.startsWith('/services/') ? localizedPath('/services/', locale) : ['/studio/', '/approche/', '/contact/'].includes(basePath) ? path : null;
+  const expectedActive = basePath.startsWith('/services/') ? localizedPath('/services/', locale) : ['/produits/', '/studio/', '/approche/', '/contact/'].includes(basePath) ? path : null;
   assert.deepEqual(active, expectedActive ? [expectedActive] : [], `${path}: active navigation`);
   assert.ok(!html.includes('hello@ahelis.lab'), `${path}: no fictional contact address`);
   assert.ok(html.includes('noindex') || info.indexable, `${path}: controlled indexing`);
@@ -57,6 +57,12 @@ for (const path of [...info.pages, ...info.errors]) {
     assert.ok(!main.includes('<form') && !main.includes('<details'), 'home: no form or FAQ');
     for (const id of ['expertises', 'studio', 'approche', 'contact']) assert.ok(main.includes(`id="${id}"`));
     console.log(`Home (${locale}): ${words} words, four preserved anchors, no form or FAQ.`);
+  }
+  if (basePath === '/produits/') {
+    const productLinks = [...html.matchAll(/data-vault-link href="([^"]+)"/g)].map(match => match[1]);
+    assert.equal(productLinks.length, 2);
+    for (const href of productLinks) assert.ok(href.endsWith(locale === 'fr' ? '/' : '/en/'), `${path}: product language`);
+    if (locale === 'fr') assert.ok(!productLinks.some(href => href.endsWith('/en/')));
   }
   for (const entity of schema['@graph']) {
     if (entity['@type'] === 'FAQPage') for (const question of entity.mainEntity) {
