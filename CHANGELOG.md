@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.9.1 — 2026-10-16
+
+- Signature Ahelis Lab du site Business avec une icône de cœur rouge.
+- Captures de démonstration actualisées après la même correction dans l’application.
+
 ## 0.9.0 — 2026-10-16
 
 - Site Business distinct sur `business.ahelislab.ch`, avec accueil, confidentialité et erreurs FR/EN.

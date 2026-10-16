@@ -732,6 +732,8 @@ body[data-page='contact'] .faq { padding-top: 100px; }
 .business-footer .container { display: grid; grid-template-columns: 1fr auto; gap: 20px; }
 .business-footer nav { display: flex; flex-wrap: wrap; gap: 28px; align-self: center; }
 .business-footer p { color: var(--muted); font-size: .8125rem; }
+.business-credit { display: flex; align-items: center; gap: 6px; grid-column: 1 / -1; }
+.business-credit svg { color: #ef4444; flex: 0 0 14px; }
 .business-privacy { max-width: 800px; padding-bottom: 80px; }
 .business-privacy p { color: var(--muted); }
 @media(max-width:600px) { .business-footer .container { grid-template-columns: 1fr; } }
