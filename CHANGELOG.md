@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.11.2 — 2026-10-17
+
+- Personnalisation ajoutée en dernière ligne du comparatif Vault, sur devis dans les deux offres.
+- Explication du logo, des couleurs et de l’icône personnalisables, en français et en anglais.
+
 ## 0.11.1 — 2026-10-17
 
 - Règles de fin de ligne existantes conservées, avec LF imposé aux scripts de déploiement Bash et Python.

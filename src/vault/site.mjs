@@ -26,7 +26,8 @@ export function vaultPages(config) {
       [t('Synchronisation entre vos PC', 'Sync between your PCs'), '—', t('Inclus', 'Included')],
       [t('Partage dans votre organisation', 'Sharing within your organization'), '—', t('Inclus', 'Included')],
       [t('Mises à jour de l’application', 'Application updates'), '—', t('Inclus', 'Included')],
-      [t('Gestion des appareils connectés', 'Connected device management'), '—', t('Inclus', 'Included')]
+      [t('Gestion des appareils connectés', 'Connected device management'), '—', t('Inclus', 'Included')],
+      [`${t('Personnalisation', 'Customization')}<span class="vault-feature-detail">${t('Logo, couleurs et icône adaptés à votre identité.', 'Logo, colors and app icon matched to your brand.')}</span>`, t('Sur devis', 'On request'), t('Sur devis', 'On request')]
     ];
     const download = config.download;
     return [
