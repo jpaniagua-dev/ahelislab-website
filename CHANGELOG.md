@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.11.1 — 2026-10-17
+
+- Règles de fin de ligne existantes conservées, avec LF imposé aux scripts de déploiement Bash et Python.
+
 ## 0.11.0 — 2026-10-17
 
 - Déploiement automatique des trois vitrines après validation à chaque push sur `main`.

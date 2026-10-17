@@ -1,1 +1,11 @@
+* text=auto
+*.mjs text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.svg text eol=lf
+*.md text eol=lf whitespace=-blank-at-eol
 *.sh text eol=lf
+*.py text eol=lf
