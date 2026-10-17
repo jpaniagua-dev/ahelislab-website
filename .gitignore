@@ -10,3 +10,5 @@ artifacts/
 *.tar.gz
 *.log
 dist-business/
+__pycache__/
+*.pyc

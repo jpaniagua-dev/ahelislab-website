@@ -1,16 +1,29 @@
-name: Verify website
+name: Verify and deploy websites
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ahelis-websites-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
+    env:
+      SITE_URL: https://ahelislab.ch
+      AGENCY_SITE_URL: https://ahelislab.ch
+      VAULT_SITE_URL: https://vault.ahelislab.ch
+      BUSINESS_SITE_URL: https://business.ahelislab.ch
+      SITE_INDEXABLE: 'false'
+      VAULT_SITE_INDEXABLE: 'false'
+      BUSINESS_SITE_INDEXABLE: 'false'
     steps:
       - name: Check out sources
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -43,3 +56,20 @@ jobs:
         run: |
           npm run build:business
           npm run check:business
+      - name: Verify deployment boundaries and rollback
+        run: python3 -m unittest discover -s tests -p test_deploy.py
+      - name: Configure the restricted deployment key
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          WEBSITE_DEPLOY_KEY: ${{ secrets.WEBSITE_DEPLOY_KEY }}
+          WEBSITE_KNOWN_HOSTS: ${{ secrets.WEBSITE_KNOWN_HOSTS }}
+        run: |
+          test -n "$WEBSITE_DEPLOY_KEY" || { echo '::error::Website deployment key is missing.'; exit 1; }
+          test -n "$WEBSITE_KNOWN_HOSTS" || { echo '::error::Website host verification is missing.'; exit 1; }
+          umask 077
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "$WEBSITE_DEPLOY_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$WEBSITE_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+      - name: Deploy and verify the three websites
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: bash deploy/publish.sh

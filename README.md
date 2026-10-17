@@ -52,15 +52,19 @@ Le dossier `dist/` contient la version déployable. Il est généré et n’est 
 Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
 de syntaxe, le build, la vérification des 23 pages du studio (liens, métadonnées, langues et
 données structurées), les régressions de la planète et les tests de l’API de contact à chaque push et pull request.
-La CI vérifie le code ; elle ne déploie pas sur le VPS et ne crée pas de release GitHub.
-Le modèle Nginx est validé sur le serveur lors du déploiement, hors de cette CI.
+À chaque push sur `main`, le même workflow publie ensuite les trois vitrines sur le VPS.
+Les autres branches et pull requests restent en validation seule. Les publications sont
+sérialisées et les liens `current` ne sont activés qu’après contrôle de l’archive et des builds.
+Le récepteur valide Nginx, les pages et assets HTTPS, la readiness du contact et les routes
+privées Business ; un échec restaure les liens précédents. Aucun tag ni release GitHub n’est créé.
+Installation initiale de la clé dédiée, contrôles et reprise : [deploy/README.md](deploy/README.md).
 
 ## Contexte et versions
 
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.10.2` ; les évolutions suivent SemVer
+La version est `0.11.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure

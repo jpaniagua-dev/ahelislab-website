@@ -1,5 +1,46 @@
 # Préparation du VPS
 
+## Publication automatique — 0.11.0
+
+Le workflow `Verify and deploy websites` publie les trois sorties `dist`, `dist-vault`
+et `dist-business` après tous les contrôles, à chaque push sur `main`. Les branches
+et pull requests ne publient pas. Une exécution manuelle est aussi disponible dans
+GitHub Actions sur `main`, notamment pour relancer une publication après correction.
+La concurrence est sérialisée par référence pour éviter les bascules simultanées.
+
+La CI construit avec les origines HTTPS connues et conserve le mode non indexable.
+Elle transmet un paquet contenant les trois builds publics, le serveur de contact
+et un manifeste version/commit/empreintes via `deploy/publish.sh`. Les secrets GitHub
+`WEBSITE_DEPLOY_KEY` et `WEBSITE_KNOWN_HOSTS` portent uniquement l’accès dédié et
+l’identité SSH vérifiée du serveur. Ne jamais y copier la clé générale d’administration.
+
+Installation initiale administrative : transférer `deploy/receive.sh`, `receive.py`,
+`install-receiver.sh` et la **clé publique dédiée**, puis exécuter
+`sudo bash install-receiver.sh /chemin/cle.pub`. Le récepteur est installé sous
+`/usr/local/lib/ahelis-websites`, root et non modifiable par l’utilisateur SSH.
+La ligne `authorized_keys` impose la commande et l’option `restrict` : pas de shell,
+de tunnel, de transfert SCP/SFTP ni d’exécution de commande arbitraire avec cette clé.
+Révoquer l’accès en retirant uniquement cette ligne et les deux secrets GitHub.
+
+Le récepteur refuse traversées de répertoires, liens, fichiers spéciaux, doublons,
+empreintes erronées, directives Nginx inattendues et origines incorrectes. Il régénère
+les en-têtes depuis une liste autorisée. Aucun vhost, certificat ou environnement
+n’est remplacé ; les raccordements `/login`, `/manager` et `/api/contact` restent en place.
+Le service de contact ne redémarre que si son code change. Aucun e-mail n’est envoyé
+par les contrôles de publication. Les téléchargements Vault existants ne peuvent pas
+être supprimés silencieusement par un build dépourvu de son installateur validé.
+
+Les précédentes releases restent disponibles. Les liens antérieurs et la révision
+publiée sont enregistrés dans `/var/backups/ahelis-websites/<release>/`. Si Nginx,
+la readiness, les empreintes HTML/assets, les en-têtes ou la protection Business
+échouent, le récepteur restaure les liens et recharge la configuration précédente.
+Une reprise administrative peut également rétablir ces liens depuis le reçu, puis
+exécuter `nginx -t` et recharger Nginx ; redémarrer le contact seulement si son code change.
+
+Tests sans serveur : `python3 -m unittest discover -s tests -p test_deploy.py`.
+La suite couvre les frontières d’archive et les échecs après bascule partielle ou
+contrôle HTTP. Les sections suivantes conservent l’historique de préparation initiale.
+
 Le site est statique : seul le contenu de `dist/` doit être servi par Nginx.
 Le build reste local ou en CI. L’envoi automatique du formulaire utilise désormais
 une petite API Node sur un port local ; aucune base de données supplémentaire.

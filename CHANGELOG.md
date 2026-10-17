@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.11.0 — 2026-10-17
+
+- Déploiement automatique des trois vitrines après validation à chaque push sur `main`.
+- Clé SSH dédiée limitée à la publication, contrôle des archives et des en-têtes, vérification HTTPS des pages et retour automatique aux releases précédentes en cas d’échec.
+- Configuration des domaines, routes privées Business, secrets du contact et mode non indexable conservés.
+
 ## 0.10.2 — 2026-10-16
 
 - Sélecteur FR/EN placé à droite du logo Business, visible dans l’en-tête sans ouvrir le menu mobile.
