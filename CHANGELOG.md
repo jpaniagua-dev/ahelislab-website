@@ -1,10 +1,14 @@
 # Historique des versions
 
-## 0.13.0 ? 2026-10-18
+## 0.13.1 — 2026-10-18
 
-- Espace client Vault pour la connexion par e-mail et les t?l?chargements priv?s.
-- Offres Solo/Organisation, personnalisation initiale incluse et avertissement Windows pour les installateurs non sign?s.
-- Confidentialit? du compte et s?paration des installateurs priv?s des fichiers statiques publics.
+- Accents de l’historique de livraison Vault corrigés ; interface et contenus publiés conservés.
+
+## 0.13.0 — 2026-10-18
+
+- Espace client Vault pour la connexion par e-mail et les téléchargements privés.
+- Offres Solo/Organisation, personnalisation initiale incluse et avertissement Windows pour les installateurs non signés.
+- Confidentialité du compte et séparation des installateurs privés des fichiers statiques publics.
 
 ## 0.12.1 — 2026-10-18
 
