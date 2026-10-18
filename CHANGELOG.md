@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.11.3 — 2026-10-18
+
+- Formulaire de contact avant la planète sur mobile, champs à 16 px à toutes les largeurs et effets de survol réservés aux pointeurs précis.
+
 ## 0.11.2 — 2026-10-17
 
 - Personnalisation ajoutée en dernière ligne du comparatif Vault, sur devis dans les deux offres.
