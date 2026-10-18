@@ -1,5 +1,5 @@
 import { renderFooter } from './footer.mjs';
-import { services } from '../data/services.mjs';
+import { brandOffer } from '../data/brand-offer.mjs';
 import { locales, languageTags, translate, localizedPath, localizeMarkup, clientMessages } from '../i18n/index.mjs';
 
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -14,14 +14,14 @@ export function header(path, locale = 'fr') {
       <a class="brand" href="/" aria-label="Ahelis Lab, accueil">${wordmark}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
       <nav class="nav-links" id="navigation" aria-label="Navigation principale">
-        ${[['/services/', 'Services'], ['/produits/', 'Produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Contact']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
+        ${[['/services/', 'Notre offre'], ['/produits/', 'Produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Contact']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
         <span class="language-switcher" role="group" aria-label="Langue">${locales.map(language => `<a href="${localizedPath(path, language)}" lang="${language}" hreflang="${languageTags[language]}" aria-label="${language === 'fr' ? 'Français' : 'English'}"${language === locale && path !== '/privacy/' ? ' aria-current="true"' : ''}>${language.toUpperCase()}</a>`).join('')}</span>
       </nav>
     </div></header>`;
 }
 
 export function footer({ config, locale = 'fr', product = false } = {}) {
-  return renderFooter({ wordmark, services, config, locale, product });
+  return renderFooter({ wordmark, config, locale, product });
 }
 
 const planetObject = `<div class="planet-system">
@@ -50,13 +50,13 @@ export function layout({ title, description, path = '/', basePath = path, locale
   description = t(description);
   const language = languageTags[locale];
   const url = config.siteUrl ? `${config.siteUrl}${path}` : undefined;
-  const organization = { '@type': 'Organization', '@id': config.siteUrl ? `${config.siteUrl}/#studio` : '#studio', name: 'Ahelis Lab', description: t('Studio web basé à Genève : stratégie, design UX/UI, développement et IA pour PME, indépendants et particuliers.'), ...(config.siteUrl ? { url: `${config.siteUrl}/` } : {}), ...(config.email ? { email: config.email } : {}), areaServed: [{ '@type': 'Place', name: t('Suisse romande') }, { '@type': 'Place', name: 'International' }] };
+  const organization = { '@type': 'Organization', '@id': config.siteUrl ? `${config.siteUrl}/#studio` : '#studio', name: 'Ahelis Lab', description: t('Agence digitale à Genève. Création et refonte de marque digitale et de sites web pour PME, indépendants et particuliers.'), ...(config.siteUrl ? { url: `${config.siteUrl}/` } : {}), ...(config.email ? { email: config.email } : {}), areaServed: [{ '@type': 'Place', name: t('Suisse romande') }, { '@type': 'Place', name: 'International' }] };
   const graph = [organization, { '@type': 'WebSite', name: 'Ahelis Lab', ...(config.siteUrl ? { url: `${config.siteUrl}/` } : {}), inLanguage: language, publisher: { '@id': organization['@id'] } }, { '@type': 'WebPage', ...(url ? { url, '@id': `${url}#page` } : {}), name: title, description, inLanguage: language, about: { '@id': organization['@id'] } }];
   if (bilingual) graph.find(entity => entity['@type'] === 'WebPage').inLanguage = ['fr-CH', 'en'];
   if (faqs.length) graph.push({ '@type': 'FAQPage', inLanguage: language, ...(url ? { '@id': `${url}#questions` } : {}), mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: t(q), acceptedAnswer: { '@type': 'Answer', text: t(a) } })) });
-  if (service) graph.push({ '@type': 'Service', name: t(service.label), description: t(service.intro), ...(url ? { url } : {}), provider: { '@id': organization['@id'] }, areaServed: { '@type': 'Place', name: t('Suisse romande') } });
+  if (basePath === '/services/') graph.push({ '@type': 'Service', name: t(brandOffer.label), description: t(brandOffer.intro), ...(url ? { url } : {}), provider: { '@id': organization['@id'] }, areaServed: { '@type': 'Place', name: t('Suisse romande') } });
   if (basePath !== '/' && pageType !== 'not-found') {
-    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service ? [{ path: '/services/', name: 'Services' }] : basePath.startsWith('/produits/') && basePath !== '/produits/' ? [{ path: '/produits/', name: 'Produits' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
+    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service ? [{ path: '/services/', name: 'Notre offre' }] : basePath.startsWith('/produits/') && basePath !== '/produits/' ? [{ path: '/produits/', name: 'Produits' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
     graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: t(crumb.name), ...(config.siteUrl ? { item: `${config.siteUrl}${localizedPath(crumb.path, locale)}` } : {}) })) });
   }
   const alternatives = config.siteUrl && pageType !== 'not-found' && !bilingual ? `${locales.map(language => `<link rel="alternate" hreflang="${languageTags[language]}" href="${config.siteUrl}${localizedPath(basePath, language)}">`).join('')}<link rel="alternate" hreflang="x-default" href="${config.siteUrl}${basePath}">` : '';

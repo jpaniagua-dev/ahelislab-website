@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.12.0 — 2026-10-18
+
+- Recentrage de l’agence autour de la création et de la refonte de marque digitale, avec contenus et parcours FR/EN.
+- Rôle de l’IA explicité dans la réalisation des projets et son intégration aux outils et processus des clients, en français et en anglais.
+
 ## 0.11.3 — 2026-10-18
 
 - Formulaire de contact avant la planète sur mobile, champs à 16 px à toutes les largeurs et effets de survol réservés aux pointeurs précis.

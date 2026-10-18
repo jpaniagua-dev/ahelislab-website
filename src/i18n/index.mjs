@@ -1,6 +1,7 @@
 import { english } from './en.mjs';
 import { productsEnglish } from './products-en.mjs';
 import { businessEnglish } from './business-en.mjs';
+import { brandEnglish } from './brand-en.mjs';
 
 export const locales = ['fr', 'en'];
 export const languageTags = { fr: 'fr-CH', en: 'en' };
@@ -23,6 +24,7 @@ export function translate(value, locale = 'fr') {
   if (Object.hasOwn(footerEnglish, value)) return footerEnglish[value];
   if (Object.hasOwn(businessEnglish, value)) return businessEnglish[value];
   if (Object.hasOwn(productsEnglish, value)) return productsEnglish[value];
+  if (Object.hasOwn(brandEnglish, value)) return brandEnglish[value];
   if (Object.hasOwn(english, value)) return english[value];
   if (!value.trim() || neutral.has(value) || /^[\d\s*/.↗©]+$/.test(value) || /^[^\s<>]+@[^\s<>]+$/.test(value) || /^© \d{4} Ahelis Lab$/.test(value)) return value;
   if (value.includes('\n')) return value.split('\n').map(part => translate(part, locale)).join('\n');

@@ -46,17 +46,20 @@ for (const path of [...info.pages, ...info.errors]) {
     assert.ok(!html.includes('Parlons de votre projet') && !html.includes('Préparer mon message'), `${path}: no French UI fallback`);
   } else assert.ok(html.includes('Créé avec') && html.includes('aria-label="amour"'), `${path}: French signature`);
   const faq = schema['@graph'].find(entity => entity['@type'] === 'FAQPage');
+  assert.equal(schema['@graph'].filter(entity => entity['@type'] === 'Service').length, basePath === '/services/' ? 1 : 0, `${path}: one commercial offer, expertise pages stay explanatory`);
   assert.equal(Boolean(faq), basePath.startsWith('/services/') && basePath !== '/services/' || basePath === '/contact/', `${path}: FAQ only where displayed`);
   if (basePath.startsWith('/services/') && basePath !== '/services/') {
     const crumbs = schema['@graph'].find(entity => entity['@type'] === 'BreadcrumbList');
     assert.equal(crumbs.itemListElement.length, 3, `${path}: three breadcrumb levels`);
-    assert.equal(crumbs.itemListElement[1].name, 'Services');
+    assert.equal(crumbs.itemListElement[1].name, locale === 'fr' ? 'Notre offre' : 'Our offer');
   }
   if (basePath === '/') {
     const main = html.match(/<main[^>]*>(.*?)<\/main>/s)[1];
     const words = main.replace(/<noscript>.*?<\/noscript>/gs, '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length;
-    assert.ok(words >= 250 && words <= 350, `home: 250–350 words, got ${words}`);
+    assert.ok(words >= 200 && words <= 350, `home: 200–350 words, got ${words}`);
     assert.ok(!main.includes('<form') && !main.includes('<details'), 'home: no form or FAQ');
+    assert.equal((main.match(/class="brand-offer"/g) || []).length, 1, 'home: one digital-brand offer');
+    assert.ok(!/href="\/(?:en\/)?services\/[^"#]+\//.test(main), 'home: no separate expertise catalogue');
     for (const id of ['expertises', 'studio', 'approche', 'contact']) assert.ok(main.includes(`id="${id}"`));
     console.log(`Home (${locale}): ${words} words, four preserved anchors, no form or FAQ.`);
   }
