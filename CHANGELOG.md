@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.12.1 — 2026-10-18
+
+- Contrôles HTTP de déploiement avec attente bornée du rechargement Nginx ; empreintes, en-têtes de sécurité et retour arrière restent stricts.
+
 ## 0.12.0 — 2026-10-18
 
 - Recentrage de l’agence autour de la création et de la refonte de marque digitale, avec contenus et parcours FR/EN.

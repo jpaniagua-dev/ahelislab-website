@@ -146,6 +146,20 @@ def get(url):
             time.sleep(1)
 
 
+def verify_page(url, expected_status, expected_content, headers):
+    """Allow old Nginx workers to drain, while retaining exact response checks."""
+    for attempt in range(10):
+        status, content, actual_headers = get(url)
+        mismatch = ('Unexpected HTTP status' if status != expected_status else
+                    'Published HTML mismatch' if digest(content) != digest(expected_content) else
+                    'Published headers mismatch' if any(actual_headers.get(key) != value for key, value in headers.items()) else None)
+        if mismatch is None:
+            return
+        if attempt < 9:
+            time.sleep(0.2)
+    raise ValueError(f'{mismatch}: {url}')
+
+
 def smoke(payload, builds):
     checked = 0
     for name, info in builds.items():
@@ -153,11 +167,8 @@ def smoke(payload, builds):
         headers = security_headers(payload / name)
         for origin in origins:
             for path in info['pages'] + info['errors']:
-                status, content, actual_headers = get(origin + path)
                 expected_file = payload / name / (path.lstrip('/') + ('' if path.endswith('.html') else 'index.html'))
-                require(status == (404 if path in info['errors'] else 200), f'Unexpected HTTP status: {origin}{path}')
-                require(digest(content) == digest(expected_file.read_bytes()), f'Published HTML mismatch: {origin}{path}')
-                require(all(actual_headers.get(key) == value for key, value in headers.items()), f'Published headers mismatch: {origin}{path}')
+                verify_page(origin + path, 404 if path in info['errors'] else 200, expected_file.read_bytes(), headers)
                 checked += 1
             for asset in info['assets'].values():
                 status, content, _ = get(origin + '/assets/' + asset)

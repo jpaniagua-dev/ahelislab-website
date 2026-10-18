@@ -10,6 +10,7 @@ from pathlib import Path
 import tarfile
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('website_receiver', Path(__file__).resolve().parents[1] / 'deploy/receive.py')
 receiver = importlib.util.module_from_spec(spec)
@@ -17,6 +18,24 @@ spec.loader.exec_module(receiver)
 
 
 class DeploymentTests(unittest.TestCase):
+    def test_old_worker_headers_must_converge_to_the_expected_policy(self):
+        expected = {'Content-Security-Policy': 'new exact policy'}
+        responses = [(200, b'new page', {'Content-Security-Policy': 'old exact policy'}),
+                     (200, b'new page', expected)]
+        with patch.object(receiver, 'get', side_effect=responses) as get, patch.object(receiver.time, 'sleep') as sleep:
+            receiver.verify_page('https://example.test/', 200, b'new page', expected)
+        self.assertEqual(get.call_count, 2)
+        sleep.assert_called_once_with(0.2)
+
+    def test_persistent_status_html_or_header_mismatch_still_fails(self):
+        for response, reason in [((503, b'page', {}), 'HTTP status'),
+                                 ((200, b'other', {}), 'HTML mismatch'),
+                                 ((200, b'page', {}), 'headers mismatch')]:
+            with self.subTest(reason=reason), patch.object(receiver, 'get', return_value=response) as get, patch.object(receiver.time, 'sleep'):
+                with self.assertRaisesRegex(ValueError, reason):
+                    receiver.verify_page('https://example.test/', 200, b'page', {'Content-Security-Policy': 'exact policy'})
+                self.assertEqual(get.call_count, 10)
+
     def archive(self, members, checksums=None):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
