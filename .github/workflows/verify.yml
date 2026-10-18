@@ -23,6 +23,7 @@ jobs:
       BUSINESS_SITE_URL: https://business.ahelislab.ch
       SITE_INDEXABLE: 'false'
       VAULT_SITE_INDEXABLE: 'false'
+      VAULT_CUSTOMER_PORTAL_ENABLED: ${{ vars.VAULT_CUSTOMER_PORTAL_ENABLED || 'false' }}
       BUSINESS_SITE_INDEXABLE: 'false'
     steps:
       - name: Check out sources

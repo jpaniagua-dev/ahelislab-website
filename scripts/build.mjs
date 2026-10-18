@@ -25,6 +25,7 @@ export async function build({ site = 'agency' } = {}) {
   const vault = site === 'vault';
   const business = site === 'business';
   const config = getConfig(vault ? { ...process.env, SITE_URL: process.env.VAULT_SITE_URL || 'https://vault.ahelislab.ch', SITE_INDEXABLE: process.env.VAULT_SITE_INDEXABLE } : business ? { ...process.env, SITE_URL: process.env.BUSINESS_SITE_URL || 'https://business.ahelislab.ch', SITE_INDEXABLE: process.env.BUSINESS_SITE_INDEXABLE } : process.env);
+  if (vault && config.customerPortalEnabled && process.env.VAULT_DOWNLOAD_MANIFEST) throw new Error('Customer distribution cannot publish a public direct-download manifest.');
   if (vault) config.download = await loadDownload(process.env.VAULT_DOWNLOAD_MANIFEST, resolve(projectRoot, 'public'));
   const out = resolve(projectRoot, vault ? 'dist-vault' : business ? 'dist-business' : 'dist');
   await rm(out, { recursive: true, force: true });
@@ -85,7 +86,7 @@ export async function build({ site = 'agency' } = {}) {
     }).join('\n');
     await writeFile(resolve(out, 'nginx-security-headers.conf'), nginxHeaders + '\n');
   }
-  await writeFile(resolve(out, 'build-info.json'), JSON.stringify({ pages: pages.map(p => p.path), errors: errors.map(p => p.path), translations: [...pages, ...errors].map(({ path, basePath, locale }) => ({ path, basePath, locale })), redirects, agencyUrl: config.agencyUrl, indexable: config.indexable, siteUrl: config.siteUrl, assets }, null, 2));
+  await writeFile(resolve(out, 'build-info.json'), JSON.stringify({ pages: pages.map(p => p.path), errors: errors.map(p => p.path), translations: [...pages, ...errors].map(({ path, basePath, locale }) => ({ path, basePath, locale })), redirects, agencyUrl: config.agencyUrl, indexable: config.indexable, siteUrl: config.siteUrl, customerPortalEnabled: config.customerPortalEnabled, assets }, null, 2));
   console.log(`Static build: ${pages.length} pages + ${errors.length} localized 404 pages, ${config.indexable ? 'indexing enabled' : 'private non-indexable preview'}.`);
   return { pages, config, out, redirects };
 }

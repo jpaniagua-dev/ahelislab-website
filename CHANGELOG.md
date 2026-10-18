@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.13.0 ? 2026-10-18
+
+- Espace client Vault pour la connexion par e-mail et les t?l?chargements priv?s.
+- Offres Solo/Organisation, personnalisation initiale incluse et avertissement Windows pour les installateurs non sign?s.
+- Confidentialit? du compte et s?paration des installateurs priv?s des fichiers statiques publics.
+
 ## 0.12.1 — 2026-10-18
 
 - Contrôles HTTP de déploiement avec attente bornée du rechargement Nginx ; empreintes, en-têtes de sécurité et retour arrière restent stricts.

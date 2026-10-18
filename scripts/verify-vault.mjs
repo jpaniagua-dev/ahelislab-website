@@ -55,7 +55,8 @@ for (const { path, basePath, locale } of info.translations) {
   if (basePath === '/telecharger/') {
     const hasInstaller = /href="\/downloads\//.test(html);
     assert.equal(hasInstaller, html.includes('SHA-256'), 'downloads require a visible checksum');
-    assert.equal(hasInstaller, !html.includes(locale === 'fr' ? 'bientôt disponible.' : 'coming soon.'));
+    if (info.customerPortalEnabled) { assert.equal(hasInstaller, false); assert.ok(html.includes('/client/?lang=' + locale + '#downloads')); }
+    else assert.equal(hasInstaller, !html.includes(locale === 'fr' ? 'bientôt disponible.' : 'coming soon.'));
   }
   assert.ok(!/MDC|BOOK-VOL|api\.paniagua|vault-mdc|test-clients/.test(html), 'no client or internal deployment data');
 }

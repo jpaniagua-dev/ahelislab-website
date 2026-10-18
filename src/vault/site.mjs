@@ -1,12 +1,13 @@
 import { escapeHtml as e, footer } from '../components/shared.mjs';
 import { contactForm } from '../components/contact-form.mjs';
 import { localizeMarkup, clientMessages } from '../i18n/index.mjs';
+import { customerVaultPages } from './customer-offer.mjs';
 
 export const vaultRoutes = { '/': '/en/', '/securite/': '/en/security/', '/telecharger/': '/en/download/', '/contact/': '/en/contact/', '/404.html': '/en/404.html' };
 export const vaultPath = (base, locale) => locale === 'en' ? vaultRoutes[base] : base;
 const language = locale => locale === 'fr' ? 'fr-CH' : 'en';
 
-export function vaultPages(config) {
+function legacyVaultPages(config) {
   return ['fr', 'en'].flatMap(locale => {
     const t = (fr, en) => locale === 'fr' ? fr : en;
     const p = base => vaultPath(base, locale);
@@ -45,18 +46,24 @@ export function vaultPages(config) {
   });
 }
 
+export function vaultPages(config) {
+  const pages = legacyVaultPages(config);
+  return config.customerPortalEnabled ? customerVaultPages(config, pages) : pages;
+}
+
 export function vaultErrors() {
   return ['fr', 'en'].map(locale => ({ locale, basePath: '/404.html', path: vaultPath('/404.html', locale), title: locale === 'fr' ? 'Page introuvable | Ahelis Vault' : 'Page not found | Ahelis Vault', description: locale === 'fr' ? 'Cette page n’existe pas. Retrouvez le coffre Windows Ahelis Vault et ses offres.' : 'This page does not exist. Explore the Ahelis Vault Windows application and its plans.', content: `<section class="vault-intro container"><h1>${locale === 'fr' ? 'Page introuvable.' : 'Page not found.'}</h1><a class="button button-primary" href="${vaultPath('/', locale)}">${locale === 'fr' ? 'Retour à Vault' : 'Back to Vault'}</a></section>` }));
 }
 
 export function vaultLayout({ title, description, basePath, path, locale, content, faqs = [], config, assets }) {
   const t = (fr, en) => locale === 'fr' ? fr : en;
-  const p = base => vaultPath(base, locale);
+  const p = base => base === '/client/' ? `${config.siteUrl}/client/?lang=${locale}` : vaultPath(base, locale);
   const error = basePath === '/404.html';
   const indexable = config.indexable && !error;
   const url = `${config.siteUrl}${path}`;
   const agency = `${config.agencyUrl}${locale === 'en' ? '/en/' : '/'}`;
   const links = [['/', 'Vault', 'Vault'], ['/securite/', 'Sécurité', 'Security'], ['/telecharger/', 'Télécharger', 'Download'], ['/contact/', 'Contact', 'Contact']];
+  if (config.customerPortalEnabled) links.push(['/client/', 'Espace client', 'Customer area']);
   const graph = [{ '@type': 'Organization', '@id': `${config.agencyUrl}/#studio`, name: 'Ahelis Lab', url: config.agencyUrl, email: config.email }, { '@type': 'WebSite', name: 'Ahelis Vault', url: config.siteUrl, inLanguage: language(locale), publisher: { '@id': `${config.agencyUrl}/#studio` } }, { '@type': 'WebPage', name: title, description, url, inLanguage: language(locale) }];
   if (basePath === '/') graph.push({ '@type': 'SoftwareApplication', name: 'Ahelis Vault', applicationCategory: 'SecurityApplication', operatingSystem: 'Windows 11 x64', description, publisher: { '@id': `${config.agencyUrl}/#studio` }, ...(config.download ? { softwareVersion: config.download.version, downloadUrl: `${config.siteUrl}${config.download.url}` } : {}) });
   if (faqs.length) graph.push({ '@type': 'FAQPage', inLanguage: language(locale), mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) });

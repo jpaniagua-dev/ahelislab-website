@@ -1,5 +1,26 @@
 # Site Ahelis Vault
 
+## Espace client — 0.12.0
+
+Le nouveau parcours est activé au build par `VAULT_CUSTOMER_PORTAL_ENABLED=true`, ou
+par la variable de dépôt du même nom en CI. Il doit rester désactivé jusqu’au déploiement
+validé de l’application cliente distincte sur `/client/`. Ce dépôt ne contient que la
+vitrine ; API, Stripe, comptes, installateurs privés et administration restent dans le
+produit Vault privé. Aucun secret ou fichier client ne doit être copié ici.
+
+Ce parcours présente Solo (une place) et Organisation (deux places minimum, responsable
+inclus), facturés au mois ou à l’année par place en CHF. Aucun tarif réel n’est inventé.
+La première personnalisation depuis le site du client est incluse après paiement ;
+découverte et correctifs critiques restent gratuits. Tous les installateurs non signés
+font l’objet d’un avertissement, y compris le payant. L’installation est manuelle.
+Un compte e-mail est requis pour télécharger ; l’utilisation locale de l’app reste sans
+compte. Le mode activé refuse `VAULT_DOWNLOAD_MANIFEST` et ne publie aucun exécutable statique.
+
+Avant activation, raccorder les routes `/client/` et le stockage Nginx **interne** depuis
+le guide de déploiement du produit. Bloquer l’ancien `/downloads/` public avec HTTP 410.
+Conserver le footer commun et la page Privacy du studio. Les sections ci-dessous
+documentent le parcours historique, conservé tant que le nouveau n’est pas activé.
+
 ## Offre retenue le 2026-10-16
 
 Petites équipes et PME ; local gratuit, abonnement par organisation sur devis ;
