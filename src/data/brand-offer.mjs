@@ -1,6 +1,10 @@
 export const brandOffer = {
+  path: '/services/marque-digitale/',
   label: 'Création et refonte de marque digitale',
   intro: 'Une identité cohérente et un site web sur mesure pour créer ou renouveler votre présence en ligne.',
+  summary: 'Nous créons ou refondons votre identité digitale et votre site web. L’IA accompagne notre travail de conception et de réalisation au service de vos objectifs.',
+  points: ['Votre positionnement clarifié.', 'Une direction visuelle cohérente.', 'Un site web sur mesure, adapté au mobile.'],
+  linkLabel: 'Découvrir l’offre marque digitale',
   deliverables: [
     ['Une direction claire', 'Votre activité, votre public et ce que votre site doit permettre de faire. Le projet commence par ce qui doit être compris.'],
     ['Une image cohérente', 'Couleurs, typographies et principes visuels alignés sur votre marque. Nous conservons ce qui fonctionne déjà et faisons évoluer le reste.'],

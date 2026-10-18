@@ -6,13 +6,14 @@ import { resolve } from 'node:path';
 import { projectRoot } from './build.mjs';
 import { languageTags, locales, localizedPath } from '../src/i18n/index.mjs';
 import { verifyFooter } from './verify-footer.mjs';
+import { offers } from '../src/data/offers.mjs';
 
 const out = resolve(projectRoot, 'dist');
 const info = JSON.parse(await readFile(resolve(out, 'build-info.json'), 'utf8'));
 let linkCount = 0;
 const titles = new Set();
 const descriptions = new Set();
-assert.equal(info.pages.length, 21, 'ten content pages per locale and one shared bilingual privacy page');
+assert.equal(info.pages.length, 27, 'thirteen content pages per locale and one shared bilingual privacy page');
 assert.equal(info.errors.length, 2, 'one 404 per locale');
 for (const path of [...info.pages, ...info.errors]) {
   const { basePath, locale } = info.translations.find(page => page.path === path);
@@ -46,20 +47,21 @@ for (const path of [...info.pages, ...info.errors]) {
     assert.ok(!html.includes('Parlons de votre projet') && !html.includes('Préparer mon message'), `${path}: no French UI fallback`);
   } else assert.ok(html.includes('Créé avec') && html.includes('aria-label="amour"'), `${path}: French signature`);
   const faq = schema['@graph'].find(entity => entity['@type'] === 'FAQPage');
-  assert.equal(schema['@graph'].filter(entity => entity['@type'] === 'Service').length, basePath === '/services/' ? 1 : 0, `${path}: one commercial offer, expertise pages stay explanatory`);
-  assert.equal(Boolean(faq), basePath.startsWith('/services/') && basePath !== '/services/' || basePath === '/contact/', `${path}: FAQ only where displayed`);
+  const offerPage = offers.some(offer => offer.path === basePath);
+  assert.equal(schema['@graph'].filter(entity => entity['@type'] === 'Service').length, basePath === '/services/' ? offers.length : offerPage ? 1 : 0, `${path}: offers and their dedicated pages, expertise pages stay explanatory`);
+  assert.equal(Boolean(faq), basePath.startsWith('/services/') && basePath !== '/services/' && !offerPage || basePath === '/contact/', `${path}: FAQ only where displayed`);
   if (basePath.startsWith('/services/') && basePath !== '/services/') {
     const crumbs = schema['@graph'].find(entity => entity['@type'] === 'BreadcrumbList');
     assert.equal(crumbs.itemListElement.length, 3, `${path}: three breadcrumb levels`);
-    assert.equal(crumbs.itemListElement[1].name, locale === 'fr' ? 'Notre offre' : 'Our offer');
+    assert.equal(crumbs.itemListElement[1].name, locale === 'fr' ? 'Nos offres' : 'Our offers');
   }
   if (basePath === '/') {
     const main = html.match(/<main[^>]*>(.*?)<\/main>/s)[1];
     const words = main.replace(/<noscript>.*?<\/noscript>/gs, '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length;
     assert.ok(words >= 200 && words <= 350, `home: 200–350 words, got ${words}`);
     assert.ok(!main.includes('<form') && !main.includes('<details'), 'home: no form or FAQ');
-    assert.equal((main.match(/class="brand-offer"/g) || []).length, 1, 'home: one digital-brand offer');
-    assert.ok(!/href="\/(?:en\/)?services\/[^"#]+\//.test(main), 'home: no separate expertise catalogue');
+    assert.equal((main.match(/class="brand-offer"/g) || []).length, offers.length, 'home: each offer is presented');
+    for (const offer of offers) assert.ok(main.includes(`href="${localizedPath(offer.path, locale)}"`), 'home: each offer has a dedicated page');
     for (const id of ['expertises', 'studio', 'approche', 'contact']) assert.ok(main.includes(`id="${id}"`));
     console.log(`Home (${locale}): ${words} words, four preserved anchors, no form or FAQ.`);
   }

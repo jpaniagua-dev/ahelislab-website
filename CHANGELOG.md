@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.14.0 — 2026-10-18
+
+- Trois offres distinctes, marque digitale, accompagnement IA et applications sur mesure pour particuliers et PME, avec pages et parcours FR/EN dédiés.
+- Nouvelle accroche « Vous imaginez. Nous créons. », traduite « You imagine. We create. » en anglais.
+
 ## 0.13.1 — 2026-10-18
 
 - Accents de l’historique de livraison Vault corrigés ; interface et contenus publiés conservés.

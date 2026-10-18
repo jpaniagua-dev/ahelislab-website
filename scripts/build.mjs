@@ -7,7 +7,12 @@ import { createHash } from 'node:crypto';
 import { getConfig } from '../src/config.mjs';
 import { services, contactFaqs } from '../src/data/services.mjs';
 import { layout } from '../src/components/shared.mjs';
-import { servicesContent, studioContent, approachContent, contactContent } from '../src/pages/sections.mjs';
+import { servicesContent, brandOfferContent, studioContent, approachContent, contactContent } from '../src/pages/sections.mjs';
+import { aiOfferContent } from '../src/pages/ai-offer.mjs';
+import { brandOffer } from '../src/data/brand-offer.mjs';
+import { aiOffer } from '../src/data/ai-offer.mjs';
+import { appOffer } from '../src/data/app-offer.mjs';
+import { appOfferContent } from '../src/pages/app-offer.mjs';
 import { homeContent } from '../src/pages/home.mjs';
 import { serviceContent, notFoundContent } from '../src/pages/service.mjs';
 import { centralPrivacyContent } from '../src/pages/privacy.mjs';
@@ -44,8 +49,11 @@ export async function build({ site = 'agency' } = {}) {
   }
   const sourcePages = [
     { path: '/produits/', pageType: 'products', pageLabel: 'Produits', title: 'Les produits du studio | Ahelis Lab', description: 'Découvrez Ahelis Vault pour vos mots de passe et Ahelis Business pour votre budget personnel. Des applications créées par le studio Ahelis Lab.', content: productsContent(config) },
-    { path: '/', title: 'Ahelis Lab | Votre marque digitale, du design au site web', description: 'Création et refonte de marque digitale à Genève. Ahelis Lab réunit identité visuelle, contenus et site web sur mesure pour votre présence en ligne.', content: homeContent(config), pageType: 'home' },
-    { path: '/services/', pageType: 'services', pageLabel: 'Notre offre', title: 'Création et refonte de marque digitale | Ahelis Lab', description: 'Une seule offre pour créer ou refondre votre présence en ligne. Découvrez le cadrage, la direction visuelle et le site web réalisés avec Ahelis Lab.', content: servicesContent() },
+    { path: '/', title: 'Ahelis Lab | Marque digitale, IA et applications sur mesure', description: 'Agence à Genève pour particuliers et PME. Création de marque digitale et de sites web, accompagnement IA et développement de logiciels et applications sur mesure.', content: homeContent(config), pageType: 'home' },
+    { path: '/services/', pageType: 'services', pageLabel: 'Nos offres', title: 'Marque digitale, IA et applications | Nos offres | Ahelis Lab', description: 'Découvrez nos trois offres pour particuliers et PME. Marque digitale et site web, accompagnement IA et création de logiciels et applications sur mesure.', content: servicesContent() },
+    { path: brandOffer.path, pageType: 'offer', offer: brandOffer, pageLabel: brandOffer.label, title: 'Création et refonte de marque digitale | Ahelis Lab', description: 'Créez ou refondez votre marque digitale avec Ahelis Lab. Positionnement, direction visuelle, contenus et site web réunis dans un accompagnement.', content: brandOfferContent() },
+    { path: aiOffer.path, pageType: 'offer', offer: aiOffer, pageLabel: aiOffer.label, title: 'Accompagnement IA et refonte de processus | Ahelis Lab', description: 'Un accompagnement IA pour particuliers et PME. Analyse, refonte des processus, implémentation dans vos outils et prise en main avec Ahelis Lab.', content: aiOfferContent() },
+    { path: appOffer.path, pageType: 'offer', offer: appOffer, pageLabel: appOffer.label, title: 'Logiciels et applications sur mesure | Ahelis Lab', description: 'Création de logiciels et applications sur mesure pour particuliers et PME. Ahelis Lab vous accompagne du cadrage à la livraison, comme pour Ahelis Vault.', content: appOfferContent(config) },
     { path: '/studio/', pageType: 'studio', pageLabel: 'Le studio', title: 'Le studio digital indépendant à Genève | Ahelis Lab', description: 'Ahelis Lab, agence digitale indépendante à Genève. Un interlocuteur pour penser votre marque et réaliser un site web qui vous ressemble.', content: studioContent() },
     { path: '/approche/', pageType: 'approach', pageLabel: 'Notre approche', title: 'Notre approche, de l’idée au lancement | Ahelis Lab', description: 'Cadrer, dessiner, construire et lancer : découvrez les étapes, les livrables et les validations qui accompagnent votre projet avec Ahelis Lab.', content: approachContent() },
     { path: '/contact/', pageType: 'contact', pageLabel: 'Contact', title: 'Parlons de votre projet | Contact Ahelis Lab', description: 'Présentez votre activité et votre projet à Ahelis Lab. Envoyez votre message au studio et découvrez les réponses sur le budget, la distance et le référencement.', content: contactContent(config), faqs: contactFaqs },

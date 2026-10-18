@@ -50,7 +50,7 @@ npm run check
 Le dossier `dist/` contient la version déployable. Il est généré et n’est pas commité.
 
 Node 24 est indiqué dans `.nvmrc`. Le workflow GitHub Actions exécute les contrôles
-de syntaxe, le build, la vérification des 23 pages du studio (liens, métadonnées, langues et
+de syntaxe, le build, la vérification des 29 pages du studio (liens, métadonnées, langues et
 données structurées), les régressions de la planète et les tests de l’API de contact à chaque push et pull request.
 À chaque push sur `main`, le même workflow publie ensuite les trois vitrines sur le VPS.
 Les autres branches et pull requests restent en validation seule. Les publications sont
@@ -64,7 +64,7 @@ Installation initiale de la clé dédiée, contrôles et reprise : [deploy/READM
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.11.1` ; les évolutions suivent SemVer
+La version est `0.14.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -85,6 +85,7 @@ et sont consignées dans `CHANGELOG.md`.
 
 - `/`
 - `/services/`
+- `/services/marque-digitale/`, `/services/accompagnement-ia/` et `/services/applications-sur-mesure/`, les trois offres détaillées.
 - `/produits/`
 - `/studio/`
 - `/approche/`

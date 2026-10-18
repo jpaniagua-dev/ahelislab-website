@@ -2,6 +2,7 @@ import { english } from './en.mjs';
 import { productsEnglish } from './products-en.mjs';
 import { businessEnglish } from './business-en.mjs';
 import { brandEnglish } from './brand-en.mjs';
+import { offersEnglish } from './offers-en.mjs';
 
 export const locales = ['fr', 'en'];
 export const languageTags = { fr: 'fr-CH', en: 'en' };
@@ -12,7 +13,10 @@ export const routes = {
   '/services/creation-site-web/': '/en/services/website-creation/',
   '/services/design-ux-ui/': '/en/services/ux-ui-design/',
   '/services/developpement-sur-mesure/': '/en/services/custom-development/',
-  '/services/ia-automatisation/': '/en/services/ai-automation/'
+  '/services/ia-automatisation/': '/en/services/ai-automation/',
+  '/services/marque-digitale/': '/en/services/digital-brand/',
+  '/services/accompagnement-ia/': '/en/services/ai-support/',
+  '/services/applications-sur-mesure/': '/en/services/custom-applications/'
 };
 const frenchSignature = { 'Made with': 'Créé avec', by: 'par', love: 'amour' };
 const footerEnglish = { 'Découvrir le studio': 'Discover the studio', 'Tous nos produits': 'All our products' };
@@ -24,6 +28,7 @@ export function translate(value, locale = 'fr') {
   if (Object.hasOwn(footerEnglish, value)) return footerEnglish[value];
   if (Object.hasOwn(businessEnglish, value)) return businessEnglish[value];
   if (Object.hasOwn(productsEnglish, value)) return productsEnglish[value];
+  if (Object.hasOwn(offersEnglish, value)) return offersEnglish[value];
   if (Object.hasOwn(brandEnglish, value)) return brandEnglish[value];
   if (Object.hasOwn(english, value)) return english[value];
   if (!value.trim() || neutral.has(value) || /^[\d\s*/.↗©]+$/.test(value) || /^[^\s<>]+@[^\s<>]+$/.test(value) || /^© \d{4} Ahelis Lab$/.test(value)) return value;
