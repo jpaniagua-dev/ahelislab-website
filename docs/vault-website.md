@@ -11,8 +11,10 @@ produit Vault privé. Aucun secret ou fichier client ne doit être copié ici.
 Ce parcours présente Solo (une place) et Organisation (deux places minimum, responsable
 inclus), facturés au mois ou à l’année par place en CHF. Aucun tarif réel n’est inventé.
 La première personnalisation depuis le site du client est incluse après paiement ;
-découverte et correctifs critiques restent gratuits. Tous les installateurs non signés
-font l’objet d’un avertissement, y compris le payant. L’installation est manuelle.
+découverte et correctifs critiques restent gratuits. L’avertissement lié aux installateurs
+non signés reste dans le parcours client de téléchargement, y compris pour le payant.
+Le bloc « Avant d’installer » de la vitrine est retiré le 2026-10-21.
+L’installation reste manuelle.
 Un compte e-mail est requis pour télécharger ; l’utilisation locale de l’app reste sans
 compte. Le mode activé refuse `VAULT_DOWNLOAD_MANIFEST` et ne publie aucun exécutable statique.
 

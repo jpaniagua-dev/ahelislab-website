@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.14.1 — 2026-10-21
+
+- Section « Avant d’installer » retirée des pages de présentation Vault en français et en anglais.
+
 ## 0.14.0 — 2026-10-18
 
 - Trois offres distinctes, marque digitale, accompagnement IA et applications sur mesure pour particuliers et PME, avec pages et parcours FR/EN dédiés.
