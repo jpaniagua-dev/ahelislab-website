@@ -11,7 +11,9 @@ produit Vault privé. Aucun secret ou fichier client ne doit être copié ici.
 Ce parcours présente Solo (une place) et Organisation (deux places minimum, responsable
 inclus), facturés au mois ou à l’année par place en CHF. Aucun tarif réel n’est inventé.
 La première personnalisation depuis le site du client est incluse après paiement ;
-découverte et correctifs critiques restent gratuits. L’avertissement lié aux installateurs
+toutes les mises à jour sont gratuites depuis le 2026-10-21. L’espace client propose
+la dernière version générique publiée à tout compte gratuit, même après résiliation.
+Les installateurs personnalisés restent privés à leur organisation. L’avertissement lié aux installateurs
 non signés reste dans le parcours client de téléchargement, y compris pour le payant.
 Le bloc « Avant d’installer » de la vitrine est retiré le 2026-10-21.
 L’installation reste manuelle.

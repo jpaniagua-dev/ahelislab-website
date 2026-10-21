@@ -18,7 +18,7 @@ function legacyVaultPages(config) {
     const faqs = [
       [t('Faut-il un compte pour commencer ?', 'Do I need an account to get started?'), t('Non. Le coffre local fonctionne gratuitement, sans compte ni connexion Internet. La connexion par code e-mail sert aux fonctions de votre organisation.', 'No. The local vault works for free, without an account or Internet connection. Email-code sign-in is used for your organization’s features.')],
       [t('Qui peut voir un mot de passe partagé ?', 'Who can see a shared password?'), t('Tous les membres autorisés de votre organisation peuvent le consulter, le modifier et le supprimer. Seul son créateur peut changer son partage.', 'All authorized members of your organization can view, edit and delete it. Only its creator can change whether it is shared.')],
-      [t('Que se passe-t-il sans abonnement ?', 'What happens without a subscription?'), t('Vos mots de passe personnels restent disponibles localement. La synchronisation, le partage, les mises à jour et la gestion des appareils nécessitent un abonnement actif.', 'Your personal passwords remain available locally. Synchronization, sharing, updates and device management require an active subscription.')],
+      [t('Que se passe-t-il sans abonnement ?', 'What happens without a subscription?'), t('Vos mots de passe personnels restent disponibles localement et les mises à jour sont gratuites. La synchronisation, le partage et la gestion des appareils nécessitent un abonnement actif.', 'Your personal passwords remain available locally and updates are free. Synchronization, sharing and device management require an active subscription.')],
       [t('Vault fonctionne-t-il sur Mac ou sur téléphone ?', 'Does Vault work on Mac or phones?'), t('Cette version est conçue pour Windows 11 x64. Aucune application Mac ou mobile n’est proposée dans cette offre.', 'This version is designed for Windows 11 x64. This offer does not include a Mac or mobile application.')]
     ];
     const rows = [
@@ -26,7 +26,7 @@ function legacyVaultPages(config) {
       [t('Utilisation locale sans compte', 'Local use without an account'), t('Inclus', 'Included'), t('Inclus', 'Included')],
       [t('Synchronisation entre vos PC', 'Sync between your PCs'), '—', t('Inclus', 'Included')],
       [t('Partage dans votre organisation', 'Sharing within your organization'), '—', t('Inclus', 'Included')],
-      [t('Mises à jour de l’application', 'Application updates'), '—', t('Inclus', 'Included')],
+      [t('Mises à jour de l’application', 'Application updates'), t('Inclus', 'Included'), t('Inclus', 'Included')],
       [t('Gestion des appareils connectés', 'Connected device management'), '—', t('Inclus', 'Included')],
       [`${t('Personnalisation', 'Customization')}<span class="vault-feature-detail">${t('Logo, couleurs et icône adaptés à votre identité.', 'Logo, colors and app icon matched to your brand.')}</span>`, t('Sur devis', 'On request'), t('Sur devis', 'On request')]
     ];
