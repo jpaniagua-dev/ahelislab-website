@@ -64,7 +64,7 @@ Installation initiale de la clé dédiée, contrôles et reprise : [deploy/READM
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.14.5` ; les évolutions suivent SemVer
+La version est `0.14.6` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure

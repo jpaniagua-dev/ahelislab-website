@@ -52,7 +52,7 @@ export const english = {
   'Développer et vérifier progressivement.': 'Develop and test step by step.',
   'Mettre en ligne et préparer la suite.': 'Go live and plan what comes next.',
   'Comprendre notre approche': 'Understand our approach', 'Parlons de votre projet.': 'Let’s talk about your project.',
-  'Présentez-nous votre activité et ce que vous souhaitez créer ou améliorer. Une première idée suffit ; le périmètre se précise ensemble.': 'Tell us about your business and what you would like to create or improve. A first idea is enough; we will define the scope together.',
+  'Présentez-nous votre activité et ce que vous souhaitez créer ou améliorer. Une première idée suffit. Nous préciserons ensemble les contours de votre projet.': 'Tell us about your business and what you would like to create or improve. A first idea is enough. We will define the scope of your project together.',
   'Préparer votre message': 'Prepare your message',
   'Une petite planète jaune et une orbite de papier ivoire, illustration de l’univers Ahelis Lab.': 'A small yellow planet and an ivory paper orbit, illustrating the world of Ahelis Lab.',
   'Les compétences pour': 'The skills to', 'faire avancer votre projet.': 'move your project forward.',

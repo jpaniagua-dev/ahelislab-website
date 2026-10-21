@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.14.6 — 2026-10-21
+
+- Invitation à présenter son projet reformulée sans point-virgule sur l’accueil et Contact, en français et en anglais.
+
 ## 0.14.5 — 2026-10-21
 
 - Menu du studio renommé « Nos produits » et « Nous contacter », avec équivalents anglais.
