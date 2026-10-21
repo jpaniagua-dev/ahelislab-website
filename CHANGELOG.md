@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.14.3 — 2026-10-21
+
+- Exception de padding gauche retirée de la première colonne du comparatif Vault.
+
 ## 0.14.2 — 2026-10-21
 
 - Mises à jour de Vault incluses dans les offres gratuite et abonnée, avec dernière version publiée disponible depuis l’espace client.

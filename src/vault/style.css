@@ -35,7 +35,6 @@
 .vault-table th, .vault-table td { padding: 19px 16px; vertical-align: middle; }
 .vault-table th { font-weight: 500; }
 .vault-feature-detail { display: block; margin-top: 6px; color: #465064; font-size: .8rem; line-height: 1.5; font-weight: 400; }
-.vault-table th:first-child { padding-left: 0; }
 .vault-table thead th { color: #465064; font-size: .85rem; }
 .vault-table strong { display: block; color: var(--ink); font-size: 1.55rem; font-weight: 600; margin-top: 5px; }
 .vault-table tbody tr:nth-child(even) { background: #eeece4; }
