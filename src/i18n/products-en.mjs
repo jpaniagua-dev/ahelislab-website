@@ -1,5 +1,6 @@
 export const productsEnglish = {
   'Produits': 'Products',
+  'Nos produits': 'Our products',
   'Les produits Ahelis Lab': 'Ahelis Lab products',
   'Des outils utiles.': 'Useful tools.',
   'Au quotidien.': 'Every day.',

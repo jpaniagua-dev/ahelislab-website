@@ -14,7 +14,7 @@ export function header(path, locale = 'fr') {
       <a class="brand" href="/" aria-label="Ahelis Lab, accueil">${wordmark}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
       <nav class="nav-links" id="navigation" aria-label="Navigation principale">
-        ${[['/services/', 'Nos offres'], ['/produits/', 'Produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Contact']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
+        ${[['/services/', 'Nos offres'], ['/produits/', 'Nos produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Nous contacter']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
         <span class="language-switcher" role="group" aria-label="Langue">${locales.map(language => `<a href="${localizedPath(path, language)}" lang="${language}" hreflang="${languageTags[language]}" aria-label="${language === 'fr' ? 'Français' : 'English'}"${language === locale && path !== '/privacy/' ? ' aria-current="true"' : ''}>${language.toUpperCase()}</a>`).join('')}</span>
       </nav>
     </div></header>`;
@@ -56,7 +56,7 @@ export function layout({ title, description, path = '/', basePath = path, locale
   if (faqs.length) graph.push({ '@type': 'FAQPage', inLanguage: language, ...(url ? { '@id': `${url}#questions` } : {}), mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: t(q), acceptedAnswer: { '@type': 'Answer', text: t(a) } })) });
   for (const item of offer ? [offer] : basePath === '/services/' ? offers : []) graph.push({ '@type': 'Service', name: t(item.label), description: t(item.intro), ...(config.siteUrl ? { url: `${config.siteUrl}${localizedPath(item.path, locale)}` } : {}), provider: { '@id': organization['@id'] }, areaServed: { '@type': 'Place', name: t('Suisse romande') } });
   if (basePath !== '/' && pageType !== 'not-found') {
-    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service || offer ? [{ path: '/services/', name: 'Nos offres' }] : basePath.startsWith('/produits/') && basePath !== '/produits/' ? [{ path: '/produits/', name: 'Produits' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
+    const crumbs = [{ path: '/', name: 'Accueil' }, ...(service || offer ? [{ path: '/services/', name: 'Nos offres' }] : basePath.startsWith('/produits/') && basePath !== '/produits/' ? [{ path: '/produits/', name: 'Nos produits' }] : []), { path: basePath, name: service?.label || pageLabel || sourceTitle.split(' | ')[0] }];
     graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, name: t(crumb.name), ...(config.siteUrl ? { item: `${config.siteUrl}${localizedPath(crumb.path, locale)}` } : {}) })) });
   }
   const alternatives = config.siteUrl && pageType !== 'not-found' && !bilingual ? `${locales.map(language => `<link rel="alternate" hreflang="${languageTags[language]}" href="${config.siteUrl}${localizedPath(basePath, language)}">`).join('')}<link rel="alternate" hreflang="x-default" href="${config.siteUrl}${basePath}">` : '';

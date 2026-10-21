@@ -5,6 +5,6 @@
   { name: 'Lancer', summary: 'Mettre en ligne et préparer la suite.', text: 'Nous préparons la mise en ligne et vous accompagnons dans la prise en main. Les accès, les contenus et les derniers contrôles sont revus ensemble. La maintenance et les évolutions sont définies selon vos besoins.', deliverable: 'Le projet mis en ligne et les repères nécessaires pour le prendre en main.', validation: 'Vous validez la version à lancer et les modalités d’accompagnement après sa livraison.' }
 ];
 
-export function processSteps({ detailed = false } = {}) {
-  return `<div class="${detailed ? 'process-detailed' : 'process-grid'}">${steps.map(step => `<article class="process-step" data-reveal><h${detailed ? '2' : '3'}>${step.name}</h${detailed ? '2' : '3'}><div><p>${detailed ? step.text : step.summary}</p>${detailed ? `<dl><dt>Livrables</dt><dd>${step.deliverable}</dd><dt>Validation</dt><dd>${step.validation}</dd></dl>` : ''}</div></article>`).join('')}</div>`;
+export function processSteps({ detailed = false, firstStepVisual = '' } = {}) {
+  return `<div class="${detailed ? 'process-detailed' : 'process-grid'}">${steps.map((step, index) => `<article class="process-step" data-reveal>${detailed && firstStepVisual && index === 0 ? `<div class="process-step-heading"><h2>${step.name}</h2>${firstStepVisual}</div>` : `<h${detailed ? '2' : '3'}>${step.name}</h${detailed ? '2' : '3'}>`}<div><p>${detailed ? step.text : step.summary}</p>${detailed ? `<dl><dt>Livrables</dt><dd>${step.deliverable}</dd><dt>Validation</dt><dd>${step.validation}</dd></dl>` : ''}</div></article>`).join('')}</div>`;
 }

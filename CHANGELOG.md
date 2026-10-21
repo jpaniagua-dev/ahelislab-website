@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 0.14.5 — 2026-10-21
+
+- Menu du studio renommé « Nos produits » et « Nous contacter », avec équivalents anglais.
+- Fils d’Ariane visibles et données structurées alignés sur les noms du menu, en français et en anglais.
+- Surtitre ajouté à Nos offres et style jaune du surtitre de Contact rétabli.
+- Planète jaune répartie selon la page, introduction de Produits, première étape de Notre approche, fin de Nos offres et invitation du Studio, en français et en anglais, sur ordinateur et mobile.
+
 ## 0.14.4 — 2026-10-21
 
 - Slash retiré du logo Ahelis Lab dans l’en-tête et le footer communs.
