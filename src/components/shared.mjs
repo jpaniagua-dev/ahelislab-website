@@ -5,7 +5,7 @@ import { locales, languageTags, translate, localizedPath, localizeMarkup, client
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
 
-export const wordmark = `<span class="brand-mark" aria-hidden="true"></span><span class="wordmark">AHELIS <span class="brand-slash">/</span> LAB<span class="brand-period">.</span></span>`;
+export const wordmark = `<span class="brand-mark" aria-hidden="true"></span><span class="wordmark">AHELIS LAB<span class="brand-period">.</span></span>`;
 
 export function header(path, locale = 'fr') {
   const active = url => path === url || (['/services/', '/produits/'].includes(url) && path.startsWith(url)) ? ' aria-current="page"' : '';

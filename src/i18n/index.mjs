@@ -20,7 +20,7 @@ export const routes = {
 };
 const frenchSignature = { 'Made with': 'Créé avec', by: 'par', love: 'amour' };
 const footerEnglish = { 'Découvrir le studio': 'Discover the studio', 'Tous nos produits': 'All our products' };
-const neutral = new Set(['AHELIS', 'LAB', 'Ahelis Lab', 'Ahelis Vault', 'Ahelis Business', 'Paniagua.dev', 'FR', 'EN', 'English', 'Français']);
+const neutral = new Set(['AHELIS', 'LAB', 'AHELIS LAB', 'Ahelis Lab', 'Ahelis Vault', 'Ahelis Business', 'Paniagua.dev', 'FR', 'EN', 'English', 'Français']);
 
 export function translate(value, locale = 'fr') {
   if (!locales.includes(locale)) throw new Error(`Unsupported locale: ${locale}`);

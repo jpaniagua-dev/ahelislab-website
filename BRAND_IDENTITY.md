@@ -47,7 +47,7 @@ The intended perception is a small, highly capable studio able to move from idea
 
 The primary wordmark is:
 
-**AHELIS / LAB**
+**AHELIS LAB**
 
 A variation using a visual separation between the two terms is also acceptable when appropriate:
 
@@ -67,7 +67,7 @@ This is an alternative visual route, not the primary reference.
 ### Usage principles
 
 - Use **Ahelis Lab** in normal written language.
-- Use **AHELIS / LAB** as the preferred visual wordmark.
+- Use **AHELIS LAB** as the preferred visual wordmark. The website wordmark omits the slash following the update requested on 2026-10-21.
 - Preserve generous spacing and a clean composition.
 - Avoid decorative complexity around the wordmark.
 - Do not distort, stretch or artificially stylise the typography.

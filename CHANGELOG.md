@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 0.14.4 — 2026-10-21
+
+- Slash retiré du logo Ahelis Lab dans l’en-tête et le footer communs.
+
 ## 0.14.3 — 2026-10-21
 
 - Exception de padding gauche retirée de la première colonne du comparatif Vault.
