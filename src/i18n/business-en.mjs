@@ -1,4 +1,7 @@
 export const businessEnglish = {
+  'Comment commencer ?': 'How do I get started?',
+  'Créez votre compte Ahelis et activez votre espace Business. L’essai de 60 jours ne demande aucune carte. Après l’essai, vos données restent consultables et exportables ; un abonnement actif est nécessaire pour les modifier.': 'Create your Ahelis account and activate your Business space. The 60-day trial needs no card. After the trial, your data remains available to view and export; an active subscription is required to edit it.',
+
   'Ahelis Business · Budget personnel': 'Ahelis Business · Personal budgeting',
   'Votre budget.': 'Your budget.',
   'Une vue claire.': 'A clearer view.',

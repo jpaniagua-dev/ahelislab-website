@@ -51,6 +51,7 @@ jobs:
           npm run build:vault
           npm run check:vault
           npm run test:download
+          npm run test:signup
       - name: Verify contact delivery and abuse protections
         run: npm run test:contact
       - name: Build and verify the Business website

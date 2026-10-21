@@ -64,7 +64,7 @@ Installation initiale de la clé dédiée, contrôles et reprise : [deploy/READM
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.14.6` ; les évolutions suivent SemVer
+La version est `0.15.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -232,3 +232,23 @@ et `BUSINESS_SITE_INDEXABLE=true` contrôle l’indexation, désactivée par dé
 Le déploiement utilise `deploy/nginx-business-http.conf`, puis `nginx-business-https.conf`
 après création du certificat. Ajouter `https://business.ahelislab.ch` aux origines autorisées
 du service de contact existant, sans modifier ses secrets ni son destinataire.
+
+## Inscription autonome Vault et Business
+
+`AHELIS_SELF_SIGNUP_ENABLED=true` active les appels à l’inscription dans les builds
+produits. Laisser cette variable absente tant que le compte Ahelis, les identités
+historiques et les bases Business isolées ne sont pas migrés et vérifiés.
+Ce drapeau ne configure aucun service, tarif ou paiement. Vault garde son espace
+client et ses téléchargements gratuits ; Business propose 60 jours sans carte,
+puis consultation/export sans abonnement actif. La connexion des applications se
+configure séparément selon leurs guides de migration.
+
+## Connexion commune préparée — 0.15.0
+
+La page dynamique ahelislab.ch/login est fournie par le service commun du dépôt
+Vault, avec une présentation inspirée de Business. Les vitrines restent statiques.
+Le modèle deploy/nginx-https.conf réserve les routes de connexion et de compte
+à ce service ; installer ses deux snippets avant d’activer ce modèle.
+Vault utilise /login sur son vhost et conserve son espace client sous /client/.
+Les liens de navigation portent la langue FR/EN. Cette préparation locale ne
+modifie ni le serveur actif ni l’ouverture publique des inscriptions.

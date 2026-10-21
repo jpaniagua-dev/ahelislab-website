@@ -7,11 +7,19 @@ export const businessFaqs = [
   ['Les opérations bancaires sont-elles importées automatiquement ?', 'Les revenus et dépenses se saisissent manuellement. Les opérations récurrentes aident à préparer le mois suivant. Aucune connexion bancaire automatique n’est disponible dans cette bêta.']
 ];
 
+export function businessFaqsFor(config) {
+  if(!config.selfSignupEnabled)return businessFaqs;
+  return businessFaqs.map((pair,index)=>index===1?[
+    'Comment commencer ?',
+    'Créez votre compte Ahelis et activez votre espace Business. L’essai de 60 jours ne demande aucune carte. Après l’essai, vos données restent consultables et exportables ; un abonnement actif est nécessaire pour les modifier.'
+  ]:pair);
+}
+
 export function businessContent(config) {
   return `<section class="page-intro section business-intro"><div class="container"><p class="eyebrow">Ahelis Business · Budget personnel</p><h1>Votre budget.<br>Une vue claire.</h1><p class="page-lead">Revenus, dépenses et reste du mois réunis dans une application. La facturation en plus, si vous en avez besoin.</p><div class="business-actions"><a class="button button-primary" href="#business-contact">Demander une démonstration</a><a class="text-link" href="https://business.ahelislab.ch/manager">Accéder à mon budget</a></div><p class="business-status">Bêta accompagnée · CHF · Français et anglais</p></div></section>
   <section class="container business-preview" aria-label="Aperçu de Business"><figure><img src="/business/budget-fr.png" width="1920" height="855" alt="Vue d’ensemble du budget Ahelis Business avec des revenus, des dépenses et un reste mensuel fictifs" fetchpriority="high"><figcaption>Une capture de l’application avec des données fictives.</figcaption></figure></section>
   <section class="section" id="features"><div class="container business-details"><div><p class="eyebrow">Un mois à la fois</p><h2>Les chiffres du quotidien.<br>Sans perdre le fil.</h2><p class="page-lead">Pour votre salaire, vos charges et les revenus de votre activité complémentaire.</p></div><div class="business-features"><article><h3>Comprendre ce qu’il reste.</h3><p>Le budget réunit les revenus et dépenses du mois. Ajustez un montant lorsque votre estimation se précise et retrouvez le résultat dans la vue d’ensemble.</p><p class="business-note">Le reste du budget dépend des montants saisis. Il ne correspond pas à votre solde bancaire.</p></article><article><h3>Préparer le mois suivant.</h3><p>Enregistrez vos opérations habituelles et vérifiez les ajouts avant de préparer un nouveau mois. Vous pouvez ignorer une dépense pour un mois sans supprimer sa récurrence.</p></article><article><h3>Garder vos revenus ensemble.</h3><p>Employeurs, clients et autres payeurs ont leur place parmi vos sources de revenus. Consultez vos mois précédents, la vue annuelle et exportez vos opérations en CSV.</p></article><article><h3>Facturer quand c’est utile.</h3><p>Si vous avez une activité complémentaire, retrouvez votre catalogue, préparez vos factures et suivez leur paiement. Un paiement enregistré alimente les revenus de votre budget.</p></article></div></div></section>
   <section class="section business-beta"><div class="container business-details"><div><p class="eyebrow">Une bêta accompagnée</p><h2>Découvrons votre usage.</h2></div><div><p class="page-lead">Nous présentons l’application et préparons les conditions d’un essai avec vous.</p><p>La bêta actuelle fonctionne en CHF, en français et en anglais. Les modalités d’accès et l’offre se discutent directement avec Ahelis Lab.</p><a class="text-link" href="#business-contact">Parlons de Business</a></div></div></section>
-  ${faqSection(businessFaqs)}
+  ${faqSection(businessFaqsFor(config))}
   <section class="contact section" id="business-contact"><div class="container contact-layout"><div class="contact-copy"><p class="eyebrow">Parlons de Business</p><h2>Un budget à simplifier ?</h2><p>Décrivez votre façon de suivre vos revenus et dépenses, et ce que vous aimeriez améliorer. Nous reviendrons vers vous pour en parler.</p></div>${contactForm(config, { product: 'business' })}</div></section>`;
 }

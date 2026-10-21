@@ -1,6 +1,6 @@
 {
   "name": "ahelislab-website",
-  "version": "0.14.6",
+  "version": "0.15.0",
   "private": true,
   "type": "module",
   "description": "Ahelis Lab static agency website with SEO and interactive motion design.",
@@ -21,6 +21,7 @@
     "check:motion": "node scripts/verify-motion.cjs",
     "test:contact": "node --test tests/contact.test.mjs",
     "start:contact": "node server/contact.mjs",
-    "start": "node scripts/dev.mjs"
+    "start": "node scripts/dev.mjs",
+    "test:signup": "node --test tests/self-signup.test.mjs"
   }
 }

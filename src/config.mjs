@@ -17,5 +17,5 @@ export function getConfig(env = process.env) {
     const parsed = new URL(value);
     if (!['http:', 'https:'].includes(parsed.protocol) || parsed.origin !== value) throw new Error('Product links require an HTTP(S) origin.');
   }
-  return { siteUrl, email, indexable, vaultUrl, businessUrl, agencyUrl, name: 'Ahelis Lab', customerPortalEnabled: env.VAULT_CUSTOMER_PORTAL_ENABLED === 'true' };
+  return { selfSignupEnabled: env.AHELIS_SELF_SIGNUP_ENABLED === 'true', siteUrl, email, indexable, vaultUrl, businessUrl, agencyUrl, name: 'Ahelis Lab', customerPortalEnabled: env.VAULT_CUSTOMER_PORTAL_ENABLED === 'true' };
 }
