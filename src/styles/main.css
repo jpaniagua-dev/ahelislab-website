@@ -783,11 +783,12 @@ body[data-page='contact'] .faq { padding-top: 100px; }
 .business-features .business-note { font-size: .875rem; }
 .business-beta { border-block: 1px solid var(--line); }
 .business-brand { font-size: 1.125rem; gap: 12px; }
+.business-brand img { display: block; flex-shrink: 0; border-radius: 10px; }
 .business-brand strong { color: var(--yellow); }
 @media(max-width:900px) {
   .business-site .nav-inner { gap: 12px; }
   .business-site .business-brand { font-size: .875rem; gap: 8px; }
-  .business-site .business-brand .brand-mark { width: 22px; height: 22px; }
+  .business-site .business-brand img { width: 32px; height: 32px; border-radius: 8px; }
   .business-site .menu-toggle { min-width: 44px; gap: 8px; padding-inline: 0; }
 }
 body[data-page='business'] .contact-copy h2 { margin-top: 0; }

@@ -1,5 +1,13 @@
 # Historique des versions
 
+## 0.16.1 — 2026-10-23
+
+- Références des logos complets et simples du studio et de Vault précisées dans la charte.
+- Favicon du studio remplacé par son signe exact, anneau fin et satellite jaunes.
+- Signe Business dédié, barres de budget dans une orbite, utilisé dans son en-tête et son favicon.
+- Mot « Vault » en jaune solaire dans son logo complet, comme « Business ».
+- Favicon Vault existant conservé indépendamment de celui du studio ; signature du studio conservée dans les footers produits.
+
 ## 0.15.0 — 2026-10-21
 
 - Export des composants et styles communs pour les pages CGU du compte Ahelis, avec le même thème que Confidentialité.

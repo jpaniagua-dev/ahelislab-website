@@ -45,24 +45,22 @@ The intended perception is a small, highly capable studio able to move from idea
 
 ### Preferred form
 
+The complete logo is exactly the content of `.site-header .container .brand` on
+`https://ahelislab.ch/`: the existing `.brand-mark` plus the wordmark, including
+its yellow final period. Preserve the composition, typography, spacing and colours.
+
+The small logo is only `.brand-mark`, the thin yellow ring and its yellow satellite.
+Use that same mark for the studio website favicon. The illustrative planet is a
+separate brand asset and must not replace this logo.
+
 The primary wordmark is:
 
 **AHELIS LAB**
 
-A variation using a visual separation between the two terms is also acceptable when appropriate:
-
-**AHELIS**  
-**LAB**
-
 The word **LAB** must remain visible enough to be perceived as part of the brand, rather than a secondary legal descriptor.
 
-### Alternative exploration
-
-A possible secondary treatment explored for the identity is:
-
-**AHELIS° LAB**
-
-This is an alternative visual route, not the primary reference.
+Earlier stacked and degree-symbol explorations are superseded by the exact
+complete-logo reference above, confirmed on 2026-10-23.
 
 ### Usage principles
 
@@ -72,6 +70,24 @@ This is an alternative visual route, not the primary reference.
 - Avoid decorative complexity around the wordmark.
 - Do not distort, stretch or artificially stylise the typography.
 - The identity should remain recognisable without relying on the illustrative planet element.
+
+### Product logos
+
+Products may use their own distinct logos within the Ahelis family. They do not
+have to reuse the studio mark. References confirmed on 2026-10-23:
+
+- **Vault complete logo:** exactly `.brand.vault-brand` on `https://vault.ahelislab.ch/`.
+- **Vault small logo:** the existing `/vault/app-icon.png` on that website.
+- **Product wordmarks:** the words `Vault` and `Business` use Solar Yellow
+  (`#FFD447`), following the update requested on 2026-10-23. This product rule does
+  not change the studio logo.
+- **Business:** a dedicated small mark plus the `Ahelis Business` wordmark,
+  following the same complete-logo / small-logo principle. The local design in
+  `/business/app-icon.svg` uses yellow budget bars, a blue orbit and an ivory
+  satellite on midnight blue. This drawing was approved on 2026-10-23.
+
+The studio wordmark in a product footer identifies the studio, so it continues
+to use the studio logo rather than the product logo.
 
 ## 5. Visual world
 

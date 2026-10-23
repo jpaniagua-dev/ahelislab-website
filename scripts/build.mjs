@@ -43,6 +43,8 @@ export async function build({ site = 'agency' } = {}) {
     await writeFile(resolve(out, 'assets', assets[kind]), contents);
   }
   await cp(resolve(projectRoot, 'public'), out, { recursive: true, filter: source => source !== resolve(projectRoot, 'public/downloads') });
+  // Product favicons follow their own identity rather than inheriting the studio mark.
+  if (vault || business) await cp(resolve(projectRoot, vault ? 'public/vault/favicon.svg' : 'public/business/app-icon.svg'), resolve(out, 'favicon.svg'));
   if (config.download) {
     await mkdir(dirname(resolve(out, `.${config.download.url}`)), { recursive: true });
     await cp(config.download.file, resolve(out, `.${config.download.url}`));
