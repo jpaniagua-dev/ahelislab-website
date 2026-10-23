@@ -784,13 +784,10 @@ body[data-page='contact'] .faq { padding-top: 100px; }
 .business-beta { border-block: 1px solid var(--line); }
 .business-brand { font-size: 1.125rem; gap: 12px; }
 .business-brand strong { color: var(--yellow); }
-.business-brand-tools { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
-.business-brand-tools .language-switcher { margin: 0; padding-left: 0; border-left: 0; }
 @media(max-width:900px) {
   .business-site .nav-inner { gap: 12px; }
-  .business-brand-tools { gap: 12px; }
-  .business-brand-tools .business-brand { font-size: .875rem; gap: 8px; }
-  .business-brand-tools .brand-mark { width: 22px; height: 22px; }
+  .business-site .business-brand { font-size: .875rem; gap: 8px; }
+  .business-site .business-brand .brand-mark { width: 22px; height: 22px; }
   .business-site .menu-toggle { min-width: 44px; gap: 8px; padding-inline: 0; }
 }
 body[data-page='business'] .contact-copy h2 { margin-top: 0; }

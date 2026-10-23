@@ -7,6 +7,10 @@
 - Préparer les liens d’inscription Vault/Business et l’essai Business de 60 jours dans les deux langues.
 - Conserver l’ouverture derrière `AHELIS_SELF_SIGNUP_ENABLED`, absent par défaut jusqu’à la migration des applications.
 
+## 0.14.7 — 2026-10-21
+
+- Sélecteur FR/EN de la vitrine Business placé à droite du menu, comme sur Vault.
+
 ## 0.14.6 — 2026-10-21
 
 - Invitation à présenter son projet reformulée sans point-virgule sur l’accueil et Contact, en français et en anglais.
