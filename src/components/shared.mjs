@@ -1,3 +1,4 @@
+import { renderLanguageSwitcher } from '@ahelis/brand';
 import { renderFooter } from './footer.mjs';
 import { offers } from '../data/offers.mjs';
 import { locales, languageTags, translate, localizedPath, localizeMarkup, clientMessages } from '../i18n/index.mjs';
@@ -15,7 +16,7 @@ export function header(path, locale = 'fr') {
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
       <nav class="nav-links" id="navigation" aria-label="Navigation principale">
         ${[['/services/', 'Nos offres'], ['/produits/', 'Nos produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Nous contacter']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
-        <span class="language-switcher" role="group" aria-label="Langue">${locales.map(language => `<a href="${localizedPath(path, language)}" lang="${language}" hreflang="${languageTags[language]}" aria-label="${language === 'fr' ? 'Français' : 'English'}"${language === locale && path !== '/privacy/' ? ' aria-current="true"' : ''}>${language.toUpperCase()}</a>`).join('')}</span>
+        ${renderLanguageSwitcher({ value: path === '/privacy/' ? '' : locale, links: { fr: localizedPath(path, 'fr'), en: localizedPath(path, 'en') }, label: 'Langue', theme: 'dark', separator: true })}
       </nav>
     </div></header>`;
 }

@@ -31,7 +31,7 @@ export function translate(value, locale = 'fr') {
   if (Object.hasOwn(offersEnglish, value)) return offersEnglish[value];
   if (Object.hasOwn(brandEnglish, value)) return brandEnglish[value];
   if (Object.hasOwn(english, value)) return english[value];
-  if (!value.trim() || neutral.has(value) || /^[\d\s*/.↗©]+$/.test(value) || /^[^\s<>]+@[^\s<>]+$/.test(value) || /^© \d{4} Ahelis Lab$/.test(value)) return value;
+  if (!value.trim() || neutral.has(value) || /^[\d\s*/.↗©]+$/.test(value) || /^[^\s<>]+@[^\s<>]+$/.test(value) || /^(?:© )?\d{4} Ahelis Lab$/.test(value)) return value;
   if (value.includes('\n')) return value.split('\n').map(part => translate(part, locale)).join('\n');
   throw new Error(`Missing ${locale} translation: ${value}`);
 }

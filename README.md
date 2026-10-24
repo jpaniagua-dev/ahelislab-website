@@ -1,5 +1,15 @@
 # Ahelis Lab — Website
 
+## Composants communs
+
+Installer les dépendances avec `npm ci` avant le build. Les trois sites consomment
+`@ahelis/brand` depuis `vendor/` pour le sélecteur de langue, le bas de footer et le
+badge suisse. Leur source et les consignes pour les agents sont dans le dépôt privé
+[ahelis-ui](https://github.com/jpaniagua-dev/ahelis-ui) ; lire [AGENTS.md](AGENTS.md)
+avant une modification. Le site reste en HTML/CSS/JavaScript natif, sans runtime Angular.
+Le bas de footer affiche le badge suisse à gauche, la signature au centre et
+l’année avec le nom à droite. La confidentialité reste en dehors de ce composant.
+
 Le domaine Business partage désormais sa vitrine publique et son application privée.
 La racine et `/en/` restent statiques ; `/login`, `/manager` et les API métier sont
 transmis au service Business via `ahelis-business-app-proxy.conf`. `/api/contact`

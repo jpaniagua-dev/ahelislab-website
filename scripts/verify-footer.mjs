@@ -8,9 +8,13 @@ export function verifyFooter(html, { locale, product, agencyUrl = "https://aheli
   assert.ok(footer.includes(locale === 'en' ? 'Designed, operated and hosted in Switzerland' : 'Conçu, opéré et hébergé en Suisse'));
   assert.ok(footer.includes(locale === 'en' ? 'Made with' : 'Créé avec'));
   assert.ok(footer.includes(`aria-label="${locale === 'en' ? 'love' : 'amour'}"`));
-  assert.ok(footer.includes(`href="${privacy}"`));
+  const bottom = footer.match(/<div class="footer-bottom"[^>]*>(.*?)<\/div>/s)?.[1];
+  assert.ok(bottom, 'shared footer bottom');
+  assert.ok(!bottom.includes(`href="${privacy}"`), 'privacy is outside the shared bottom');
+  assert.match(bottom, /class="footer-legal">\d{4} Ahelis Lab<\/p>/);
   assert.ok(!footer.includes('/confidentialite/') && !footer.includes('/en/privacy/'));
   if (product) {
+    assert.ok(footer.includes(`href="${privacy}"`), 'product privacy remains in the navigation');
     assert.ok(footer.includes(`href="${agencyUrl}${locale === 'en' ? '/en/' : '/'}">${locale === 'en' ? 'Discover the studio' : 'Découvrir le studio'}</a>`));
     assert.ok(footer.includes(`href="https://ahelislab.ch${locale === 'en' ? '/en/products/' : '/produits/'}">${locale === 'en' ? 'All our products' : 'Tous nos produits'}</a>`));
     assert.ok(!footer.includes('Paniagua.dev'), 'product attribution belongs to Ahelis Lab');

@@ -11,6 +11,24 @@ Ne publier ni chemin du hub privé, ni copie de ses fiches, ni secret dans ce d�
 
 ## Décisions techniques de ce site
 
+### Composants communs Ahelis
+
+Avant une modification d’interface, lire `AGENTS.md` et `README.md` du dépôt privé
+canonique [ahelis-ui](https://github.com/jpaniagua-dev/ahelis-ui), depuis son checkout
+local voisin s’il existe ou via l’accès GitHub autorisé. Ces consignes régissent les
+composants partagés. Un accès manquant doit être signalé.
+
+Les sites HTML consomment `@ahelis/brand` depuis l’archive versionnée dans `vendor/`.
+Réutiliser ses renderers et son CSS pour `.language-switcher`, `.footer-bottom` et
+`.footer-swiss`. Ne pas en maintenir une copie locale. Faire évoluer une variante
+commune dans `ahelis-ui`, reconstruire le paquet et actualiser dépendance/lockfile.
+Garder ici la composition des pages, les destinations des liens et la localisation.
+Une règle de mise en page du conteneur est permise ; une nouvelle apparence du
+composant doit passer par sa source commune. Vérifier les trois sites en FR/EN,
+sur mobile et dans les thèmes concernés. Le rendu essentiel reste dans le HTML initial.
+
+### Règles du site
+
 - Lire `README.md` et `BRAND_IDENTITY.md` avant de modifier le rendu.
 - Ce site vitrine utilise des pages HTML générées avec Node, du CSS et du JavaScript natif.
   Conserver ce choix pour la première intégration. La stack n’est pas imposée par le hub.

@@ -33,6 +33,8 @@ jobs:
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: .nvmrc
+      - name: Install the shared local brand package
+        run: npm ci --ignore-scripts
       - name: Check JavaScript syntax
         run: |
           node --check src/scripts/site.js

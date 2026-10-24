@@ -33,7 +33,7 @@ for (const { path, basePath, locale } of info.translations) {
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(ids.length, new Set(ids).size, `${path}: unique IDs`);
   for (const l of ['fr','en']) {
-    assert.ok(html.includes(`href="${vaultPath(basePath,l)}" lang="${l}"`), `${path}: equivalent language link`);
+    assert.ok(html.includes(`href="${vaultPath(basePath,l)}" lang="${l === 'fr' ? 'fr-CH' : 'en'}"`), `${path}: equivalent language link`);
     if (!error) assert.ok(html.includes(`href="${info.siteUrl}${vaultPath(basePath,l)}"`), `${path}: canonical and alternate URLs`);
   }
   for (const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {

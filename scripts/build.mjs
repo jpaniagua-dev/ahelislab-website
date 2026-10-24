@@ -22,6 +22,7 @@ import { productsContent } from '../src/pages/products.mjs';
 import { businessPages, businessErrors, businessLayout } from '../src/business/site.mjs';
 import { vaultPages, vaultErrors, vaultLayout } from '../src/vault/site.mjs';
 import { loadDownload } from '../src/vault/download.mjs';
+import { sharedBrandStyles } from '../src/components/brand-styles.mjs';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -37,7 +38,7 @@ export async function build({ site = 'agency' } = {}) {
   await mkdir(resolve(out, 'assets'), { recursive: true });
   const assets = {};
   for (const [kind, path] of [['css', 'src/styles/main.css'], ['js', 'src/scripts/site.js']]) {
-    const contents = await readFile(resolve(projectRoot, path), 'utf8') + (vault && kind === 'css' ? '\n' + await readFile(resolve(projectRoot, 'src/vault/style.css'), 'utf8') : '');
+    const contents = await readFile(resolve(projectRoot, path), 'utf8') + (vault && kind === 'css' ? '\n' + await readFile(resolve(projectRoot, 'src/vault/style.css'), 'utf8') : '') + (kind === 'css' ? '\n' + await sharedBrandStyles() : '');
     const hash = createHash('sha256').update(contents).digest('hex').slice(0, 10);
     assets[kind] = `site.${hash}.${kind}`;
     await writeFile(resolve(out, 'assets', assets[kind]), contents);

@@ -21,7 +21,7 @@ for (const entry of info.translations) {
   assert.ok(html.includes(`<html lang="${locale === 'fr' ? 'fr-CH' : 'en'}">`));
   assert.ok(html.includes('noindex') || info.indexable);
   assert.ok(!html.includes('admin.ahelislab.ch'));
-  for (const language of ['fr', 'en']) assert.ok(html.includes(`href="${businessPath(basePath, language)}" lang="${language}"`));
+  for (const language of ['fr', 'en']) assert.ok(html.includes(`href="${businessPath(basePath, language)}" lang="${language === 'fr' ? 'fr-CH' : 'en'}"`));
   if (!error) assert.ok(html.includes(`rel="canonical" href="${info.siteUrl}${path}"`));
   const schemaText = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1];
   const schema = JSON.parse(schemaText);

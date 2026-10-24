@@ -39,9 +39,10 @@ for (const path of [...info.pages, ...info.errors]) {
   const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
   assert.equal(schema['@context'], 'https://schema.org');
   for (const entity of schema['@graph'].filter(entity => ['WebSite', 'WebPage', 'FAQPage'].includes(entity['@type']))) assert.deepEqual(entity.inLanguage, basePath === '/privacy/' && entity['@type'] === 'WebPage' ? ['fr-CH', 'en'] : languageTags[locale], `${path}: structured language`);
-  const switcher = html.match(/<span class="language-switcher"[^>]*>(.*?)<\/span>/s)[1];
-  for (const language of locales) assert.ok(switcher.includes(`href="${localizedPath(basePath, language)}" lang="${language}"`), `${path}: equivalent language link`);
-  if (basePath !== '/privacy/') assert.ok(switcher.includes(`lang="${locale}" hreflang="${languageTags[locale]}" aria-label="${locale === 'fr' ? 'Français' : 'English'}" aria-current="true"`), `${path}: current language`);
+  const switcher = html.match(/<span class="language-switcher(?: [^\"]*)?"[^>]*>(.*?)<\/span>/s)?.[1];
+  assert.ok(switcher, `${path}: shared language switcher`);
+  for (const language of locales) assert.ok(switcher.includes(`href="${localizedPath(basePath, language)}" lang="${languageTags[language]}"`), `${path}: equivalent language link`);
+  if (basePath !== '/privacy/') assert.ok(switcher.includes(`lang="${languageTags[locale]}" hreflang="${languageTags[locale]}" aria-label="${locale === 'fr' ? 'Français' : 'English'}" aria-current="true"`), `${path}: current language`);
   if (locale === 'en') {
     assert.ok(html.includes('Skip to content') && html.includes('Designed, operated and hosted in Switzerland'), `${path}: translated shared content`);
     assert.ok(!html.includes('Parlons de votre projet') && !html.includes('Préparer mon message'), `${path}: no French UI fallback`);

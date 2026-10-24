@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 0.17.0 — 2026-10-23
+
+- Sélecteur de langue, bas de footer et badge suisse communs aux trois vitrines via `@ahelis/brand`, avec styles partagés clair/sombre.
+- Bas de footer avec signature au centre et année/nom à droite, sans lien de confidentialité dans ce composant.
+- Consignes Ahelis UI pour les agents et installation reproductible du paquet local en CI.
+
 ## 0.16.1 — 2026-10-23
 
 - Références des logos complets et simples du studio et de Vault précisées dans la charte.
