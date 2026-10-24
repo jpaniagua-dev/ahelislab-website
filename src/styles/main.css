@@ -147,7 +147,6 @@ h1 { font-size: clamp(4rem, 7vw, 6.5rem); line-height: 1.02; letter-spacing: -.0
   .service-card:hover { transform: translateY(-6px); border-color: rgb(255 212 71 / 45%); background: rgb(16 40 72 / 90%); }
   .text-link:hover { color: var(--yellow); border-color: var(--yellow); }
   .light-section .text-link:hover { color: #715407; border-color: #715407; }
-  .footer-nav a:hover { color: var(--yellow); }
   .breadcrumbs a:hover { color: var(--yellow); }
   .related-service:hover { border-color: var(--yellow); }
   .expertise-entry:hover h3 { transform: translateX(8px); }
@@ -244,15 +243,6 @@ select { appearance: auto; background-color: #0a1a30; }
 #brief-status { margin: 20px 0 0; }
 .contact-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 #contact-status { margin-top: 20px; }
-.site-footer { padding-block: 65px 35px; position: relative; z-index: 3; background: var(--midnight); }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr .75fr; gap: 64px; padding-bottom: 56px; }
-.footer-brand > p { color: var(--muted); font-size: .875rem; line-height: 1.8; margin-block: 24px; }
-.footer-brand .text-link { font-size: .875rem; }
-.footer-nav { font-size: .875rem; }
-.footer-title { font-weight: 650; color: var(--ivory); margin-bottom: 20px; }
-.footer-nav ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; color: var(--muted); }
-.footer-nav a { display: inline-block; }
-@media(min-width:768px) { .product-footer .footer-grid { grid-template-columns: 1.5fr 1fr; } }
 .privacy-languages { display: flex; gap: 24px; margin-block: 28px 45px; }
 .privacy-languages a { text-decoration: underline; text-underline-offset: 5px; }
 .privacy-language { padding-block: 28px; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
@@ -366,8 +356,6 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .contact-copy h2 { font-size: 3.1rem; }
   .contact-dock { position: absolute; right: 0; top: 60px; width: 180px; height: 190px; margin: 0; }
   .contact-form-wrap { max-width: 620px; width: 100%; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-  .footer-brand { grid-column: 1 / -1; }
   .service-hero h1 { font-size: 3.3rem; }
   .service-approach-grid { gap: 40px; }
   .service-approach-grid h2 { font-size: 2.6rem; }
@@ -451,8 +439,6 @@ html[data-motion="off"] .button, html[data-motion="off"] .service-card { transit
   .form-field { margin-bottom: 22px; }
   .brief-result { padding: 22px 18px; }
   .brief-actions { align-items: stretch; flex-direction: column; gap: 16px; }
-  .site-footer { padding-top: 45px; padding-bottom: 75px; text-align: center; }
-  .footer-grid { grid-template-columns: 1fr; gap: 36px; padding-bottom: 40px; }
   .service-hero { padding-top: 35px; padding-bottom: 45px; }
   .breadcrumbs { margin-bottom: 34px; font-size: .75rem; }
   .service-hero h1 { font-size: clamp(2.75rem, 11vw, 3.65rem); overflow-wrap: anywhere; }

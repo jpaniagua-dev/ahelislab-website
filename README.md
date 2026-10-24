@@ -3,12 +3,11 @@
 ## Composants communs
 
 Installer les dépendances avec `npm ci` avant le build. Les trois sites consomment
-`@ahelis/brand` depuis `vendor/` pour le sélecteur de langue, le bas de footer et le
+`@ahelis/brand` depuis `vendor/` pour le footer complet, le sélecteur de langue, le bas de footer et le
 badge suisse. Leur source et les consignes pour les agents sont dans le dépôt privé
 [ahelis-ui](https://github.com/jpaniagua-dev/ahelis-ui) ; lire [AGENTS.md](AGENTS.md)
 avant une modification. Le site reste en HTML/CSS/JavaScript natif, sans runtime Angular.
-Le bas de footer affiche le badge suisse à gauche, la signature au centre et
-l’année avec le nom à droite. La confidentialité reste en dehors de ce composant.
+Le bas de footer affiche le badge suisse à gauche et la signature à droite, sans année. La confidentialité reste en dehors de ce composant.
 
 Le domaine Business partage désormais sa vitrine publique et son application privée.
 La racine et `/en/` restent statiques ; `/login`, `/manager` et les API métier sont
@@ -30,7 +29,9 @@ Site vitrine Ahelis Lab, à partir du prototype retenu et de `BRAND_IDENTITY.md`
 
 ## Choix technique
 
-Les trois sites partagent le footer de `src/components/footer.mjs`, avec les styles de l’agence,
+Les trois sites configurent `renderSiteFooter` de `@ahelis/brand` dans `src/components/footer.mjs`.
+Les groupes `.footer-nav`, descriptions et liens sont des données propres au site ;
+la structure et les styles communs sont maintenus dans `ahelis-ui`, avec
 le badge suisse et la signature au cœur rouge. Tout futur site produit doit appeler
 `footer({ config, locale, product: true })` puis localiser son rendu, comme Vault et Business.
 Le footer produit renvoie vers le studio, tous les produits et la page bilingue unique
@@ -44,7 +45,7 @@ La planète du prototype est conservée comme asset CSS et animée avec `request
 
 ## Lancer le projet
 
-Node 22 ou supérieur. Aucune installation de dépendances nécessaire.
+Node 22 ou supérieur. Installer les dépendances avec `npm ci`.
 
 ```bash
 npm run dev
@@ -74,7 +75,7 @@ Installation initiale de la clé dédiée, contrôles et reprise : [deploy/READM
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.15.0` ; les évolutions suivent SemVer
+La version est `0.18.0` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure

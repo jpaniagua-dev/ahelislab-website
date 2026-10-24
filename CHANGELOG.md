@@ -1,5 +1,13 @@
 # Historique des versions
 
+## 0.18.0 — 2026-10-24
+
+- Année retirée du bas de footer, signature au cœur rouge à droite.
+
+- Footer complet rendu par le composant partagé `renderSiteFooter` de `@ahelis/brand` `0.3.0`.
+- Navigations, descriptions et invitations configurées par site ; HTML et styles communs dans `ahelis-ui`.
+- Trois vitrines et export légal alignés, contenus FR/EN et attributions préservés.
+
 ## 0.17.0 — 2026-10-23
 
 - Sélecteur de langue, bas de footer et badge suisse communs aux trois vitrines via `@ahelis/brand`, avec styles partagés clair/sombre.

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 
 export function verifyFooter(html, { locale, product, agencyUrl = "https://ahelislab.ch" }) {
   const privacy = `${agencyUrl}/privacy/`;
-  const footer = html.match(/<footer class="site-footer[^"]*">(.*?)<\/footer>/s)?.[1];
+  const footer = html.match(/<footer class="site-footer[^"]*"[^>]*>(.*?)<\/footer>/s)?.[1];
   assert.ok(footer, 'shared footer composition');
   assert.ok(footer.includes('footer-swiss-flag') && footer.includes('footer-credit'));
   assert.ok(footer.includes(locale === 'en' ? 'Designed, operated and hosted in Switzerland' : 'Conçu, opéré et hébergé en Suisse'));
@@ -11,7 +11,8 @@ export function verifyFooter(html, { locale, product, agencyUrl = "https://aheli
   const bottom = footer.match(/<div class="footer-bottom"[^>]*>(.*?)<\/div>/s)?.[1];
   assert.ok(bottom, 'shared footer bottom');
   assert.ok(!bottom.includes(`href="${privacy}"`), 'privacy is outside the shared bottom');
-  assert.match(bottom, /class="footer-legal">\d{4} Ahelis Lab<\/p>/);
+  assert.ok(!bottom.includes('footer-legal') && !/\d{4} Ahelis Lab/.test(bottom), 'no year or copyright line');
+  assert.equal((bottom.match(/class="footer-credit"/g) || []).length, 1, 'one shared credit');
   assert.ok(!footer.includes('/confidentialite/') && !footer.includes('/en/privacy/'));
   if (product) {
     assert.ok(footer.includes(`href="${privacy}"`), 'product privacy remains in the navigation');

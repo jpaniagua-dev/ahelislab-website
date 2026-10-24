@@ -22,7 +22,7 @@ export function header(path, locale = 'fr') {
 }
 
 export function footer({ config, locale = 'fr', product = false } = {}) {
-  return renderFooter({ wordmark, config, locale, product });
+  return renderFooter({ config, locale, product });
 }
 
 const planetObject = `<div class="planet-system">
