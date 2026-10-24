@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 export async function sharedBrandStyles() {
-  const sheets = await Promise.all(['language-switcher', 'footer', 'logos', 'site-footer'].map(async name => {
+  const sheets = await Promise.all(['language-switcher', 'footer', 'logos', 'site-footer', 'text-link'].map(async name => {
     const source = new URL(import.meta.resolve(`@ahelis/brand/styles/${name}.css`));
     let css = await readFile(source, 'utf8');
     // Bundle packaged logo images so the same stylesheet works in sites and legal exports.

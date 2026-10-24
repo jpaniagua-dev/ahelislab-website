@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.18.1 — 2026-10-24
+
+- Lien du footer rendu avec `.text-link` et style commun importé depuis Ahelis UI.
+- Seuil d’empilement du bas de footer fixé à 768 px.
+
 ## 0.18.0 — 2026-10-24
 
 - Année retirée du bas de footer, signature au cœur rouge à droite.

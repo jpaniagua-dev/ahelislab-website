@@ -126,12 +126,10 @@ h1 { font-size: clamp(4rem, 7vw, 6.5rem); line-height: 1.02; letter-spacing: -.0
 .card-discipline { font-size: .75rem; color: #acbdd4; margin-bottom: 10px; }
 .service-card h3 { font-size: 1.45rem; line-height: 1.2; letter-spacing: -.03em; margin-bottom: 18px; }
 .service-card p { color: #abbcd2; font-size: .9375rem; line-height: 1.7; margin-bottom: 26px; }
-.text-link { display: inline-block; font-size: .875rem; font-weight: 600; border: 0; border-bottom: 1px solid rgb(248 246 239 / 40%); padding: 0 0 4px; background: none; align-self: flex-start; transition: color .2s, border-color .2s; }
 .service-card .text-link { margin-top: auto; }
 .stretched-link::after { position: absolute; inset: 0; content: ''; border-radius: 14px; }
 .light-section { background: var(--ivory); color: var(--ink); color-scheme: light; }
 .light-section .eyebrow { color: #6c561c; }
-.light-section .text-link { border-color: rgb(17 19 26 / 40%); }
 .light-section :focus-visible { outline-color: #2c608b; }
 /* Hover effects belong to precise pointers; touch keeps native press feedback. */
 @media (hover: hover) and (pointer: fine) {
@@ -145,8 +143,6 @@ h1 { font-size: clamp(4rem, 7vw, 6.5rem); line-height: 1.02; letter-spacing: -.0
   .button-outline:hover { border-color: var(--yellow); }
   .scroll-link:hover { color: var(--ivory); }
   .service-card:hover { transform: translateY(-6px); border-color: rgb(255 212 71 / 45%); background: rgb(16 40 72 / 90%); }
-  .text-link:hover { color: var(--yellow); border-color: var(--yellow); }
-  .light-section .text-link:hover { color: #715407; border-color: #715407; }
   .breadcrumbs a:hover { color: var(--yellow); }
   .related-service:hover { border-color: var(--yellow); }
   .expertise-entry:hover h3 { transform: translateX(8px); }

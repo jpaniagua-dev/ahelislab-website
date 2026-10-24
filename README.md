@@ -75,7 +75,7 @@ Installation initiale de la clé dédiée, contrôles et reprise : [deploy/READM
 `AGENTS.md` et `CLAUDE.md` décrivent le chargement d’un contexte de travail privé
 lorsqu’il est fourni localement. Aucun chemin privé ni fiche personnelle n’est publié ici.
 `BRAND_IDENTITY.md` reste la référence de marque propre à Ahelis Lab.
-La version est `0.18.0` ; les évolutions suivent SemVer
+La version est `0.18.1` ; les évolutions suivent SemVer
 et sont consignées dans `CHANGELOG.md`.
 
 ## Structure
@@ -263,3 +263,6 @@ Le modèle deploy/nginx-https.conf réserve les routes de connexion et de compte
 Vault utilise /login sur son vhost et conserve son espace client sous /client/.
 Les liens de navigation portent la langue FR/EN. Cette préparation locale ne
 modifie ni le serveur actif ni l’ouverture publique des inscriptions.
+
+Les liens textuels utilisent `.text-link`, dont le style est importé de `@ahelis/brand`.
+Le bas du footer s’empile à 768 px et moins.

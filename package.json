@@ -1,6 +1,6 @@
 {
   "name": "ahelislab-website",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "private": true,
   "type": "module",
   "description": "Ahelis Lab static agency website with SEO and interactive motion design.",
@@ -25,6 +25,6 @@
     "test:signup": "node --test tests/self-signup.test.mjs"
   },
   "dependencies": {
-    "@ahelis/brand": "file:vendor/ahelis-brand-0.3.0.tgz"
+    "@ahelis/brand": "file:vendor/ahelis-brand-0.3.1.tgz"
   }
 }
