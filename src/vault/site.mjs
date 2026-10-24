@@ -58,7 +58,7 @@ export function vaultErrors() {
 
 export function vaultLayout({ title, description, basePath, path, locale, content, faqs = [], config, assets }) {
   const t = (fr, en) => locale === 'fr' ? fr : en;
-  const p = base => base === '/login' ? `${config.siteUrl}/login?language=${locale}` : vaultPath(base, locale);
+  const p = base => base === '/login' ? `${config.agencyUrl}/login?language=${locale}` : vaultPath(base, locale);
   const error = basePath === '/404.html';
   const indexable = config.indexable && !error;
   const url = `${config.siteUrl}${path}`;

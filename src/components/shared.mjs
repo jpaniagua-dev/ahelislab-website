@@ -8,7 +8,7 @@ const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
 
 export const wordmark = `<span class="brand-mark" aria-hidden="true"></span><span class="wordmark">AHELIS LAB<span class="brand-period">.</span></span>`;
 
-export function header(path, locale = 'fr') {
+export function header(path, locale = 'fr', loginOrigin = 'https://ahelislab.ch') {
   const active = url => path === url || (['/services/', '/produits/'].includes(url) && path.startsWith(url)) ? ' aria-current="page"' : '';
   return `<a class="skip-link" href="#main">Aller au contenu</a>
     <header class="site-header"><div class="container nav-inner">
@@ -16,6 +16,7 @@ export function header(path, locale = 'fr') {
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
       <nav class="nav-links" id="navigation" aria-label="Navigation principale">
         ${[['/services/', 'Nos offres'], ['/produits/', 'Nos produits'], ['/studio/', 'Le studio'], ['/approche/', 'Notre approche'], ['/contact/', 'Nous contacter']].map(([url, label]) => `<a href="${url}"${active(url)}>${label}</a>`).join('')}
+        <a href="${escapeHtml(loginOrigin)}/login?language=${locale}">Se connecter</a>
         ${renderLanguageSwitcher({ value: path === '/privacy/' ? '' : locale, links: { fr: localizedPath(path, 'fr'), en: localizedPath(path, 'en') }, label: 'Langue', theme: 'dark', separator: true })}
       </nav>
     </div></header>`;
@@ -62,7 +63,7 @@ export function layout({ title, description, path = '/', basePath = path, locale
   }
   const alternatives = config.siteUrl && pageType !== 'not-found' && !bilingual ? `${locales.map(language => `<link rel="alternate" hreflang="${languageTags[language]}" href="${config.siteUrl}${localizedPath(basePath, language)}">`).join('')}<link rel="alternate" hreflang="x-default" href="${config.siteUrl}${basePath}">` : '';
   // Language links already point to their target locale; do not rewrite them.
-  let body = localizeMarkup(`${header(basePath, locale)}${planet()}<main id="main" tabindex="-1">${bilingual ? "<!--bilingual-content-->" : content}</main>${footer({ config, locale })}`, locale)
+  let body = localizeMarkup(`${header(basePath, locale, config.agencyUrl)}${planet()}<main id="main" tabindex="-1">${bilingual ? "<!--bilingual-content-->" : content}</main>${footer({ config, locale })}`, locale)
     .replace(/(<p class="footer-credit") lang="en"/, `$1 lang="${language}"`);
   if (bilingual) body = body.replace("<!--bilingual-content-->", () => content);
   return `<!doctype html>

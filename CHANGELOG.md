@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 0.19.0 — 2026-10-24
+
+- Lien « Se connecter » / « Sign in » dans la navigation du studio, vers `ahelislab.ch/login`.
+- Connexion et inscription des vitrines Vault et Business pointant vers ce même formulaire, avec la langue choisie.
+
 ## 0.18.1 — 2026-10-24
 
 - Lien du footer rendu avec `.text-link` et style commun importé depuis Ahelis UI.

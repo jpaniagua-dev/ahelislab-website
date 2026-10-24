@@ -1,5 +1,6 @@
 // English catalog keyed by the French source copy, following a gettext-style model.
 export const english = {
+  'Se connecter': 'Sign in',
   'Contacter Ahelis Lab': 'Contact Ahelis Lab',
   'Le': 'The',
   'transmet votre nom, votre adresse e-mail, le type de projet et votre message au studio pour répondre à votre demande.': 'sends your name, email address, project type and message to the studio so we can respond to your enquiry.',

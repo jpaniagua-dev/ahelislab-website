@@ -1,5 +1,11 @@
 # Ahelis Lab — Website
 
+## Connexion commune — 0.19.0
+
+La navigation du studio et les liens de connexion des vitrines produits pointent
+vers `ahelislab.ch/login?language=fr|en`. Le formulaire et le retour vers le compte
+commun sont servis par le service comptes, sans choix préalable Vault/Business.
+
 ## Composants communs
 
 Installer les dépendances avec `npm ci` avant le build. Les trois sites consomment
